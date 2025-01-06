@@ -3,7 +3,6 @@ import '../style/changeData.css'
 import Label from './Label'
 import ErrorMessage from './ErrorMessage'
 import Button from './Button'
-import Input from './input'
 
 const ChangeDataForm = () => {
   return (
@@ -19,7 +18,7 @@ const ChangeDataForm = () => {
         <div className="form__content">
           <Label text="Старый пароль" />
           <div className="input__span">
-            <Input
+            <input
               className="input"
               type="password"
               id="oldPassword"
@@ -32,7 +31,7 @@ const ChangeDataForm = () => {
         <div className="form__content">
           <Label text="Новый пароль" />
           <div className="input__span">
-            <Input
+            <input
               className="input"
               type="password"
               id="newPassword"
@@ -45,7 +44,7 @@ const ChangeDataForm = () => {
         <div className="form__content">
           <Label text="Повторите новый пароль" />
           <div className="input__span">
-            <Input
+            <input
               className="input"
               type="password"
               id="repeatPassword"
