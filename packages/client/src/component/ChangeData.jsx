@@ -67,12 +67,26 @@ const ChangeData = () => {
   }
 
   useEffect(() => {
-    if (emailError) {
+    if (
+      emailError ||
+      loginError ||
+      nameError ||
+      surnameError ||
+      nameChatError ||
+      phoneError
+    ) {
       setFormValid(false)
     } else {
       setFormValid(true)
     }
-  }, [emailError])
+  }, [
+    emailError,
+    loginError,
+    nameError,
+    surnameError,
+    nameChatError,
+    phoneError,
+  ])
 
   return (
     <div className="container">
