@@ -1,12 +1,11 @@
 import React from 'react';
+import { getRandomInt } from '../ utils/math_function';
 import '../style/humster.scss'
 
 let animationFrameId: number | null = null;
 let counter = 0;
 
-function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-}
+
 
 export class HumsterPage extends React.Component {
     state = {
