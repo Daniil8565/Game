@@ -1,4 +1,4 @@
-import UserData from './Pages/UserData.jsx'
+import UserData from './Pages/UserData.js'
 
 function App() {
   return (

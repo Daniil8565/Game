@@ -3,8 +3,8 @@ import Profile from '../component/Profile'
 import ChangeData from '../component/ChangeData'
 import ChangePassword from '../component/ChangePassword'
 
-const UserData = () => {
-  const [activeContent, setActiveContent] = useState('content1')
+const UserData: React.FC = () => {
+  const [activeContent, setActiveContent] = useState<string>('content1')
 
   return (
     <>
