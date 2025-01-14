@@ -3,10 +3,23 @@ import Label from './Label'
 import MyInput from './UI/Input/MyInput'
 import ErrorMessage from './ErrorMessage'
 import Handler from '../utils/HandlerForm/Handler'
+import classes from '../style/profile.module.sass'
 
-const SectionForm = ({
+interface SectionFormProps {
+  text: string
+  type: string
+  id: string
+  name: string
+  value: string
+  DataDirty: boolean
+  DataError: string | null
+  setData: React.Dispatch<React.SetStateAction<string>>
+  setDataError: React.Dispatch<React.SetStateAction<string | null>>
+  setDataDirty: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const SectionForm: React.FC<SectionFormProps> = ({
   text,
-  className,
   type,
   id,
   name,
@@ -17,20 +30,20 @@ const SectionForm = ({
   setDataError,
   setDataDirty,
 }) => {
-  const blurHandler = e => {
+  const blurHandler = () => {
     setDataDirty(true)
   }
+
   return (
-    <div className="form__content">
+    <div className={classes.form__content}>
       <Label text={text} />
-      <div className="input__span">
+      <div className={classes.input__span}>
         {DataDirty && DataError && <ErrorMessage message={DataError} />}
         <MyInput
-          className={className}
           type={type}
           id={id}
           name={name}
-          onBlur={e => blurHandler(e)}
+          onBlur={blurHandler}
           onChange={e => Handler(e, setData, setDataError)}
           value={value}
         />

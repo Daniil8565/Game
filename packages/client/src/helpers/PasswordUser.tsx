@@ -1,25 +1,38 @@
 import { useState, useEffect } from 'react'
 
+interface FormField {
+  text: string
+  type: string
+  id: string
+  name: string
+  value: string
+  DataDirty: boolean
+  DataError: string
+  setData: React.Dispatch<React.SetStateAction<string>>
+  setDataError: React.Dispatch<React.SetStateAction<string>>
+  setDataDirty: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 const useFormPassword = () => {
-  const [password, setPassword] = useState('')
-  const [passwordDirty, setPasswordDirty] = useState(false)
-  const [passwordError, setPasswordError] = useState(
+  const [password, setPassword] = useState<string>('')
+  const [passwordDirty, setPasswordDirty] = useState<boolean>(false)
+  const [passwordError, setPasswordError] = useState<string>(
     'Пароль не может быть пустым'
   )
 
-  const [newPassword, setNewPassword] = useState('')
-  const [newPasswordDirty, setNewPasswordDirty] = useState(false)
-  const [newPasswordError, setNewPasswordError] = useState(
+  const [newPassword, setNewPassword] = useState<string>('')
+  const [newPasswordDirty, setNewPasswordDirty] = useState<boolean>(false)
+  const [newPasswordError, setNewPasswordError] = useState<string>(
     'Пароль не может быть пустым'
   )
 
-  const [repeatPassword, setRepeatPassword] = useState('')
-  const [repeatPasswordDirty, setRepeatPasswordDirty] = useState(false)
-  const [repeatPasswordError, setRepeatPasswordError] = useState(
+  const [repeatPassword, setRepeatPassword] = useState<string>('')
+  const [repeatPasswordDirty, setRepeatPasswordDirty] = useState<boolean>(false)
+  const [repeatPasswordError, setRepeatPasswordError] = useState<string>(
     'Пароль не может быть пустым'
   )
 
-  const [formValid, setFormValid] = useState(false)
+  const [formValid, setFormValid] = useState<boolean>(false)
 
   useEffect(() => {
     if (passwordError || newPasswordError || repeatPasswordError) {
@@ -29,10 +42,9 @@ const useFormPassword = () => {
     }
   }, [passwordError, newPasswordError, repeatPasswordError])
 
-  const formData = [
+  const formData: FormField[] = [
     {
       text: 'Старый пароль',
-      className: 'input',
       type: 'password',
       id: 'oldPassword',
       name: 'oldPassword',
@@ -45,7 +57,6 @@ const useFormPassword = () => {
     },
     {
       text: 'Новый пароль',
-      className: 'input',
       type: 'password',
       id: 'newPassword',
       name: 'newPassword',
@@ -58,7 +69,6 @@ const useFormPassword = () => {
     },
     {
       text: 'Повторите новый пароль',
-      className: 'input',
       type: 'password',
       id: 'repeatPassword',
       name: 'repeatPassword',

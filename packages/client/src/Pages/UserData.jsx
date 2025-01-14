@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import '../style/profile.css'
 import Profile from '../component/Profile'
 import ChangeData from '../component/ChangeData'
 import ChangePassword from '../component/ChangePassword'

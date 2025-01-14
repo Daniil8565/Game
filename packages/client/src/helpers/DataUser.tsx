@@ -1,37 +1,54 @@
 import { useState, useEffect } from 'react'
 
+interface FormField {
+  text: string
+  type: string
+  id: string
+  name: string
+  value: string
+  DataDirty: boolean
+  DataError: string
+  setData: React.Dispatch<React.SetStateAction<string>>
+  setDataError: React.Dispatch<React.SetStateAction<string>>
+  setDataDirty: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 const useFormData = () => {
-  const [email, setEmail] = useState('')
-  const [emailDirty, setEmailDirty] = useState(false)
-  const [emailError, setEmailError] = useState('Email не может быть пустым')
+  const [email, setEmail] = useState<string>('')
+  const [emailDirty, setEmailDirty] = useState<boolean>(false)
+  const [emailError, setEmailError] = useState<string>(
+    'Email не может быть пустым'
+  )
 
-  const [login, setLogin] = useState('')
-  const [loginDirty, setLoginDirty] = useState(false)
-  const [loginError, setLoginError] = useState('Логин не может быть пустым')
+  const [login, setLogin] = useState<string>('')
+  const [loginDirty, setLoginDirty] = useState<boolean>(false)
+  const [loginError, setLoginError] = useState<string>(
+    'Логин не может быть пустым'
+  )
 
-  const [name, setName] = useState('')
-  const [nameDirty, setNameDirty] = useState(false)
-  const [nameError, setNameError] = useState('Имя не может быть пустым')
+  const [name, setName] = useState<string>('')
+  const [nameDirty, setNameDirty] = useState<boolean>(false)
+  const [nameError, setNameError] = useState<string>('Имя не может быть пустым')
 
-  const [surname, setSurname] = useState('')
-  const [surnameDirty, setSurnameDirty] = useState(false)
-  const [surnameError, setSurnameError] = useState(
+  const [surname, setSurname] = useState<string>('')
+  const [surnameDirty, setSurnameDirty] = useState<boolean>(false)
+  const [surnameError, setSurnameError] = useState<string>(
     'Фамилия не может быть пустой'
   )
 
-  const [nameChat, setNameChat] = useState('')
-  const [nameChatDirty, setNameChatDirty] = useState(false)
-  const [nameChatError, setNameChatError] = useState(
+  const [nameChat, setNameChat] = useState<string>('')
+  const [nameChatDirty, setNameChatDirty] = useState<boolean>(false)
+  const [nameChatError, setNameChatError] = useState<string>(
     'Имя в чате не может быть пустым'
   )
 
-  const [phone, setPhone] = useState('')
-  const [phoneDirty, setPhoneDirty] = useState(false)
-  const [phoneError, setPhoneError] = useState(
+  const [phone, setPhone] = useState<string>('')
+  const [phoneDirty, setPhoneDirty] = useState<boolean>(false)
+  const [phoneError, setPhoneError] = useState<string>(
     'Номер телефона не может быть пустым'
   )
 
-  const [formValid, setFormValid] = useState(false)
+  const [formValid, setFormValid] = useState<boolean>(false)
 
   useEffect(() => {
     if (
@@ -55,10 +72,9 @@ const useFormData = () => {
     phoneError,
   ])
 
-  const formData = [
+  const formData: FormField[] = [
     {
       text: 'Почта',
-      className: 'input',
       type: 'email',
       id: 'email',
       name: 'email',
@@ -71,7 +87,6 @@ const useFormData = () => {
     },
     {
       text: 'Логин',
-      className: 'input',
       type: 'text',
       id: 'login',
       name: 'login',
@@ -84,7 +99,6 @@ const useFormData = () => {
     },
     {
       text: 'Имя',
-      className: 'input',
       type: 'text',
       id: 'first_name',
       name: 'first_name',
@@ -97,7 +111,6 @@ const useFormData = () => {
     },
     {
       text: 'Фамилия',
-      className: 'input',
       type: 'text',
       id: 'second_name',
       name: 'second_name',
@@ -110,7 +123,6 @@ const useFormData = () => {
     },
     {
       text: 'Имя в чате',
-      className: 'input',
       type: 'text',
       id: 'display_name',
       name: 'display_name',
@@ -123,7 +135,6 @@ const useFormData = () => {
     },
     {
       text: 'Телефон',
-      className: 'input',
       type: 'text',
       id: 'phone',
       name: 'phone',

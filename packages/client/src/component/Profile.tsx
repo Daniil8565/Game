@@ -1,10 +1,22 @@
+import React from 'react'
 import Avatar from './Avatar'
 import logo from '../image/avatar.svg'
-import NameUser from './nameUser'
+import NameUser from './NameUser'
 import ListButton from './ListButton'
 import UserData from './UserData'
+import classes from '../style/profile.module.sass'
 
-function Profile({ setActiveContent }) {
+interface ButtonData {
+  text: string
+  onClick?: () => void
+  customClass: string
+}
+
+interface ProfileProps {
+  setActiveContent: (content: string) => void
+}
+
+const Profile: React.FC<ProfileProps> = ({ setActiveContent }) => {
   const data = [
     {
       text: 'Почта',
@@ -31,31 +43,32 @@ function Profile({ setActiveContent }) {
       description: '76567456300',
     },
   ]
-  const buttonData = [
+
+  const buttonData: ButtonData[] = [
     {
-      text: ' Изменить данные',
-      className: 'link',
+      text: 'Изменить данные',
       onClick: () => setActiveContent('content2'),
+      customClass: classes.link,
     },
     {
       text: 'Изменить пароль',
-      className: 'link',
       onClick: () => setActiveContent('content3'),
+      customClass: classes.link,
     },
     {
       text: 'Выйти',
-      className: 'exit',
+      customClass: classes.exit,
     },
   ]
+
   return (
-    <div className="content">
-      <div className="container__data">
+    <div className={classes.content}>
+      <div className={classes.container__data}>
         <Avatar
           id="avatar"
           src={logo}
           alt="Добавьте картинку"
-          className="avatarProfile"
-          onError={e => (e.target.src = '../../image/avatar.svg')}
+          className={classes.avatarProfile}
         />
         <NameUser title="vncncjchjc" />
         <UserData dataUser={data} />

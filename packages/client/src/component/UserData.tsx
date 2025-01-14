@@ -1,7 +1,16 @@
 import React from 'react'
-import SectionUserData from './sectionUserData'
+import SectionUserData from './SectionUserData'
 
-const UserData = ({ dataUser = [] }) => {
+interface Section {
+  text: string;
+  description: string;
+}
+
+interface UserDataProps {
+  dataUser?: Section[];
+}
+
+const UserData: React.FC<UserDataProps> = ({ dataUser = [] }) => {
   return (
     <>
       {dataUser.map((section, index) => (

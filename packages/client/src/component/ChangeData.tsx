@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import '../style/changeData.css'
-import Avatar from './Avatar.jsx'
+import React from 'react'
+import Avatar from './Avatar'
 import logo from '../image/avatar.svg'
-import Form from './Form.jsx'
-import useFormData from '../helpers/DataUser.jsx'
+import Form from './Form'
+import useFormData from '../helpers/DataUser'
+import classes from '../style/profile.module.sass'
 
-const ChangeData = () => {
+interface ChangeDataProps {}
+
+const ChangeData: React.FC<ChangeDataProps> = () => {
   const { formData, formValid } = useFormData()
 
   return (
-    <div className="container">
+    <div className={classes.container}>
       <Avatar
         id="avatar"
         src={logo}
         alt="Добавьте картинку"
-        className="avatarProfile"
-        onError={e => (e.target.src = '../../image/avatar.svg')}
+        className={classes.avatarProfile}
         style={{ marginLeft: '190px', marginRight: '190px' }}
       />
       <Form formData={formData} formValid={formValid} />
