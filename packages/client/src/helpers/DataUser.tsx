@@ -7,7 +7,7 @@ interface FormField {
   name: string
   value: string
   DataDirty: boolean
-  DataError: string
+  DataError: string | null
   setData: React.Dispatch<React.SetStateAction<string>>
   setDataError: React.Dispatch<React.SetStateAction<string>>
   setDataDirty: React.Dispatch<React.SetStateAction<boolean>>

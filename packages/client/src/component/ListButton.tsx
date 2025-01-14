@@ -4,7 +4,7 @@ import classes from '../style/profile.module.sass'
 
 interface ButtonData {
   text: string
-  onClick: () => void
+  onClick?: () => void
   customClass?: string
   style?: React.CSSProperties
 }

@@ -14,7 +14,7 @@ interface SectionFormProps {
   DataDirty: boolean
   DataError: string | null
   setData: React.Dispatch<React.SetStateAction<string>>
-  setDataError: React.Dispatch<React.SetStateAction<string | null>>
+  setDataError: React.Dispatch<React.SetStateAction<string>>
   setDataDirty: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -44,7 +44,7 @@ const SectionForm: React.FC<SectionFormProps> = ({
           id={id}
           name={name}
           onBlur={blurHandler}
-          onChange={e => Handler(e, setData, setDataError)}
+          onChange={e => Handler({ event: e, setData, setDataError })}
           value={value}
         />
       </div>

@@ -9,7 +9,8 @@ import classes from '../style/profile.module.sass'
 interface ButtonData {
   text: string
   onClick?: () => void
-  customClass: string
+  customClass?: string
+  style?: React.CSSProperties
 }
 
 interface ProfileProps {

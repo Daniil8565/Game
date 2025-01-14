@@ -4,71 +4,75 @@ const reg = {
   email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
   login: /^(?!\d+$)[a-zA-Z0-9_-]{3,20}$/,
   nameChat: '',
-  name: /^[A-Za-zА-Яа-я]{1}[a-za-яA-Z\-]*$/,
+  name: /^[A-Za-zА-Яа-я]{1}[a-zA-Zа-яА-Я-]*$/,
   password: /^(?=.*[A-Z])(?=.*\d).{8,40}$/,
   phone: /^\+?\d{10,15}$/,
 }
 
 interface HandlerProps {
-  e: React.ChangeEvent<HTMLInputElement>
+  event: React.ChangeEvent<HTMLInputElement>
   setData: React.Dispatch<React.SetStateAction<string>>
   setDataError: React.Dispatch<React.SetStateAction<string>>
 }
 
 const valid = (
-  e: React.ChangeEvent<HTMLInputElement>,
+  value: string,
   setDataError: React.Dispatch<React.SetStateAction<string>>,
   regex: RegExp,
-  text: string
+  errorMessage: string
 ) => {
-  if (regex.test(e.target.value)) {
+  if (regex.test(value)) {
     setDataError('')
   } else {
-    setDataError(text)
+    setDataError(errorMessage)
   }
 }
 
-const Handler = ({ e, setData, setDataError }: HandlerProps) => {
-  setData(e.target.value)
+const Handler = ({ event, setData, setDataError }: HandlerProps) => {
+  const { target } = event
 
-  switch (e.target.id) {
+  if (!target) return // Защита от ошибок, если target будет undefined.
+
+  const { id, value } = target
+
+  setData(value)
+
+  switch (id) {
     case 'email':
-      valid(e, setDataError, reg.email, 'Неккоректный email')
+      valid(value, setDataError, reg.email, 'Некорректный email')
       break
     case 'login':
-      valid(e, setDataError, reg.login, 'Неккоректный login')
+      valid(value, setDataError, reg.login, 'Некорректный login')
       break
     case 'first_name':
-      valid(e, setDataError, reg.name, 'Неккоректное имя')
+      valid(value, setDataError, reg.name, 'Некорректное имя')
       break
     case 'second_name':
-      valid(e, setDataError, reg.name, 'Неккоректная фамилия')
+      valid(value, setDataError, reg.name, 'Некорректная фамилия')
       break
     case 'display_name':
-      setDataError(
-        e.target.value === '' ? 'Имя в чате не может быть пустым' : ''
-      )
+      setDataError(value === '' ? 'Имя в чате не может быть пустым' : '')
       break
     case 'phone':
-      valid(e, setDataError, reg.phone, 'Неккоректный телефон')
+      valid(value, setDataError, reg.phone, 'Некорректный телефон')
       break
     case 'oldPassword':
     case 'newPassword':
       valid(
-        e,
+        value,
         setDataError,
         reg.password,
         'Добавьте заглавную букву или цифру.'
       )
       break
     case 'repeatPassword':
-      const NewPasswordInput =
+      const newPasswordInput =
         document.querySelector<HTMLInputElement>('#newPassword')
-      if (NewPasswordInput && NewPasswordInput.value !== e.target.value) {
+      if (newPasswordInput && newPasswordInput.value !== value) {
         setDataError('Пароли не совпадают')
       } else {
         valid(
-          e,
+          value,
           setDataError,
           reg.password,
           'Добавьте заглавную букву или цифру.'
