@@ -1,6 +1,6 @@
 // import { useEffect } from 'react'
 // import UserData from './Pages/UserData'
-import { SigninPage } from './Pages/AuthPages/SigninPage/SigninPage'
+import { SigninPage } from './Pages/AuthPages/SigninPage/SigninPage.tsx'
 // import { SignupPage } from './Pages/AuthPages/SignupPage'
 import './App.css'
 
