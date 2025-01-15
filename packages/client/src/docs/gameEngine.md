@@ -13,46 +13,55 @@
 
 # UML-диаграмма общих взаимосвязей
 
-+-----------------------------------+
-|           HumsterPage             |
-+-----------------------------------+
-| -state: {width: number, height: number} |
-| -animationFrameId: number | null  |
-| -counter: number                   |
-| +componentDidMount(): void         |
-| +createCanvas(): void              |
-| +render(): JSX.Element             |
-+-----------------------------------+
-               ▲
-               |
-+-----------------------------------+
-|        CanvasManager              |
-+-----------------------------------+
-| -context: CanvasRenderingContext2D|
-| -width: number                    |
-| -height: number                   |
-| -circle_x: number                 |
-| -circle_y: number                 |
-| -emerald_x: number                |
-| -emerald_y: number                |
-| -dop_count: number                |
-| -expectation: number              |
-| +drawCanvas(): void               |
-| +drawCircle(): void               |
-| +topMenu(): void                  |
-| +bottomMenu(): void               |
-| +drawDolar(x: number, y: number): void|
-| +animation(): void                |
-| +redraw(): void                   |
-+-----------------------------------+
-               ▲
-               |
-+-----------------------------------+
-|        Utilities                  |
-+-----------------------------------+
-| +getRandomInt(max: number): number|
-+-----------------------------------+
+```classDiagram
+    class GameEngine {
+        - canvas: HTMLCanvasElement
+        - context: CanvasRenderingContext2D
+        - width: number
+        - height: number
+        - counter: number
+        - animationFrameId: number | null
+        - emerald_y: number
+        - emerald_x: number
+        - expectation: number
+        - dop_count: number
+        
+        + componentDidMount()
+        + componentWillUnmount()
+        + createCanvas()
+        + drawCanvas()
+        + topMenu()
+        + bottomMenu()
+        + drawCircle()
+        + drawDolar()
+        + animation()
+        + redraw()
+        + onClick(e: MouseEvent)
+    }
 
+    class HumsterPage extends GameEngine {
+        + render()
+    }
+
+    class Vector {
+        - x: number
+        - y: number
+        
+        + add(other: Vector): Vector
+        + subtract(other: Vector): Vector
+    }
+
+    class Image {
+        - width: number
+        - height: number
+        - src: string
+        
+        + onload(callback: () => void)
+    }
+
+    GameEngine --> Vector
+    GameEngine --> Image
+```
 
 # Базовые классы
 
@@ -87,3 +96,102 @@
 
 
 
+```mermaid
+classDiagram
+  direction RL
+
+  class AbstractGameObject {
+    <<abstract>>
+    +position : Vector
+    +velocity : Vector
+    +width : number
+    +height : number
+    #debug : boolean
+    -hasDelete: boolean
+
+    +delete() void
+    +init()* void
+    +update(dt : number)* void
+    #draw() void
+    #debugDraw(color : string) void
+  }
+
+  class Vector {
+    +x : number
+    +y : number
+  }
+
+  class Player {
+    -fireSound : Sound
+    -killSound : Sound
+    -idleSprite : Sprite
+    -explosionSprite : Sprite
+
+    +left() void
+    +right() void
+    +stop() void
+    +fire() void
+  }
+
+  class Enemy {
+    -fireSound : Sound
+    -killSound : Sound
+    -idleSprite : Sprite
+    -explosionSprite : Sprite
+    -dead : boolean
+
+    +fire() void
+  }
+
+  class Swarm {
+    -enemys : Enemy[0..*]
+    +calcCollide() void
+    +garbageCollector() void
+  }
+
+  class Projectile {
+    -sprite : Sprite
+  }
+
+  class Sound {
+    +name : string
+    -buffer : AudioBuffer
+    +play() void
+  }
+
+  class Sprite {
+    +name : string
+    +width : number
+    +height : number
+    +images : ImageBitmap[1..*]
+    +draw() void
+    +animate() void
+    +animateOnce() boolean
+  }
+
+  class GameEngine {
+    -objects: AbstractGameObject[0..*]
+
+    +init() : Promise<boolean>
+    +start() void
+    +stop() void
+    +addScore(score : number) void
+    -gameLoop(nowTime : number) void
+    -garbageCollector() void
+  }
+
+  GameEngine o-- "0..*" Swarm
+  GameEngine o-- "1..2" Player
+  GameEngine o-- "0..*" Projectile
+  AbstractGameObject <|-- Enemy
+  AbstractGameObject <|-- Player
+  AbstractGameObject <|-- Swarm
+  AbstractGameObject o-- Vector
+  AbstractGameObject <|-- Projectile
+  Swarm o-- "1..*" Enemy
+  Enemy o-- Sprite
+  Enemy o-- Sound
+  Player o-- Sprite
+  Player o-- Sound
+
+```
