@@ -4,11 +4,9 @@ import { GlobalErrorFallback } from './GlobalErrorFallback'
 // Контекст ошибки
 const ErrorBoundaryContext = createContext<any>(null)
 
-export const ErrorBoundaryProvider = ({
-  children,
-}: {
+const ErrorBoundaryProvider: React.FC<{
   children: ReactNode
-}) => {
+}> = ({ children }) => {
   const [error, setError] = useState<Error | null>(null)
 
   const updateBoundary = (error: Error | null) => {
@@ -37,7 +35,7 @@ export const ErrorBoundaryProvider = ({
 }
 
 // Хук для использования контекста ошибки
-export const useErrorBoundaryContext = () => {
+const useErrorBoundaryContext: React.FC = () => {
   const context = useContext(ErrorBoundaryContext)
   if (!context) {
     throw new Error(
@@ -46,3 +44,4 @@ export const useErrorBoundaryContext = () => {
   }
   return context
 }
+export { ErrorBoundaryProvider, useErrorBoundaryContext }

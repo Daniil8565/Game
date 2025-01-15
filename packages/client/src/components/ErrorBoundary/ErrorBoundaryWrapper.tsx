@@ -6,9 +6,9 @@ type ErrorBoundaryWrapperProps = {
   children: React.ReactNode
 }
 
-export const ErrorBoundaryWrapper = ({
+const ErrorBoundaryWrapper: React.FC<ErrorBoundaryWrapperProps> = ({
   children,
-}: ErrorBoundaryWrapperProps) => (
+}) => (
   <ErrorBoundary
     FallbackComponent={GlobalErrorFallback}
     onError={(error, info) => {
@@ -17,3 +17,5 @@ export const ErrorBoundaryWrapper = ({
     {children}
   </ErrorBoundary>
 )
+
+export { ErrorBoundaryWrapper }
