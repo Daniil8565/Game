@@ -12,14 +12,16 @@ const ChangeDataForm: React.FC<ChangeDataFormProps> = () => {
 
   return (
     <div className={classes.container}>
-      <Avatar
-        id="avatar"
-        src={logo}
-        alt="Добавьте картинку"
-        className={classes.avatarProfile}
-        style={{ marginLeft: '190px', marginRight: '190px' }}
-      />
-      <Form formData={formData} formValid={formValid} />
+      <div className={classes.content}>
+        <Avatar
+          id="avatar"
+          src={logo}
+          alt="Добавьте картинку"
+          className={classes.avatarProfile}
+          style={{ marginLeft: '190px', marginRight: '190px' }}
+        />
+        <Form formData={formData} formValid={formValid} />
+      </div>
     </div>
   )
 }

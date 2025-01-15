@@ -63,8 +63,8 @@ const Profile: React.FC<ProfileProps> = ({ setActiveContent }) => {
   ]
 
   return (
-    <div className={classes.content}>
-      <div className={classes.container__data}>
+    <div className={classes.container}>
+      <div className={classes.content}>
         <Avatar
           id="avatar"
           src={logo}

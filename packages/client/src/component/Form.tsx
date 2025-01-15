@@ -22,12 +22,17 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ formValid, formData }) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault() // Отключает поведение по умолчанию
+    console.log('Форма отправлена') // Добавьте ваше поведение здесь
+  }
   return (
-    <form className={classes.form} id="Form">
+    <form className={classes.form} id="Form" onSubmit={handleSubmit}>
       {formData.map((sectionData, index) => (
         <SectionForm {...sectionData} key={index} />
       ))}
       <Button
+        type="submit" // Устанавливаем тип кнопки как submit
         disabled={!formValid}
         className={classes.link}
         style={{
