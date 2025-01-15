@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Profile from '../component/Profile'
-import ChangeData from '../component/ChangeData'
-import ChangePassword from '../component/ChangePassword'
+import Profile from '../components/Profile'
+import ChangeData from '../components/ChangeData'
+import ChangePassword from '../components/ChangePassword'
 
 const UserData: React.FC = () => {
   const [activeContent, setActiveContent] = useState<string>('content1')

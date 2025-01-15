@@ -11,7 +11,7 @@ import { AuthButton } from '@/components/AuthButton'
 import { AuthForm } from '../components/AuthForm'
 
 import styles from './SinginPage.module.scss'
-import ErrorMessage from '@/component/ErrorMessage'
+import ErrorMessage from '@/components/ErrorMessage'
 
 export const SigninPage: React.FC = () => {
   const reg = {
