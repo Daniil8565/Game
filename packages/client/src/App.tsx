@@ -1,13 +1,5 @@
 import { useEffect } from 'react'
 import './App.css'
-import error500Image from './assets/images/fixiki.png'
-import error404Image from './assets/images/humster.png'
-
-import { PageError } from './pages/PageError'
-
-// const FaultyComponent = () => {
-// 	throw new Error('This component always fails during render');
-//   };
 
 function App() {
   useEffect(() => {
@@ -20,22 +12,7 @@ function App() {
 
     fetchServerData()
   }, [])
-  return (
-    <div className="App wrapper">
-      <PageError
-        code={500}
-        message="Всё сломалось, но мы уже летим чинить"
-        image={error500Image}
-      />
-      {/* <FaultyComponent /> */}
-      <PageError
-        code={404}
-        message="Такой страницы не существует :("
-        image={error404Image}
-        rounded={true}
-      />
-    </div>
-  )
+  return <div className="App wrapper"></div>
 }
 
 export default App
