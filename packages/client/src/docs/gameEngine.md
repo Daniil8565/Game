@@ -13,55 +13,46 @@
 
 # UML-диаграмма общих взаимосвязей
 
-```classDiagram
-    class GameEngine {
-        - canvas: HTMLCanvasElement
-        - context: CanvasRenderingContext2D
-        - width: number
-        - height: number
-        - counter: number
-        - animationFrameId: number | null
-        - emerald_y: number
-        - emerald_x: number
-        - expectation: number
-        - dop_count: number
-        
-        + componentDidMount()
-        + componentWillUnmount()
-        + createCanvas()
-        + drawCanvas()
-        + topMenu()
-        + bottomMenu()
-        + drawCircle()
-        + drawDolar()
-        + animation()
-        + redraw()
-        + onClick(e: MouseEvent)
-    }
++-----------------------------------+
+|           HumsterPage             |
++-----------------------------------+
+| -state: {width: number, height: number} |
+| -animationFrameId: number | null  |
+| -counter: number                   |
+| +componentDidMount(): void         |
+| +createCanvas(): void              |
+| +render(): JSX.Element             |
++-----------------------------------+
+               ▲
+               |
++-----------------------------------+
+|        CanvasManager              |
++-----------------------------------+
+| -context: CanvasRenderingContext2D|
+| -width: number                    |
+| -height: number                   |
+| -circle_x: number                 |
+| -circle_y: number                 |
+| -emerald_x: number                |
+| -emerald_y: number                |
+| -dop_count: number                |
+| -expectation: number              |
+| +drawCanvas(): void               |
+| +drawCircle(): void               |
+| +topMenu(): void                  |
+| +bottomMenu(): void               |
+| +drawDolar(x: number, y: number): void|
+| +animation(): void                |
+| +redraw(): void                   |
++-----------------------------------+
+               ▲
+               |
++-----------------------------------+
+|        Utilities                  |
++-----------------------------------+
+| +getRandomInt(max: number): number|
++-----------------------------------+
 
-    class HumsterPage extends GameEngine {
-        + render()
-    }
-
-    class Vector {
-        - x: number
-        - y: number
-        
-        + add(other: Vector): Vector
-        + subtract(other: Vector): Vector
-    }
-
-    class Image {
-        - width: number
-        - height: number
-        - src: string
-        
-        + onload(callback: () => void)
-    }
-
-    GameEngine --> Vector
-    GameEngine --> Image
-```
 
 # Базовые классы
 
@@ -93,3 +84,6 @@
 
 ## Player
 Хомяк, которого нужно тапать и развивать.
+
+
+
