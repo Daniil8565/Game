@@ -5,7 +5,7 @@
 import './App.css'
 
 function App() {
-  return <div></div>
+  return <div>Добавь компонент</div>
 }
 
 export default App
