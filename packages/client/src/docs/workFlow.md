@@ -48,13 +48,13 @@
 
 ### Пример применения
 
-    ```javascript
+```javascript
     <ErrorBoundaryProvider>
     	<ErrorBoundaryWrapper>
     		<FaultyComponent />
     	</ErrorBoundaryWrapper>
     </ErrorBoundaryProvider>
 
-    ```
+```
 
 В результате работы Error Boundaries рендерится страница ошибки, приложение продолжает функционировать.
