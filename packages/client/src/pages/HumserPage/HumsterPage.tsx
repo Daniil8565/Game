@@ -1,7 +1,8 @@
 
-import './HumsterPage.module.scss';
 import React, { useState, useEffect } from 'react';
 import { getRandomInt } from '../../ utils/math_function';
+
+import styles from './HumsterPage.module.scss';
 let animationFrameId: number | null = null
 let counter = 0
 
@@ -10,7 +11,7 @@ let emerald_x = 0;
 let expectation = 0;
 let dop_count = 50;
 
-const CanvasBlock: React.FC = () => {
+export const HumsterPage: React.FC = () => {
     const [width, setWidth] = useState<number>(window.innerWidth)
     const [height, setHeight] = useState<number>(Math.round(window.innerHeight * 0.9 - 20));
 
@@ -52,7 +53,7 @@ const CanvasBlock: React.FC = () => {
             const y = e.y
             counter++;
             if (Math.abs(emerald_x + 40 - x) < 40
-                && Math.abs(emerald_y + (window.innerHeight - height) + 30 - y) < 30) {
+                && Math.abs(emerald_y + (window.innerHeight - height) + 30 - y) < 60) {
                 dop_count = dop_count - 10;
                 counter = counter + 10;
             }
@@ -186,9 +187,8 @@ const CanvasBlock: React.FC = () => {
 
     return (
         <>
-            <canvas id="canvas" width={width} height={height} />
+            <canvas id="canvas" width={width} height={height} className={styles.humster_canvas}/>
         </>
     )
 }
 
-export default CanvasBlock

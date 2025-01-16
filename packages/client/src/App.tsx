@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import './App.css'
-import CanvasBlock from './pages/HumserPage/HumsterPage'
 
 function App() {
   useEffect(() => {
@@ -13,7 +12,7 @@ function App() {
 
     fetchServerData()
   }, [])
-  return <div className="App"><CanvasBlock/></div>
+  return <div className="App">Вот тут будет жить ваше приложение :)</div>
 }
 
 export default App
