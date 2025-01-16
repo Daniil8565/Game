@@ -2,8 +2,8 @@
 
 - [UML-диаграмма общих взаимосвязей](#uml-диаграмма-общих-взаимосвязей)
 - [Базовые классы](#базовые-классы)
-  - [GameLogic](#gameengine)
-  - [CanvasBlock](#abstractgameobject)
+  - [GameLogic](#gamelogic)
+  - [CanvasBlock](#acanvasblock)
 - [Классы игровых объектов](#классы-игровых-объектов)
   - [Player](#player)
 
