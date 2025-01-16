@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { getRandomInt } from '../ utils/math_function'
-import '../style/humster.scss'
+
+import './HumsterPage.module.scss';
+import React, { useState, useEffect } from 'react';
+import { getRandomInt } from '../../ utils/math_function';
 let animationFrameId: number | null = null
 let counter = 0
 

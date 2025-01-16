@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import './App.css'
-import CanvasBlock from './pages/Humster'
+import CanvasBlock from './pages/HumserPage/HumsterPage'
 
 function App() {
   useEffect(() => {
