@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
-import StartPage from './pages/StartPage/StartPage'
+import { StartPage } from './pages/StartPage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

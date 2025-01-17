@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './StartPage.module.scss'
 
-export default function StartPage() {
+export const StartPage: React.FC = () => {
   const [count, setCount] = useState<number>(3)
   useEffect(() => {
     if (count > 0) {
