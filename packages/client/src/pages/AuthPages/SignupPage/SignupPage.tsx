@@ -7,7 +7,7 @@ import React, {
 
 import { AuthInput } from '@/components/AuthInput'
 import { AuthButton } from '@/components/AuthButton'
-import ErrorMessage from '@/components/ErrorMessage'
+import ErrorMessage from '@/components/ProfileErrorMessage/ErrorMessage'
 
 import { AuthForm } from '../components/AuthForm'
 
