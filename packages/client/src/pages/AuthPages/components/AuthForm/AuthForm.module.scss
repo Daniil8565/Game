@@ -1,5 +1,6 @@
 .form {
-  width: 460px;
+  width: 100%;
+  max-width: 460px;
   border-radius: 12px;
   padding: 32px;
 
@@ -10,4 +11,8 @@
   align-items: center;
 
   gap: 20px;
+
+  @media screen and (max-width: 860px)  {
+    width: 80%;
+  }
 }
