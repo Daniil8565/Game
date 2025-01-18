@@ -1,4 +1,4 @@
-import error500Image from '../../assets/images/fixiki.png'
+import error500Image from '../../image/fixiki.png'
 import { PageError } from '../../pages/PageError'
 
 type GlobalErrorFallbackProps = {
