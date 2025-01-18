@@ -58,12 +58,7 @@ const Handler = ({ event, setData, setDataError }: HandlerProps) => {
       break
     case 'oldPassword':
     case 'newPassword':
-      valid(
-        value,
-        setDataError,
-        reg.password,
-        'Добавьте заглавную букву или цифру.'
-      )
+      valid(value, setDataError, reg.password, 'Неккоректный пароль')
       break
     case 'repeatPassword':
       const newPasswordInput =
@@ -71,12 +66,7 @@ const Handler = ({ event, setData, setDataError }: HandlerProps) => {
       if (newPasswordInput && newPasswordInput.value !== value) {
         setDataError('Пароли не совпадают')
       } else {
-        valid(
-          value,
-          setDataError,
-          reg.password,
-          'Добавьте заглавную букву или цифру.'
-        )
+        valid(value, setDataError, reg.password, 'Неккоректный пароль')
       }
       break
     default:

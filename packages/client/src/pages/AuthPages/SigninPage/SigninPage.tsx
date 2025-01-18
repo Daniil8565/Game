@@ -27,7 +27,7 @@ export const SigninPage: React.FC = () => {
   const [passwordValue, setPasswordValue] = useState('')
   const [passwordDirty, setPasswordDirty] = useState<boolean>(false)
   const [passwordError, setPasswordError] = useState<string>(
-    'Пароль не может быть пустым'
+    'Неккоректный пароль'
   )
 
   const handleOnChangeLoginInput = (
@@ -51,7 +51,7 @@ export const SigninPage: React.FC = () => {
     if (reg.password.test(value)) {
       setPasswordError('')
     } else {
-      setPasswordError('Добавьте заглавную букву или цифру.')
+      setPasswordError('Неккоректный пароль')
     }
   }
 

@@ -45,7 +45,7 @@ const useFormData = () => {
   const [phone, setPhone] = useState<string>('')
   const [phoneDirty, setPhoneDirty] = useState<boolean>(false)
   const [phoneError, setPhoneError] = useState<string>(
-    'Номер телефона не может быть пустым'
+    'Номер не может быть пустым'
   )
 
   const [formValid, setFormValid] = useState<boolean>(false)

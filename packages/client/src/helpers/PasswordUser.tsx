@@ -17,19 +17,19 @@ const useFormPassword = () => {
   const [password, setPassword] = useState<string>('')
   const [passwordDirty, setPasswordDirty] = useState<boolean>(false)
   const [passwordError, setPasswordError] = useState<string>(
-    'Пароль не может быть пустым'
+    'Неккоректный пароль'
   )
 
   const [newPassword, setNewPassword] = useState<string>('')
   const [newPasswordDirty, setNewPasswordDirty] = useState<boolean>(false)
   const [newPasswordError, setNewPasswordError] = useState<string>(
-    'Пароль не может быть пустым'
+    'Неккоректный пароль'
   )
 
   const [repeatPassword, setRepeatPassword] = useState<string>('')
   const [repeatPasswordDirty, setRepeatPasswordDirty] = useState<boolean>(false)
   const [repeatPasswordError, setRepeatPasswordError] = useState<string>(
-    'Пароль не может быть пустым'
+    'Неккоректный пароль'
   )
 
   const [formValid, setFormValid] = useState<boolean>(false)

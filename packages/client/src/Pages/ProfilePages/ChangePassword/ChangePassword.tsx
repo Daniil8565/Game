@@ -13,13 +13,7 @@ export const ChangeDataForm: React.FC<ChangeDataFormProps> = () => {
   return (
     <div className={classes.container}>
       <div className={classes.content}>
-        <Avatar
-          id="avatar"
-          src={logo}
-          alt="Добавьте картинку"
-          className={classes.avatarProfile}
-          style={{ marginLeft: '190px', marginRight: '190px' }}
-        />
+        <Avatar id="avatar" src={logo} alt="Добавьте картинку" />
         <Form formData={formData} formValid={formValid} />
       </div>
     </div>

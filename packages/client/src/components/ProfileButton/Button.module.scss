@@ -4,7 +4,19 @@
   color: white;
   text-decoration: none;
   border-radius: 20px;
+  @media (max-width: 550px) {
+    padding: 17px 150px;
+  }
+  @media (max-width: 420px) {
+    padding: 17px 100px;
+  }
 }
 .exit {
   background-color: red;
+  @media (max-width: 550px) {
+    padding: 17px 150px;
+  }
+  @media (max-width: 420px) {
+    padding: 17px 100px;
+  }
 }
