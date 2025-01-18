@@ -29,6 +29,7 @@ export { PageError }
 // примеры использования
 // import error500Image from './image/fixiki.png'
 // import error404Image from './image/humster.png'
+// import { PageError } from './pages/PageError'
 
 {
   /*
