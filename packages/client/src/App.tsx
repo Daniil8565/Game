@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import './App.css'
-import { UserData } from './pages/ProfilePages/MainProfile'
+// import { UserData } from './pages/ProfilePages/MainProfile'
 import { SigninPage } from '@/pages/AuthPages/SigninPage'
-import { SignupPage } from './pages/AuthPages/SignupPage'
+// import { SignupPage } from './pages/AuthPages/SignupPage'
 
 function App() {
   useEffect(() => {
@@ -17,7 +17,7 @@ function App() {
   }, [])
   return (
     <div className="App">
-      <UserData />
+      <SigninPage />
     </div>
   )
 }
