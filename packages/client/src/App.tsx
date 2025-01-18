@@ -12,7 +12,9 @@ function App() {
 
     fetchServerData()
   }, [])
-  return <div className="App wrapper"></div>
+  return (
+    <div className="App wrapper">Вот тут будет жить ваше приложение :)</div>
+  )
 }
 
 export default App
