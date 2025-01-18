@@ -1,0 +1,18 @@
+.form__content {
+  align-items: center;
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  position: relative;
+}
+.input__span {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  right: 0;
+  top: 0;
+}
