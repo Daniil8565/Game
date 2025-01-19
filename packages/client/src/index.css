@@ -1,8 +1,13 @@
-body{
+
+*, *::before, *::after {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-#root{
+body, #root {
     height: 100vh;
+    margin: 0;
     background: #2c2f35;
 }
+
