@@ -6,7 +6,7 @@ import {HumsterPage} from './pages/HumserPage/HumsterPage'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    {/* <App /> */}
     <HumsterPage/>
   </React.StrictMode>
 )

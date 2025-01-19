@@ -3,5 +3,6 @@ body{
 }
 
 #root{
+    height: 100vh;
     background: #2c2f35;
 }
