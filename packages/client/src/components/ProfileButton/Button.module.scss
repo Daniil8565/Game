@@ -1,0 +1,22 @@
+.link {
+  padding: 17px 200px;
+  background-color: #5256d5;
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  @media (max-width: 550px) {
+    padding: 17px 150px;
+  }
+  @media (max-width: 420px) {
+    padding: 17px 100px;
+  }
+}
+.exit {
+  background-color: red;
+  @media (max-width: 550px) {
+    padding: 17px 150px;
+  }
+  @media (max-width: 420px) {
+    padding: 17px 100px;
+  }
+}
