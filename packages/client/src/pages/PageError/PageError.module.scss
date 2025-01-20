@@ -1,0 +1,49 @@
+@use '../../styles/variables.scss' as variables;
+
+.pageError {
+  background-color: variables.$background-color;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: variables.$inner-padding;
+  &__img {
+    width: 35rem;
+    margin-bottom: 30px;
+
+    &--rounded {
+      border-radius: 50%;
+    }
+  }
+  &__title {
+    font-size: variables.$error-font-size;
+  }
+  &__message {
+    font-size: variables.$error-font-size;
+    text-align: center;
+  }
+
+  // Медиазапросы для планшетов
+  @media (max-width: 1024px) {
+    &__title {
+      font-size: variables.$error-font-size * 0.8;
+    }
+
+    &__message {
+      font-size: variables.$error-font-size * 0.8;
+    }
+  }
+
+  // Медиазапросы для телефонов
+  @media (max-width: 768px) {
+    &__title {
+      font-size: variables.$error-font-size * 0.6;
+    }
+
+    &__message {
+      font-size: variables.$error-font-size * 0.6;
+    }
+  }
+}
