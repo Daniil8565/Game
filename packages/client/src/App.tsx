@@ -1,5 +1,8 @@
 import { useEffect } from 'react'
 import './App.css'
+// import { UserData } from './pages/ProfilePages/MainProfile'
+import { SigninPage } from '@/pages/AuthPages/SigninPage'
+// import { SignupPage } from './pages/AuthPages/SignupPage'
 
 function App() {
   useEffect(() => {
@@ -13,7 +16,9 @@ function App() {
     fetchServerData()
   }, [])
   return (
-    <div className="App wrapper">Вот тут будет жить ваше приложение :)</div>
+    <div className="App">
+      <SigninPage />
+    </div>
   )
 }
 
