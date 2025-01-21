@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import './App.css'
 // import { UserData } from './pages/ProfilePages/MainProfile'
 import { SigninPage } from '@/pages/AuthPages/SigninPage'
-import { FullscreamImage } from './components/fullscreamImage'
+// import { FullscreamImage } from '@/components/fullscreamImage'
 // import { SignupPage } from './pages/AuthPages/SignupPage'
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
   }, [])
   return (
     <div className="App">
-      <FullscreamImage />
+      {/* <FullscreamImage /> */}
       <SigninPage />
     </div>
   )
