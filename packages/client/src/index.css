@@ -1,8 +1,18 @@
-body {
-    margin: 0;
+html {
+  height: 100vh;
+  background: #2c2f35;
 }
 
-html {
-    height: 100vh;
-    background: #2c2f35;
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+#root {
+  margin: 0;
+  height: 100vh;
 }

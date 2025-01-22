@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import './App.css'
-import { FinalPage } from './pages/FinalPage'
+import { SigninPage } from '@/pages/AuthPages/SigninPage'
 
 function App() {
   useEffect(() => {
@@ -13,9 +13,11 @@ function App() {
 
     fetchServerData()
   }, [])
-  return <div className="App">
-    {/* Вот тут будет жить ваше приложение :) */}
-  <FinalPage></FinalPage></div>
+  return (
+    <div className="App">
+      <SigninPage />
+    </div>
+  )
 }
 
 export default App
