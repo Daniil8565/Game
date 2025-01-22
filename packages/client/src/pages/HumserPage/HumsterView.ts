@@ -1,3 +1,5 @@
+import { getRandomInt } from '../../ utils/math_function'
+
 interface HumsterModel {
   emerald_y: number
   emerald_x: number
@@ -9,6 +11,7 @@ interface HumsterModel {
 }
 
 export class HumsterView {
+  public animationFrameId: number | null = null
   private model: HumsterModel
   private circle_x: number
   private circle_y: number
@@ -29,6 +32,8 @@ export class HumsterView {
     this.humster_img.src = '../src/image/humster.png'
     this.emerald_img = new Image()
     this.emerald_img.src = '../src/image/emerald.png'
+
+    this.animation()
   }
 
   drawCanvas() {
@@ -102,6 +107,7 @@ export class HumsterView {
     this.context.fillStyle = '#ffffff'
     this.context.fillText('$', x - 35, y - 8)
   }
+
   drawEmerald() {
     this.context.drawImage(
       this.emerald_img,
@@ -171,5 +177,38 @@ export class HumsterView {
       this.model.width * 0.85,
       50
     )
+  }
+
+  animation = () => {
+    this.animationFrameId = window.requestAnimationFrame(this.animation)
+    // отсчет задержки между падением изумрудов
+    if (this.model.expectation > 0) {
+      this.model.expectation--
+      return
+    }
+    // уничтожение изумруда при достижении низа экрана
+    // или ичерпании дополнительных баллов;
+    if (
+      this.model.height === this.model.emerald_y ||
+      this.model.dop_count === 0
+    ) {
+      this.drawCanvas()
+      this.model.emerald_x = 0
+      this.model.emerald_y = 0
+      this.model.dop_count = 50
+      this.model.expectation = getRandomInt(50) * 100
+    }
+    // перересовка конваса
+    else this.redraw()
+  }
+
+  redraw() {
+    // расчет координаты х изумруда при начале падения
+    if (this.model.emerald_x === 0 && this.model.emerald_y === 0) {
+      this.model.emerald_x = getRandomInt(this.model.width - 100)
+    }
+    this.model.emerald_y = this.model.emerald_y + 1
+    this.drawCanvas()
+    this.drawEmerald()
   }
 }
