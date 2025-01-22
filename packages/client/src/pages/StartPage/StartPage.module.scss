@@ -1,0 +1,27 @@
+.start-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #2C2F35;
+    &__button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 250px;
+        height: 250px;
+        border: 1px solid #F9D838;
+        border-radius: 50%;
+        box-shadow: 0px 0px 8px 12px rgba(249, 216, 56, 1);
+        font-family: "Roboto Light", sans-serif;
+        &:hover {
+            box-shadow: 0px 0px 16px 24px rgba(249, 216, 56, 1);
+            transition: 0.5s;
+        }
+    }
+}
+.button-text {
+    font-size: 46px;
+    color: #FFFEFD;
+    text-decoration: none;
+}

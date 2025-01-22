@@ -1,14 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import styles from './AuthForm.module.scss';
+import styles from './AuthForm.module.scss'
 
 interface IAuthForm {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
-export const AuthForm: React.FC<IAuthForm> = ({ children }) =>
-  (
-    <div className={styles.form}>
-      {children}
-    </div>
-  );
+export const AuthForm: React.FC<IAuthForm> = ({ children }) => (
+  <div className={styles.form}>{children}</div>
+)
