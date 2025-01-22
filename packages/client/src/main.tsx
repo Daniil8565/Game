@@ -15,6 +15,7 @@ import { ChangeData } from '@/pages/ProfilePages/ChangeData'
 import { ChangePassword } from '@/pages/ProfilePages/ChangePassword'
 
 import { store } from './store/store'
+import { Leaderboard } from '@/pages/Leaderboard'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
@@ -39,10 +40,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           }
         />
         <Route path="/game/final-page" element={<FinalPage />} />
-        <Route path="/some-page" element={<div>some page</div>} />
-         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/profile/editData" element={<ChangeData />} />
         <Route path="/profile/editPassword" element={<ChangePassword />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </BrowserRouter>
   </Provider>
