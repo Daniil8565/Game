@@ -4,6 +4,7 @@ import App from './App'
 import './index.css'
 import { StartPage } from './pages/StartPage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { startServiceWorker } from './serviceWorker'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
@@ -14,3 +15,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </Routes>
   </BrowserRouter>
 )
+
+startServiceWorker()
