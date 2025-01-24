@@ -15,11 +15,7 @@ function App() {
 
     fetchServerData()
   }, [])
-  return (
-    <div className="App">
-      <SigninPage />
-    </div>
-  )
+  return <div className="App">Привет</div>
 }
 
 export default App
