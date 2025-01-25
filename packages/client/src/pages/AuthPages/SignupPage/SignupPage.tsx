@@ -11,6 +11,8 @@ import { ErrorMessage } from '@/components/ProfileErrorMessage/ErrorMessage'
 import { AuthForm } from '../components/AuthForm'
 
 import styles from './SingupPage.module.scss'
+import { Link, useNavigate } from 'react-router-dom'
+import { SignupService } from '@/services/SignupService'
 
 export const SignupPage: React.FC = () => {
   const reg = {
@@ -53,6 +55,10 @@ export const SignupPage: React.FC = () => {
   const [phoneError, setPhoneError] = useState<string>(
     'Номер телефона не может быть пустым'
   )
+
+  const [networkError, setNetworkError] = useState<string>('')
+
+  const navigate = useNavigate()
 
   const handleOnChangeLoginInput: ChangeEventHandler<HTMLInputElement> =
     useCallback(
@@ -142,14 +148,30 @@ export const SignupPage: React.FC = () => {
       [phoneValue]
     )
 
+  const handleAuthError = useCallback((errorMsg: string) => {
+    setNetworkError(errorMsg)
+  }, [])
+
+  const handleAuthSuccess = useCallback(() => {
+    navigate('/')
+  }, [])
+
   const handleClickAuthButton = useCallback(() => {
-    // TODO add authorization
-    console.log('login value: ', loginValue)
-    console.log('password value: ', passwordValue)
-    console.log('first name value: ', firstNameValue)
-    console.log('second name value: ', secondNameValue)
-    console.log('email value: ', emailValue)
-    console.log('phone value: ', phoneValue)
+    const signupService = new SignupService()
+    signupService
+      .requestData({
+        requestData: {
+          login: loginValue,
+          password: passwordValue,
+          phone: phoneValue,
+          first_name: firstNameValue,
+          second_name: secondNameValue,
+          email: emailValue,
+        },
+        errorCallback: handleAuthError,
+        successCallback: handleAuthSuccess,
+      })
+      .catch(handleAuthError)
   }, [
     loginValue,
     passwordValue,
@@ -276,6 +298,9 @@ export const SignupPage: React.FC = () => {
           text="Зарегистрироваться"
           onClick={handleClickAuthButton}
         />
+        <span className={styles.container__hint}>
+          Уже есть аккаунт? <Link to="/signin">Авторизуйтесь!</Link>
+        </span>
       </AuthForm>
     </div>
   )

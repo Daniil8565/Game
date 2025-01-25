@@ -7,5 +7,5 @@ interface IAuthForm {
 }
 
 export const AuthForm: React.FC<IAuthForm> = ({ children }) => (
-  <div className={styles.form}>{children}</div>
+  <form className={styles.form}>{children}</form>
 )

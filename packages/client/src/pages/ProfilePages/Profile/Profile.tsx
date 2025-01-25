@@ -4,7 +4,7 @@ import logo from '../../../image/avatar.svg'
 import { NameUser } from '@/components/ProfileNameUser'
 import { ListButton } from '@/components/ProfileListButton'
 import { UserData } from '@/components/ProfileUserData'
-import classes from '../../../style/profile.module.sass'
+import classes from '../../../styles/profile.module.scss'
 import buttonClasses from '../../../components/ProfileButton/Button.module.scss'
 
 interface ButtonData {
