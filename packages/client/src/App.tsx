@@ -16,12 +16,7 @@ function App() {
 
     fetchServerData()
   }, [])
-  return (
-    <div className="App">
-      {/* <FullscreamImage /> */}
-      <SigninPage />
-    </div>
-  )
+  return <div className="App">Привет</div>
 }
 
 export default App

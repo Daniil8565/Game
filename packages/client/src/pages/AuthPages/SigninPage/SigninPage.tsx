@@ -9,6 +9,8 @@ import { AuthInput } from '@/components/AuthInput'
 import { AuthButton } from '@/components/AuthButton'
 import { ErrorMessage } from '@/components/ProfileErrorMessage/ErrorMessage'
 import { AuthForm } from '../components/AuthForm'
+import { SigninService } from '@/services/SigninService'
+import { Link, useNavigate } from 'react-router-dom'
 
 import styles from './SinginPage.module.scss'
 
@@ -27,6 +29,10 @@ export const SigninPage: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string>(
     'Неккоректный пароль'
   )
+
+  const [networkError, setNetworkError] = useState<string>('')
+
+  const navigate = useNavigate()
 
   const handleOnChangeLoginInput: ChangeEventHandler<HTMLInputElement> =
     useCallback(
@@ -57,11 +63,25 @@ export const SigninPage: React.FC = () => {
       [passwordValue]
     )
 
+  const handleAuthError = useCallback((errorMsg: string) => {
+    setNetworkError(errorMsg)
+  }, [])
+
+  const handleAuthSuccess = useCallback(() => {
+    navigate('/')
+  }, [])
+
   const handleClickAuthButton = useCallback(() => {
-    // TODO add authorization
-    console.log('login value: ', loginValue)
-    console.log('password value: ', passwordValue)
+    const signinService = new SigninService()
+    signinService
+      .requestData({
+        requestData: { login: loginValue, password: passwordValue },
+        errorCallback: handleAuthError,
+        successCallback: handleAuthSuccess,
+      })
+      .catch(handleAuthError)
   }, [loginValue, passwordValue])
+
   const blurLogin = () => {
     setLoginDirty(true)
   }
@@ -109,6 +129,10 @@ export const SigninPage: React.FC = () => {
           text="Войти"
           onClick={handleClickAuthButton}
         />
+        {networkError && <ErrorMessage message={networkError} />}
+        <span className={styles.container__hint}>
+          Еще нет аккаунта? <Link to="/signup">Зарегистрируйтесь!</Link>
+        </span>
       </AuthForm>
     </div>
   )
