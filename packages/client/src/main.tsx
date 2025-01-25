@@ -11,7 +11,6 @@ import { SigninPage } from '@/pages/AuthPages/SigninPage'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { Profile } from '@/pages/ProfilePages/Profile'
 import { PageError } from '@/pages/PageError'
-
 import { FinalPage } from '@/pages/FinalPage'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
