@@ -12,6 +12,7 @@ import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { Profile } from '@/pages/ProfilePages/Profile'
 import { PageError } from '@/pages/PageError'
 
+import { FinalPage } from '@/pages/FinalPage'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           </ProtectedRoute>
         }
       />
+      <Route path="/game/final-page" element={<FinalPage />} />
       <Route path="/some-page" element={<div>some page</div>} />
     </Routes>
   </BrowserRouter>
