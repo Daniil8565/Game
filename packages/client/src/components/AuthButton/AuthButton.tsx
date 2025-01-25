@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import styles from './AuthButton.module.scss'
 
@@ -13,8 +13,16 @@ export const AuthButton: React.FC<IAuthButton> = ({
   disabled,
   onClick,
 }) => {
+  const handleClick: React.MouseEventHandler<HTMLButtonElement> = useCallback(
+    event => {
+      event.preventDefault()
+      onClick()
+    },
+    [onClick]
+  )
+
   return (
-    <button className={styles.button} disabled={disabled} onClick={onClick}>
+    <button className={styles.button} disabled={disabled} onClick={handleClick}>
       {text}
     </button>
   )

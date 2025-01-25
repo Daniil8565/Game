@@ -110,7 +110,7 @@ export const SigninPage: React.FC = () => {
           onChange={handleOnChangeLoginInput}
           onBlur={blurLogin}
           placeholder="Логин"
-          type={'email'}
+          type={'text'}
         />
         {loginDirty && loginError && <ErrorMessage message={loginError} />}
         <AuthInput
