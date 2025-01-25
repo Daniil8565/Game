@@ -1,0 +1,63 @@
+.MessageInputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #32363c;
+  border: 1px solid;
+  border-color: transparent;
+  border-image: linear-gradient(
+      to bottom,
+      rgb(190.84, 255, 151.52),
+      rgb(50, 54, 60)
+    )
+    1;
+}
+
+.textarea {
+  flex: 1;
+  width: 100%;
+  max-width: 600px;
+  min-height: 40px;
+  padding: 8px;
+  border-radius: 10px;
+  resize: none;
+  font-size: 14px;
+  color: #ffffff;
+  outline: none;
+  overflow: hidden;
+}
+
+.sendButton {
+  font-size: 24px;
+  color: rgb(112, 143, 100);
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+
+  &:hover {
+    color: rgb(190.84, 255, 151.52);
+  }
+
+  &:disabled {
+    color: rgb(76, 91, 77);
+    cursor: not-allowed;
+  }
+}
+
+.forum__messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
