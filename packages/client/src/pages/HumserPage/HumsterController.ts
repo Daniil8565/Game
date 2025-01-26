@@ -1,5 +1,5 @@
 import { HumsterView } from './HumsterView'
-let humster_model = {
+export let humster_model = {
   emerald_y: 0,
   emerald_x: 0,
   expectation: 0,
