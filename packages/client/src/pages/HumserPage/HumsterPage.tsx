@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HumsterController } from './HumsterController'
+import { GameMenu } from '@/components/GameMenu'
 import styles from './HumsterPage.module.scss'
 
 export const HumsterPage: React.FC = () => {
@@ -21,12 +22,14 @@ export const HumsterPage: React.FC = () => {
 
   return (
     <>
-      <canvas
-        id="canvas"
-        width={width}
-        height={height}
-        className={styles.humster_canvas}
-      />
+      <GameMenu>
+        <canvas
+          id="canvas"
+          width={width}
+          height={height}
+          className={styles.humster_canvas}
+        />
+      </GameMenu>
     </>
   )
 }

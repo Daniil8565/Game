@@ -1,15 +1,14 @@
 import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { SigninPage } from '@/pages/AuthPages/SigninPage'
 import { SignupPage } from '@/pages/AuthPages/SignupPage'
+import { FinalPage } from '@/pages/FinalPage'
 import { HumsterPage } from '@/pages/HumserPage'
 import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './index.css'
 import { StartPage } from './pages/StartPage'
 import { startServiceWorker } from './serviceWorker'
-
-import { FinalPage } from '@/pages/FinalPage'
-import { Provider } from 'react-redux'
 import { store } from './store/store'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -27,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           }
         />
         <Route
-          path="/game"
+          path="/game/humster"
           element={
             <ProtectedRoute>
               <HumsterPage />

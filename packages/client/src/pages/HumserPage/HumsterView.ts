@@ -8,6 +8,11 @@ interface HumsterModel {
   counter: number
   width: number
   height: number
+  per: number
+  per_hour: number
+  current_level: number
+  current_meaning: number
+  transitional_meaning: number
 }
 
 export class HumsterView {
@@ -49,6 +54,7 @@ export class HumsterView {
   }
 
   topMenu() {
+    // первый прямоугольник
     this.context.fillStyle = '#32363c'
     this.context.fillRect(
       this.model.width * 0.055,
@@ -56,12 +62,40 @@ export class HumsterView {
       this.model.width * 0.25,
       50
     )
+    this.context.font = '14px Arial'
+    this.context.fillStyle = '#F79841'
+    const center_rectangle1 = this.model.width * 0.055 + this.model.width * 0.12
+    this.context.fillText('Монет за клик', center_rectangle1 - 45, 40)
+
+    this.context.fillStyle = '#ffffff'
+    this.context.fillText(`+${this.model.per}`, center_rectangle1, 60)
+    this.drawDolar(center_rectangle1, 60, 12)
+
+    // второй прямоугольник
+    this.context.fillStyle = '#32363c'
     this.context.fillRect(
       this.model.width * 0.355,
       20,
       this.model.width * 0.25,
       50
     )
+    this.context.font = '14px Arial'
+    this.context.fillStyle = '#6F72E2'
+    const center_rectangle2 = this.model.width * 0.355 + this.model.width * 0.12
+    this.context.fillText(
+      `До ${this.model.current_level + 1} уровня`,
+      center_rectangle2 - 35,
+      40
+    )
+    this.context.fillStyle = '#ffffff'
+    const coins_left =
+      this.model.transitional_meaning -
+      this.model.current_meaning -
+      this.model.counter
+    this.context.fillText(`${coins_left}`, center_rectangle2 - 10, 60)
+
+    // третий прямоугольник
+    this.context.fillStyle = '#32363c'
     this.context.fillRect(
       this.model.width * 0.655,
       20,
@@ -69,6 +103,16 @@ export class HumsterView {
       50
     )
 
+    this.context.font = '14px Arial'
+    this.context.fillStyle = '#84CB69'
+    const center_rectangle3 = this.model.width * 0.655 + this.model.width * 0.12
+    this.context.fillText('Доход в час', center_rectangle3 - 35, 40)
+
+    this.context.fillStyle = '#ffffff'
+    this.context.fillText(`+${this.model.per_hour}`, center_rectangle3, 60)
+    this.drawDolar(center_rectangle3, 60, 12)
+
+    // посчет заработанных за раунд монет
     this.context.font = '50px Arial'
     this.context.fillStyle = '#ffffff'
     const counter_length = (this.model.counter + '').length * 10
@@ -77,35 +121,35 @@ export class HumsterView {
       this.model.width / 2 - counter_length,
       130
     )
-    this.drawDolar(this.model.width / 2 - counter_length, 130)
+    this.drawDolar(this.model.width / 2 - counter_length, 130, 30)
   }
 
-  drawDolar(x: number, y: number) {
+  drawDolar(x: number, y: number, diameter: number) {
     this.context.beginPath()
     this.context.fillStyle = '#f9e160'
-    this.context.arc(x - 30, y - 15, 20, 0, 360)
+    this.context.arc(x - diameter, y - diameter / 2, diameter * 0.7, 0, 360)
     this.context.closePath()
     this.context.fill()
 
     this.context.beginPath()
     const radial_gradient = this.context.createRadialGradient(
-      x - 30,
-      y - 15,
+      x - diameter,
+      y - diameter / 2,
       0,
-      x - 30,
-      y - 15,
-      15
+      x - diameter,
+      y - diameter / 2,
+      diameter / 2
     )
     radial_gradient.addColorStop(0.5, '#fec51c')
     radial_gradient.addColorStop(1, '#fe891ca5')
     this.context.fillStyle = radial_gradient
-    this.context.arc(x - 30, y - 15, 15, 0, 360)
+    this.context.arc(x - diameter, y - diameter / 2, diameter / 2, 0, 360)
     this.context.closePath()
     this.context.fill()
 
-    this.context.font = '20px Arial'
+    this.context.font = `${diameter * 0.8}px Arial`
     this.context.fillStyle = '#ffffff'
-    this.context.fillText('$', x - 35, y - 8)
+    this.context.fillText('$', x - diameter * 1.2, y - diameter / 4)
   }
 
   drawEmerald() {
@@ -163,19 +207,17 @@ export class HumsterView {
     this.context.fillText('⚡️', 40, this.model.height - 120)
 
     this.context.fillStyle = '#ffffff'
-    this.context.fillText('6500/6500', 60, this.model.height - 120)
     this.context.fillText(
-      'Boost',
-      this.model.width - 110,
+      `${this.model.current_meaning + this.model.counter} / ${
+        this.model.transitional_meaning
+      }`,
+      60,
       this.model.height - 120
     )
-
-    this.context.fillStyle = '#32363c'
-    this.context.fillRect(
-      this.model.width * 0.055,
-      this.model.height - 100,
-      this.model.width * 0.85,
-      50
+    this.context.fillText(
+      `${this.model.current_level} уровень`,
+      this.model.width - 110,
+      this.model.height - 120
     )
   }
 
