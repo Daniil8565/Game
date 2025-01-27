@@ -29,9 +29,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Route
         path="/game/humster"
         element={
-          // <ProtectedRoute>
-          <HumsterPage />
-          // </ProtectedRoute>
+          <ProtectedRoute>
+            <HumsterPage />
+          </ProtectedRoute>
         }
       />
       <Route path="/game/final-page" element={<FinalPage />} />

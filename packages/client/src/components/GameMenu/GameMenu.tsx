@@ -17,7 +17,6 @@ export const GameMenu = ({ children }: IProps) => {
   const profile = () => {}
 
   const pathname = useLocation().pathname
-  console.log(pathname)
   return (
     <div className={styles['game']}>
       <nav className={styles['game__top-navigation']}>
