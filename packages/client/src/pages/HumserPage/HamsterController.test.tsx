@@ -30,6 +30,11 @@ describe('HumsterController', () => {
       counter: 0,
       width: 800,
       height: 600,
+      current_level: 1,
+      current_meaning: 100,
+      per: 2,
+      per_hour: 643,
+      transitional_meaning: 6500,
     })
   })
 
@@ -39,7 +44,7 @@ describe('HumsterController', () => {
 
     expect(mockView.drawCanvas).toHaveBeenCalled()
     expect(humsterController.view.drawCanvas).toHaveBeenCalled()
-    expect(humster_model.counter).toBe(1)
+    expect(humster_model.counter).toBe(2)
     humster_model.counter = 0
   })
 })

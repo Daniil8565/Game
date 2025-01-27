@@ -10,13 +10,6 @@ import './index.css'
 import { StartPage } from './pages/StartPage'
 import { startServiceWorker } from './serviceWorker'
 import { store } from './store/store'
-import { SignupPage } from '@/pages/AuthPages/SignupPage'
-import { SigninPage } from '@/pages/AuthPages/SigninPage'
-import { ProtectedRoute } from '@/components/ProtectedRoute'
-import { Profile } from '@/pages/ProfilePages/Profile'
-import { PageError } from '@/pages/PageError'
-
-import { FinalPage } from '@/pages/FinalPage'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
