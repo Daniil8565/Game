@@ -8,12 +8,10 @@ const URLS = [
 ]
 
 this.addEventListener('install', event => {
-  console.log('install')
   event.waitUntil(
     caches
       .open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache')
         return cache.addAll(URLS)
       })
       .catch(err => {
@@ -24,8 +22,6 @@ this.addEventListener('install', event => {
 })
 
 this.addEventListener('activate', function (event) {
-  console.log('activate')
-
   const currentCacheName = CACHE_NAME
 
   event.waitUntil(
@@ -35,7 +31,6 @@ this.addEventListener('activate', function (event) {
         return Promise.all(
           cacheNames.map(cacheName => {
             if (cacheName !== currentCacheName) {
-              console.log(`Deleting old cache: ${cacheName}`)
               return caches.delete(cacheName)
             }
           })

@@ -1,1 +1,1 @@
-export { ChangeDataForm } from './ChangePassword'
+export { ChangePassword } from './ChangePassword'

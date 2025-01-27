@@ -1,24 +1,12 @@
 import React from 'react'
 import { Avatar } from '@/components/ProfileAvatar'
 import logo from '../../../image/avatar.svg'
+import { Link } from 'react-router-dom'
 import { NameUser } from '@/components/ProfileNameUser'
-import { ListButton } from '@/components/ProfileListButton'
 import { UserData } from '@/components/ProfileUserData'
-import classes from '../../../styles/profile.module.scss'
-import buttonClasses from '../../../components/ProfileButton/Button.module.scss'
+import classes from './Profile.module.scss'
 
-interface ButtonData {
-  text: string
-  onClick?: () => void
-  customClass?: string
-  style?: React.CSSProperties
-}
-
-interface ProfileProps {
-  setActiveContent: (content: string) => void
-}
-
-export const Profile: React.FC<ProfileProps> = ({ setActiveContent }) => {
+export const Profile: React.FC = () => {
   const data = [
     {
       text: 'Почта',
@@ -45,31 +33,20 @@ export const Profile: React.FC<ProfileProps> = ({ setActiveContent }) => {
       description: '76567456300',
     },
   ]
-
-  const buttonData: ButtonData[] = [
-    {
-      text: 'Изменить данные',
-      onClick: () => setActiveContent('content2'),
-      customClass: buttonClasses.link,
-    },
-    {
-      text: 'Изменить пароль',
-      onClick: () => setActiveContent('content3'),
-      customClass: buttonClasses.link,
-    },
-    {
-      text: 'Выйти',
-      customClass: buttonClasses.exit,
-    },
-  ]
-
   return (
     <div className={classes.container}>
       <div className={classes.content}>
         <Avatar id="avatar" src={logo} alt="Добавьте картинку" />
         <NameUser title="vncncjchjc" />
         <UserData dataUser={data} />
-        <ListButton buttonData={buttonData} />
+        <div className={classes.container__link}>
+          <Link className={classes.link} to="/profile/editData">
+            Изменить данные
+          </Link>
+          <Link className={classes.link} to="/profile/editPassword">
+            Изменить пароль
+          </Link>
+        </div>
       </div>
     </div>
   )
