@@ -33,6 +33,7 @@ export const GameMenu = ({ children }: IProps) => {
         <LinckButton onClick={profile} text="Профиль" />
         <LinckButton onClick={logout} text="Выйти" />
       </nav>
+
       <main className={styles['game__main']}>
         {children}
         <nav className={styles['game__bottom-navigation']}>

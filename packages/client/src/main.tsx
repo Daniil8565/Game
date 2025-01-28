@@ -24,7 +24,6 @@ import error500Image from './image/fixiki.png'
 import { ForumPage } from './pages/ForumPage'
 import { PageError } from './pages/PageError'
 import { store } from './store/store'
-import { ErrorBoundary } from 'react-error-boundary'
 
 const App: React.FC = () => {
   // TODO вынести в redux-store
