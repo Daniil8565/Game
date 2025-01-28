@@ -1,5 +1,6 @@
-import React, { ReactElement, ReactNode, ReactPortal } from 'react'
+import React, { useCallback } from 'react'
 import { LinckButton } from '@/components/LinckButton'
+import { useNavigate } from 'react-router-dom'
 import { useLocation, Link } from 'react-router-dom'
 import humster_icon from '../../image/humster-icon.svg'
 import leader_icon from '../../image/leaderboard-icon.svg'
@@ -13,8 +14,14 @@ interface IProps {
 }
 
 export const GameMenu = ({ children }: IProps) => {
-  const logout: () => void = () => {}
-  const profile = () => {}
+  const navigate = useNavigate()
+  const logout: () => void = () => {
+    return new Error('Function not implemented.')
+  }
+
+  const profile = () => {
+    navigate('/profile')
+  }
 
   const pathname = useLocation().pathname
   return (

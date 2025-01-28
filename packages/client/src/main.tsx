@@ -10,7 +10,7 @@ import { ChangePassword } from '@/pages/ProfilePages/ChangePassword'
 import { Profile } from '@/pages/ProfilePages/Profile'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './index.css'
 import { StartPage } from './pages/StartPage'
 import { startServiceWorker } from './serviceWorker'
@@ -22,6 +22,7 @@ import { ForumPage } from './pages/ForumPage'
 import { PageError } from './pages/PageError'
 import { GameMenu } from './components/GameMenu'
 import { store } from './store/store'
+import { ErrorBoundary } from 'react-error-boundary'
 
 const App: React.FC = () => {
   // TODO вынести в redux-store
@@ -35,6 +36,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/signin" element={<SigninPage />} />
+          <Route path="/" element={<SigninPage />} />
           <Route
             path="/game"
             element={
