@@ -8,6 +8,7 @@ import forum_icon from '../../image/forum-icon.svg'
 import castom_icon from '../../image/castom-icon.svg'
 
 import styles from './GameMenu.module.scss'
+import { useErrorBoundaryContext } from '../ErrorBoundary/ErrorBoundaryContext'
 
 interface IProps {
   children: React.ReactNode
@@ -15,8 +16,10 @@ interface IProps {
 
 export const GameMenu = ({ children }: IProps) => {
   const navigate = useNavigate()
-  const logout: () => void = () => {
-    return new Error('Function not implemented.')
+  const { showBoundary } = useErrorBoundaryContext()
+
+  const logout = () => {
+    showBoundary(new Error('Intentional error to test ErrorBoundary'), {})
   }
 
   const profile = () => {
