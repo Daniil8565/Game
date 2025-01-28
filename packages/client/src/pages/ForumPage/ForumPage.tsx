@@ -1,5 +1,6 @@
 import { GameMenu } from '@/components/GameMenu'
 import { MessageInput } from '@/components/MessageInput'
+import { TopicModal } from '@/components/TopicModal'
 import React, { useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
 import '../../styles/reset.scss'
@@ -10,11 +11,15 @@ interface Message {
   file?: File | null
   sender: 'own' | 'other'
   fileURL?: string
+  isTopic?: boolean
+  comments?: { text: string; timestamp: string }[]
 }
 
 const ForumPage: React.FC = () => {
   // состояние для управления сообщениями
   const [messages, setMessages] = useState<Message[]>([])
+  // состояние для управления модалкой топика
+  const [selectedTopic, setSelectedTopic] = useState<Message | null>(null)
   // функция для отправки сообщения
   const handleSendMessage = (message: { text: string; file?: File | null }) => {
     let fileURL = ''
@@ -24,6 +29,27 @@ const ForumPage: React.FC = () => {
     }
 
     setMessages([...messages, { ...message, sender: 'own', fileURL }])
+  }
+  // функция создания топика
+  const handleCreateTopic = (message: { text: string; file?: File | null }) => {
+    let fileURL = ''
+
+    if (message.file && message.file.type.startsWith('image/')) {
+      fileURL = URL.createObjectURL(message.file)
+    }
+    setMessages([
+      ...messages,
+      { ...message, sender: 'own', fileURL, isTopic: true },
+    ])
+  }
+
+  const handleAddComment = (topicIndex: number, comment: string) => {
+    const updatedMessages = [...messages]
+    const timestamp = dateNow()
+    updatedMessages[topicIndex].comments =
+      updatedMessages[topicIndex].comments || []
+    updatedMessages[topicIndex].comments?.push({ text: comment, timestamp })
+    setMessages(updatedMessages)
   }
   // определяем текущее время сообщения
   const dateNow = () => {
@@ -39,6 +65,8 @@ const ForumPage: React.FC = () => {
 
     return `${day}/${month}/${year}, ${hours}:${minutes}:${seconds}`
   }
+
+  console.log('Selected Topic:', selectedTopic)
   return (
     <GameMenu>
       <div className={styles.forum}>
@@ -51,7 +79,8 @@ const ForumPage: React.FC = () => {
                   msg.sender === 'own'
                     ? styles['message--own']
                     : styles['message--other']
-                }`}>
+                } ${msg.isTopic ? styles['message--topic'] : ''}`}
+                onClick={() => msg.isTopic && setSelectedTopic(msg)}>
                 {msg.text && (
                   <>
                     <p className={styles.forum__messageText}>{msg.text}</p>
@@ -82,9 +111,24 @@ const ForumPage: React.FC = () => {
           <MessageInput
             placeholder="Введите сообщение"
             onSend={handleSendMessage}
+            onCreateTopic={handleCreateTopic}
+            isTopicModalOpen={!!selectedTopic}
           />
         </div>
       </div>
+      {selectedTopic && (
+        <TopicModal
+          topic={selectedTopic}
+          onClose={() => setSelectedTopic(null)}
+          onAddComment={comment =>
+            handleAddComment(
+              messages.findIndex(msg => msg === selectedTopic),
+              comment
+            )
+          }
+          comments={selectedTopic.comments || []}
+        />
+      )}
     </GameMenu>
   )
 }

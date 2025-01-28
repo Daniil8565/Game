@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { CiChat2 } from 'react-icons/ci'
 import { GrSend } from 'react-icons/gr'
 import { FileUpload } from '../FileUpload'
 import styles from './MessageInput.module.scss'
@@ -7,13 +8,27 @@ interface IMessageInput {
   placeholder?: string
   className?: string
   onSend: (message: { text: string; file?: File | null }) => void
+  onCreateTopic?: (message: { text: string; file?: File | null }) => void
+  isTopicModalOpen?: boolean
 }
 
 const MessageInput: React.FC<IMessageInput> = ({
   placeholder,
   className,
   onSend,
+  onCreateTopic,
+  isTopicModalOpen,
 }) => {
+  console.log(`isTopicModalOpen: ${isTopicModalOpen}`)
+  const prevIsTopicModalOpen = useRef(isTopicModalOpen)
+
+  useEffect(() => {
+    if (prevIsTopicModalOpen.current !== isTopicModalOpen) {
+      console.log('isTopicModalOpen:', isTopicModalOpen)
+      prevIsTopicModalOpen.current = isTopicModalOpen
+    }
+  }, [isTopicModalOpen])
+
   const [text, setText] = useState('')
   const [file, setFile] = useState<File | null>(null)
 
@@ -25,6 +40,14 @@ const MessageInput: React.FC<IMessageInput> = ({
   const handleSend = () => {
     if (text.trim() || file) {
       onSend({ text, file })
+      setText('')
+      setFile(null)
+    }
+  }
+
+  const handleCreateTopic = () => {
+    if (text.trim() || file) {
+      onCreateTopic?.({ text, file })
       setText('')
       setFile(null)
     }
@@ -55,6 +78,14 @@ const MessageInput: React.FC<IMessageInput> = ({
         disabled={isButtonDisabled}>
         <GrSend />
       </button>
+      {isTopicModalOpen !== true && (
+        <button
+          onClick={handleCreateTopic}
+          className={styles.createTopicButton}
+          disabled={isButtonDisabled}>
+          <CiChat2 />
+        </button>
+      )}
     </div>
   )
 }

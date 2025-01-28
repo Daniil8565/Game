@@ -1,5 +1,5 @@
 import { HumsterView } from './HumsterView'
-let humster_model = {
+export let humster_model = {
   emerald_y: 0,
   emerald_x: 0,
   expectation: 0,
@@ -7,6 +7,11 @@ let humster_model = {
   counter: 0,
   width: 0,
   height: 0,
+  per: 2,
+  per_hour: 643,
+  current_level: 1,
+  current_meaning: 100,
+  transitional_meaning: 6500,
 }
 
 export class HumsterController {
@@ -18,7 +23,7 @@ export class HumsterController {
     window.onclick = e => {
       const x = e.x
       const y = e.y
-      humster_model.counter++
+      humster_model.counter = humster_model.counter + humster_model.per
       // дополнительрые 10 очков при попадании в изумруд
       if (
         Math.abs(humster_model.emerald_x + 40 - x) < 40 &&
