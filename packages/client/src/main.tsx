@@ -9,6 +9,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './index.css'
 import { StartPage } from './pages/StartPage'
 import { startServiceWorker } from './serviceWorker'
+import { Profile } from '@/pages/ProfilePages/Profile'
+import { PageError } from '@/pages/PageError'
+import { ChangeData } from '@/pages/ProfilePages/ChangeData'
+import { ChangePassword } from '@/pages/ProfilePages/ChangePassword'
+
 import { store } from './store/store'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -35,6 +40,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         />
         <Route path="/game/final-page" element={<FinalPage />} />
         <Route path="/some-page" element={<div>some page</div>} />
+         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/editData" element={<ChangeData />} />
+        <Route path="/profile/editPassword" element={<ChangePassword />} />
       </Routes>
     </BrowserRouter>
   </Provider>

@@ -72,6 +72,15 @@ const useFormData = () => {
     phoneError,
   ])
 
+  // {
+  //   "first_name": name
+  //   "second_name": surname
+  //   "display_name": nameChat
+  //   "login": login
+  //   "email": email
+  //   "phone": phone
+  // }
+
   const formData: FormField[] = [
     {
       text: 'Почта',
