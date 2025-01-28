@@ -22,6 +22,7 @@ export class SignupService {
       body: JSON.stringify(requestData),
     })
       .then(res => {
+        console.log(res)
         if (!res.ok) {
           throw new Error(`Ошибка HTTP: ${res.status}`)
         }

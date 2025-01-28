@@ -68,6 +68,10 @@ export const SigninPage: React.FC = () => {
     )
 
   const handleAuthError = useCallback((errorMsg: string) => {
+    if (errorMsg.includes('400')) {
+      navigate('/')
+      return
+    }
     setNetworkError(errorMsg)
   }, [])
 
@@ -79,8 +83,8 @@ export const SigninPage: React.FC = () => {
     const requestData = { login: loginValue, password: passwordValue }
     dispatch(signin(requestData))
       .unwrap()
-      .then(() => navigate('/'))
-      .catch(() => {})
+      .then(handleAuthSuccess)
+      .catch(handleAuthError)
   }, [dispatch, loginValue, passwordValue, navigate])
 
   useEffect(() => {
