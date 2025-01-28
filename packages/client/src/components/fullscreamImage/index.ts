@@ -1,1 +1,1 @@
-export { FullscreamImage } from './fullscreamImage'
+export { FullscreamImage } from './FullscreamImage'

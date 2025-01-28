@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react'
+
+import { ProtectedRoute } from '@/components/ProtectedRoute'
+import { SigninPage } from '@/pages/AuthPages/SigninPage'
+import { SignupPage } from '@/pages/AuthPages/SignupPage'
+import { FinalPage } from '@/pages/FinalPage'
+import { HumsterPage } from '@/pages/HumserPage'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import './index.css'
-import { StartPage } from './pages/StartPage'
-import { HumsterPage } from '@/pages/HumserPage'
 import {
   BrowserRouter,
-  Navigate,
   Route,
   Routes,
   useNavigate,
+  Navigate,
 } from 'react-router-dom'
+import './index.css'
+import { StartPage } from './pages/StartPage'
 import { startServiceWorker } from './serviceWorker'
-import { SignupPage } from '@/pages/AuthPages/SignupPage'
-import { SigninPage } from '@/pages/AuthPages/SigninPage'
-import { ProtectedRoute } from '@/components/ProtectedRoute'
+import { Profile } from '@/pages/ProfilePages/Profile'
+import { PageError } from '@/pages/PageError'
+import { ChangeData } from '@/pages/ProfilePages/ChangeData'
+import { ChangePassword } from '@/pages/ProfilePages/ChangePassword'
 
-import { FinalPage } from '@/pages/FinalPage'
 import { store } from './store/store'
+import { Leaderboard } from '@/pages/Leaderboard'
 
 const App: React.FC = () => {
   // TODO вынести в redux-store
