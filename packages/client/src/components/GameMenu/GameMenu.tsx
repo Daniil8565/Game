@@ -15,7 +15,7 @@ interface IProps {
 
 export const GameMenu = ({ children }: IProps) => {
   const navigate = useNavigate()
-  const logout: () => void = () => {
+  const logout = () => {
     return new Error('Function not implemented.')
   }
 
