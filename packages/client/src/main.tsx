@@ -32,9 +32,9 @@ const App: React.FC = () => {
   const [gameCounter, setGameCounter] = useState<number>(0)
 
   return (
-    <Provider store={store}>
-      <ErrorBoundaryProvider>
-        <ErrorBoundaryWrapper>
+    <ErrorBoundaryProvider>
+      <ErrorBoundaryWrapper>
+        <Provider store={store}>
           <BrowserRouter>
             <Routes>
               <Route path="/signup" element={<SignupPage />} />
@@ -126,9 +126,9 @@ const App: React.FC = () => {
               />
             </Routes>
           </BrowserRouter>
-        </ErrorBoundaryWrapper>
-      </ErrorBoundaryProvider>
-    </Provider>
+        </Provider>
+      </ErrorBoundaryWrapper>
+    </ErrorBoundaryProvider>
   )
 }
 
