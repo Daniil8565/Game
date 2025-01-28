@@ -26,17 +26,8 @@ describe('HumsterController', () => {
     canvas = createCanvasElement()
 
     jest.clearAllMocks()
-    const setIsGameStarted = jest.fn()
-    const setIsGameEnded = jest.fn()
-    const setGameCounter = jest.fn()
 
-    humsterController = new HumsterController(
-      800,
-      600,
-      setIsGameStarted,
-      setIsGameEnded,
-      setGameCounter
-    )
+    humsterController = new HumsterController(800, 600)
 
     mockView = humsterController.view
   })
