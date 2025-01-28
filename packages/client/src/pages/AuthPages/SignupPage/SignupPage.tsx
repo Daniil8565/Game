@@ -149,6 +149,10 @@ export const SignupPage: React.FC = () => {
     )
 
   const handleAuthError = useCallback((errorMsg: string) => {
+    if (errorMsg.includes('400')) {
+      navigate('/')
+      return
+    }
     setNetworkError(errorMsg)
   }, [])
 
@@ -298,6 +302,7 @@ export const SignupPage: React.FC = () => {
           text="Зарегистрироваться"
           onClick={handleClickAuthButton}
         />
+        {networkError && <ErrorMessage message={networkError} />}
         <span className={styles.container__hint}>
           Уже есть аккаунт? <Link to="/signin">Авторизуйтесь!</Link>
         </span>
