@@ -16,8 +16,39 @@ interface Message {
 }
 
 const ForumPage: React.FC = () => {
+  const initialMessages: Message[] = [
+    {
+      text: 'Привет! Это обычное сообщение',
+      sender: 'own',
+    },
+    {
+      text: 'Добро пожаловать в топик! Обсуждаем интересные темы.',
+      sender: 'own',
+      fileURL: '',
+      isTopic: true,
+      comments: [
+        {
+          text: 'Спасибо за информацию!',
+          file: new File(['image content'], 'image.png', { type: 'image/png' }), // Пример изображения
+          timestamp: '28/01/2025, 15:00:00',
+        },
+        {
+          text: 'Это очень полезно.',
+          file: null,
+          timestamp: '28/01/2025, 15:05:00',
+        },
+      ],
+    },
+    {
+      text: 'Здесь можно поделиться файлами.',
+      sender: 'other',
+    },
+  ]
+
   // состояние для управления сообщениями
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<Message[]>(initialMessages)
+  // состояние для комментов
+  const [comments, setComments] = useState<Message[]>([])
   // состояние для управления модалкой топика
   const [selectedTopic, setSelectedTopic] = useState<Message | null>(null)
   // функция для отправки сообщения
@@ -47,12 +78,12 @@ const ForumPage: React.FC = () => {
     topicIndex: number,
     comment: { text: string; file?: File | null }
   ) => {
-    const updatedMessages = [...messages]
+    const updatedMessages = [...comments]
     const timestamp = dateNow()
     updatedMessages[topicIndex].comments =
       updatedMessages[topicIndex].comments || []
-    updatedMessages[topicIndex].comments?.push({ ...comment, timestamp })
-    setMessages(updatedMessages)
+    updatedMessages[topicIndex].comments.push({ ...comment, timestamp })
+    setComments(updatedMessages)
   }
   // определяем текущее время сообщения
   const dateNow = () => {
@@ -86,6 +117,11 @@ const ForumPage: React.FC = () => {
                 onClick={() => msg.isTopic && setSelectedTopic(msg)}>
                 {msg.text && (
                   <>
+                    {msg.isTopic ? (
+                      <h3 className={styles.forum__topic}>Топик</h3>
+                    ) : (
+                      ''
+                    )}
                     <p className={styles.forum__messageText}>{msg.text}</p>
                   </>
                 )}
@@ -101,7 +137,11 @@ const ForumPage: React.FC = () => {
                       <>
                         <AiOutlineFile className={styles.fileIcon} />
                         <span className={styles.forum__messageText}>
-                          {msg.file.name}
+                          <a
+                            href={URL.createObjectURL(msg.file)}
+                            download={msg.file.name}>
+                            {msg.file.name}
+                          </a>
                         </span>
                       </>
                     )}
@@ -125,7 +165,7 @@ const ForumPage: React.FC = () => {
           onClose={() => setSelectedTopic(null)}
           onAddComment={comment =>
             handleAddComment(
-              messages.findIndex(msg => msg === selectedTopic),
+              comments.findIndex(msg => msg === selectedTopic),
               comment
             )
           }

@@ -23,6 +23,10 @@
     word-wrap: break-word;
     border-radius: 15px;
   }
+  &__topic {
+    opacity: 0.5;
+    margin-bottom: 4px;
+  }
   &__messageText {
     margin-bottom: 2px;
   }
