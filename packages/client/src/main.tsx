@@ -7,18 +7,11 @@ import { FinalPage } from '@/pages/FinalPage'
 import { HumsterPage } from '@/pages/HumserPage'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  useNavigate,
-  Navigate,
-} from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import './index.css'
 import { StartPage } from './pages/StartPage'
 import { startServiceWorker } from './serviceWorker'
 import { Profile } from '@/pages/ProfilePages/Profile'
-import { PageError } from '@/pages/PageError'
 import { ChangeData } from '@/pages/ProfilePages/ChangeData'
 import { ChangePassword } from '@/pages/ProfilePages/ChangePassword'
 
@@ -66,6 +59,38 @@ const App: React.FC = () => {
                 ) : (
                   <Navigate to="/" replace />
                 )}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile/editData"
+            element={
+              <ProtectedRoute>
+                <ChangeData />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile/editPassword"
+            element={
+              <ProtectedRoute>
+                <ChangePassword />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/leaderboard"
+            element={
+              <ProtectedRoute>
+                <Leaderboard />
               </ProtectedRoute>
             }
           />
