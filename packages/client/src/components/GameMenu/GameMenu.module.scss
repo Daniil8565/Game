@@ -1,0 +1,74 @@
+.game {
+    color: #FFFEFD;
+
+    &__top-navigation {
+        display: flex;
+        align-items: center;
+        height: 5vh;
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+
+    &__bottom-navigation {
+        background: #32363c;
+        border-radius: 10px;
+        width: 90%;
+        position: absolute;
+        bottom: 50px;
+        height: 50px;
+        margin: 0 5%;
+
+        ul {
+            display: flex;
+            height: 100%;
+
+            li {
+                width: 25%;
+                margin: 5px;
+                list-style: none;
+
+                img {
+                    width: 30px;
+                    margin: 0 10px;
+                }
+
+                a {
+                    padding: 5px;
+                    color: #696969;
+                    text-decoration: none;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    span{
+                        @media screen and (max-width:600px) {
+                        display: none;
+                    }
+                    }
+
+                    
+                }
+                
+
+            }
+
+            .choose {
+                border-radius: 10px;
+                background: #212429;
+                color: #FFFEFD;
+            }
+
+
+        }
+    }
+
+
+    &__main {
+        border-radius: 40px 40px 0 0;
+        box-shadow: - 0 -20px 50px -15px #f9d838;
+        border-top: 2px solid #f9d838;
+        height: 95vh;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+    }
+}

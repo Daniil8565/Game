@@ -1,20 +1,24 @@
 import React, {
   ChangeEventHandler,
   useCallback,
-  useState,
   useEffect,
+  useState,
 } from 'react'
 
-import { AuthInput } from '@/components/AuthInput'
 import { AuthButton } from '@/components/AuthButton'
+import { AuthInput } from '@/components/AuthInput'
 import { ErrorMessage } from '@/components/ProfileErrorMessage/ErrorMessage'
 import { AuthForm } from '../components/AuthForm'
-import { SigninService } from '@/services/SigninService'
+// import { SigninService } from '@/services/SigninService'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-
+import { fetchUserData, signin } from '../../../slices/authSlice'
+import { AppDispatch, RootState } from '../../../store/store'
 import styles from './SinginPage.module.scss'
 
 export const SigninPage: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const { loading, error } = useSelector((state: RootState) => state.auth)
   const reg = {
     login: /^(?!\d+$)[a-zA-Z0-9_-]{3,20}$/,
     password: /^(?=.*[A-Z])(?=.*\d).{8,40}$/,
@@ -72,16 +76,16 @@ export const SigninPage: React.FC = () => {
   }, [])
 
   const handleClickAuthButton = useCallback(() => {
-    const signinService = new SigninService()
-    signinService
-      .requestData({
-        requestData: { login: loginValue, password: passwordValue },
-        errorCallback: handleAuthError,
-        successCallback: handleAuthSuccess,
-      })
-      .catch(handleAuthError)
-  }, [loginValue, passwordValue])
+    const requestData = { login: loginValue, password: passwordValue }
+    dispatch(signin(requestData))
+      .unwrap()
+      .then(() => navigate('/'))
+      .catch(() => {})
+  }, [dispatch, loginValue, passwordValue, navigate])
 
+  useEffect(() => {
+    setFormValid(!loginError && !passwordError)
+  }, [loginError, passwordError])
   const blurLogin = () => {
     setLoginDirty(true)
   }
@@ -125,8 +129,8 @@ export const SigninPage: React.FC = () => {
           <ErrorMessage message={passwordError} />
         )}
         <AuthButton
-          disabled={!formValid}
-          text="Войти"
+          disabled={!formValid || loading}
+          text={loading ? 'Вход...' : 'Войти'}
           onClick={handleClickAuthButton}
         />
         {networkError && <ErrorMessage message={networkError} />}

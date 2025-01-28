@@ -1,10 +1,15 @@
+import { TextEncoder, TextDecoder } from 'util';
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
 import dotenv from 'dotenv'
 dotenv.config()
 
 export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
+  testMatch: ['<rootDir>/src/pages/**/*.test.{ts,tsx}'],
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
