@@ -20,6 +20,7 @@ import error404Image from './image/404.png'
 import error500Image from './image/fixiki.png'
 import { ForumPage } from './pages/ForumPage'
 import { PageError } from './pages/PageError'
+import { GameMenu } from './components/GameMenu'
 import { store } from './store/store'
 
 const App: React.FC = () => {
@@ -35,34 +36,26 @@ const App: React.FC = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/signin" element={<SigninPage />} />
           <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                {!isGameEnded ? (
-                  <StartPage setIsGameStarted={setIsGameStarted} />
-                ) : (
-                  <FinalPage
-                    gameCounter={gameCounter}
-                    setIsGameEnded={setIsGameEnded}
-                  />
-                )}
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/game"
             element={
               <ProtectedRoute>
-                {isGameStarted ? (
-                  <HumsterPage
-                    setIsGameStarted={setIsGameStarted}
-                    setIsGameEnded={setIsGameEnded}
-                    setGameCounter={setGameCounter}
-                    isGameEnded={isGameEnded}
-                  />
-                ) : (
-                  <Navigate to="/" replace />
-                )}
+                <GameMenu>
+                  {isGameStarted ? (
+                    <HumsterPage
+                      setIsGameStarted={setIsGameStarted}
+                      setIsGameEnded={setIsGameEnded}
+                      setGameCounter={setGameCounter}
+                      isGameStarted={isGameStarted}
+                    />
+                  ) : !isGameEnded ? (
+                    <StartPage setIsGameStarted={setIsGameStarted} />
+                  ) : (
+                    <FinalPage
+                      gameCounter={gameCounter}
+                      setIsGameEnded={setIsGameEnded}
+                    />
+                  )}
+                </GameMenu>
               </ProtectedRoute>
             }
           />
@@ -98,7 +91,14 @@ const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/forum" element={<ForumPage />} />
+          <Route
+            path="/forum"
+            element={
+              <ProtectedRoute>
+                <ForumPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="*"
             element={

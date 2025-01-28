@@ -29,42 +29,32 @@ export const GameMenu = ({ children }: IProps) => {
           <ul>
             <li>
               <Link
-                to="/game/humster"
-                className={
-                  [
-                    '/game/humster',
-                    '/game/final-page',
-                    '/game/start-page',
-                  ].indexOf(pathname) !== -1
-                    ? styles['choose']
-                    : ''
-                }>
+                to="/game"
+                className={pathname === '/game' ? styles['choose'] : ''}>
                 <img src={humster_icon} />
                 <span>Хомяк</span>
               </Link>
             </li>
             <li>
               <Link
-                to="/game/forum"
-                className={pathname === '/game/forum' ? styles['choose'] : ''}>
+                to="/forum"
+                className={pathname === '/forum' ? styles['choose'] : ''}>
                 <img src={forum_icon} />
                 <span>Форум</span>
               </Link>
             </li>
             <li>
               <Link
-                to="/game/leaderbord"
-                className={
-                  pathname === '/game/leaderbord' ? styles['choose'] : ''
-                }>
+                to="/leaderboard"
+                className={pathname === '/leaderboard' ? styles['choose'] : ''}>
                 <img src={leader_icon} />
                 <span>Лидборд</span>
               </Link>
             </li>
             <li>
               <Link
-                to="/game/castom"
-                className={pathname === '/game/castom' ? styles['choose'] : ''}>
+                to="/castom"
+                className={pathname === '/castom' ? styles['choose'] : ''}>
                 <img src={castom_icon} />
                 <span>Настройки</span>
               </Link>
