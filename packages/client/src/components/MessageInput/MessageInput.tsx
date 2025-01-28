@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CiChat2 } from 'react-icons/ci'
 import { GrSend } from 'react-icons/gr'
 import { FileUpload } from '../FileUpload'
@@ -24,8 +24,9 @@ const MessageInput: React.FC<IMessageInput> = ({
 
   useEffect(() => {
     if (prevIsTopicModalOpen.current !== isTopicModalOpen) {
-      console.log('isTopicModalOpen:', isTopicModalOpen)
       prevIsTopicModalOpen.current = isTopicModalOpen
+      // Логируем только при изменении значения
+      console.log('isTopicModalOpen изменилось:', isTopicModalOpen)
     }
   }, [isTopicModalOpen])
 
@@ -81,7 +82,9 @@ const MessageInput: React.FC<IMessageInput> = ({
       {isTopicModalOpen !== true && (
         <button
           onClick={handleCreateTopic}
-          className={styles.createTopicButton}
+          className={`${styles.sendButton} ${
+            isButtonDisabled ? styles.disabled : ''
+          }`}
           disabled={isButtonDisabled}>
           <CiChat2 />
         </button>

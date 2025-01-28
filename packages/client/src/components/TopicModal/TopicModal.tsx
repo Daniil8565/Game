@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { MessageInput } from '../MessageInput'
 import styles from './TopicModal.module.scss'
-import { CiChat2 } from 'react-icons/ci'
 
 interface TopicModalProps {
   topic: { text: string; file?: File | null; fileURL?: string }
   onClose: () => void
-  onAddComment: (comment: string) => void
-  comments: { text: string; timestamp: string }[]
+  onAddComment: (comment: { text: string; file?: File | null }) => void
+  comments: { text: string; file?: File | null; timestamp: string }[]
 }
 
 const TopicModal: React.FC<TopicModalProps> = ({
@@ -16,14 +15,14 @@ const TopicModal: React.FC<TopicModalProps> = ({
   onAddComment,
   comments,
 }) => {
-  const [newComment, setNewComment] = useState('')
+  //   const [newComment, setNewComment] = useState('')
 
-  const handleAddComment = () => {
-    if (newComment.trim()) {
-      onAddComment(newComment)
-      setNewComment('')
-    }
-  }
+  //   const handleAddComment = () => {
+  //     if (newComment.trim()) {
+  //       onAddComment(newComment)
+  //       setNewComment('')
+  //     }
+  //   }
 
   return (
     <div className={styles.modalOverlay}>
@@ -32,17 +31,30 @@ const TopicModal: React.FC<TopicModalProps> = ({
           &times;
         </button>
         <h2 className={styles.topicTitle}>{topic.text}</h2>
-        <div className={styles.commentsList}>
+        <div className={styles.commentsContainer}>
           {comments.map((comment, index) => (
             <div key={index} className={styles.comment}>
               <p className={styles.commentText}>{comment.text}</p>
+              {comment.file && (
+                <div className={styles.fileAttachment}>
+                  <a
+                    href={URL.createObjectURL(comment.file)}
+                    download={comment.file.name}>
+                    {comment.file.name}
+                  </a>
+                </div>
+              )}
               <span className={styles.commentDate}>{comment.timestamp}</span>
             </div>
           ))}
         </div>
         <MessageInput
           placeholder="Добавить комментарий"
-          onSend={({ text }) => handleAddComment()}
+          onSend={({ text, file }) => {
+            if (text.trim() || file) {
+              onAddComment({ text, file })
+            }
+          }}
           isTopicModalOpen={true}
         />
       </div>

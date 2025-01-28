@@ -12,7 +12,7 @@ interface Message {
   sender: 'own' | 'other'
   fileURL?: string
   isTopic?: boolean
-  comments?: { text: string; timestamp: string }[]
+  comments?: { text: string; file?: File | null; timestamp: string }[]
 }
 
 const ForumPage: React.FC = () => {
@@ -42,13 +42,16 @@ const ForumPage: React.FC = () => {
       { ...message, sender: 'own', fileURL, isTopic: true },
     ])
   }
-
-  const handleAddComment = (topicIndex: number, comment: string) => {
+  // функция добавления комментария
+  const handleAddComment = (
+    topicIndex: number,
+    comment: { text: string; file?: File | null }
+  ) => {
     const updatedMessages = [...messages]
     const timestamp = dateNow()
     updatedMessages[topicIndex].comments =
       updatedMessages[topicIndex].comments || []
-    updatedMessages[topicIndex].comments?.push({ text: comment, timestamp })
+    updatedMessages[topicIndex].comments?.push({ ...comment, timestamp })
     setMessages(updatedMessages)
   }
   // определяем текущее время сообщения
