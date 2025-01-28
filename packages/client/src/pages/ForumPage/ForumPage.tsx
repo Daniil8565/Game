@@ -1,3 +1,4 @@
+import { GameMenu } from '@/components/GameMenu'
 import { MessageInput } from '@/components/MessageInput'
 import React, { useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
@@ -39,50 +40,52 @@ const ForumPage: React.FC = () => {
     return `${day}/${month}/${year}, ${hours}:${minutes}:${seconds}`
   }
   return (
-    <div className={styles.forum}>
-      <div className={styles.forum__container}>
-        <div className={styles.forum__messagesList}>
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`${styles.forum__message} ${
-                msg.sender === 'own'
-                  ? styles['message--own']
-                  : styles['message--other']
-              }`}>
-              {msg.text && (
-                <>
-                  <p className={styles.forum__messageText}>{msg.text}</p>
-                </>
-              )}
-              {msg.file && (
-                <div className={styles.fileAttachment}>
-                  {msg.fileURL ? (
-                    <img
-                      src={msg.fileURL}
-                      alt="attachment"
-                      className={styles.imagePreview}
-                    />
-                  ) : (
-                    <>
-                      <AiOutlineFile className={styles.fileIcon} />
-                      <span className={styles.forum__messageText}>
-                        {msg.file.name}
-                      </span>
-                    </>
-                  )}
-                </div>
-              )}
-              <span className={styles.forum__messageDate}>{dateNow()}</span>
-            </div>
-          ))}
+    <GameMenu>
+      <div className={styles.forum}>
+        <div className={styles.forum__container}>
+          <div className={styles.forum__messagesList}>
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`${styles.forum__message} ${
+                  msg.sender === 'own'
+                    ? styles['message--own']
+                    : styles['message--other']
+                }`}>
+                {msg.text && (
+                  <>
+                    <p className={styles.forum__messageText}>{msg.text}</p>
+                  </>
+                )}
+                {msg.file && (
+                  <div className={styles.fileAttachment}>
+                    {msg.fileURL ? (
+                      <img
+                        src={msg.fileURL}
+                        alt="attachment"
+                        className={styles.imagePreview}
+                      />
+                    ) : (
+                      <>
+                        <AiOutlineFile className={styles.fileIcon} />
+                        <span className={styles.forum__messageText}>
+                          {msg.file.name}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                )}
+                <span className={styles.forum__messageDate}>{dateNow()}</span>
+              </div>
+            ))}
+          </div>
+          <MessageInput
+            placeholder="Введите сообщение"
+            onSend={handleSendMessage}
+          />
         </div>
-        <MessageInput
-          placeholder="Введите сообщение"
-          onSend={handleSendMessage}
-        />
       </div>
-    </div>
+    </GameMenu>
   )
 }
 
