@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HumsterController } from './HumsterController'
+import { GameMenu } from '@/components/GameMenu'
 import styles from './HumsterPage.module.scss'
 import { useNavigate } from 'react-router-dom'
 
@@ -49,12 +50,14 @@ export const HumsterPage: React.FC<IHumsterPage> = ({
 
   return (
     <>
-      <canvas
-        id="canvas"
-        width={width}
-        height={height}
-        className={styles.humster_canvas}
-      />
+      <GameMenu>
+        <canvas
+          id="canvas"
+          width={width}
+          height={height}
+          className={styles.humster_canvas}
+        />
+      </GameMenu>
     </>
   )
 }
