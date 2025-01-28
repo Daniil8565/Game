@@ -51,6 +51,7 @@ export class HumsterView {
       this.circle_y - this.humster_img.height / 2
     )
     this.bottomMenu()
+    this.drawFinishButton()
   }
 
   topMenu() {
@@ -150,6 +151,27 @@ export class HumsterView {
     this.context.font = `${diameter * 0.8}px Arial`
     this.context.fillStyle = '#ffffff'
     this.context.fillText('$', x - diameter * 1.2, y - diameter / 4)
+  }
+
+  drawFinishButton() {
+    const buttonWidth = 150
+    const buttonHeight = 50
+    const buttonX = this.model.width - buttonWidth - 20 // Позиция кнопки справа
+    const buttonY = this.model.height - buttonHeight - 20 // Позиция кнопки снизу
+
+    // Рисуем кнопку
+    this.context.fillStyle = '#ff4444' // Красный цвет кнопки
+    this.context.fillRect(buttonX, buttonY, buttonWidth, buttonHeight)
+
+    // Текст на кнопке
+    this.context.fillStyle = '#ffffff'
+    this.context.font = '20px Arial'
+    this.context.textAlign = 'center'
+    this.context.fillText(
+      'Завершить',
+      buttonX + buttonWidth / 2,
+      buttonY + buttonHeight / 2 + 8
+    )
   }
 
   drawEmerald() {

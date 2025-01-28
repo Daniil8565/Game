@@ -1,19 +1,32 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { GameMenu } from '../../components/GameMenu'
 import styles from './FinalPage.module.scss'
 import { Link } from 'react-router-dom'
 
-export const FinalPage: React.FC = () => {
-  const [count, setCount] = useState<number>(3)
+interface IFinalPage {
+  gameCounter: number
+  setIsGameEnded: (flag: boolean) => void
+}
+
+export const FinalPage: React.FC<IFinalPage> = ({
+  gameCounter,
+  setIsGameEnded,
+}) => {
+  const handleClick = useCallback(() => {
+    setIsGameEnded(false)
+  }, [])
 
   return (
     <GameMenu>
       <div className={styles['final-page']}>
-        <label className={styles['final-page__label']}>Время вышло!</label>
+        <label className={styles['final-page__label']}>Игра закончена!</label>
         <label className={styles['final-page__profit']}>
-          Вы успели заработать {count} монет
+          Вы успели заработать {gameCounter} монет
         </label>
-        <Link to="/start-page" className={styles['final-page__restart']}>
+        <Link
+          onClick={handleClick}
+          to="/"
+          className={styles['final-page__restart']}>
           Пройти еще раз
         </Link>
       </div>
