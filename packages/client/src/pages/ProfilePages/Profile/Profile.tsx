@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { NameUser } from '@/components/ProfileNameUser'
 import { UserData } from '@/components/ProfileUserData'
 import classes from './Profile.module.scss'
+import { FullscreamImage } from '@/components/fullscreamImage'
 
 export const Profile: React.FC = () => {
   const data = [
@@ -36,6 +37,7 @@ export const Profile: React.FC = () => {
   return (
     <div className={classes.container}>
       <div className={classes.content}>
+        <FullscreamImage />
         <Avatar id="avatar" src={logo} alt="Добавьте картинку" />
         <NameUser title="vncncjchjc" />
         <UserData dataUser={data} />

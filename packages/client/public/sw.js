@@ -46,7 +46,6 @@ this.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response => {
       if (response) {
-        console.log('Ответ найден в кеше:', event.request.url)
         return response
       }
       const fetchRequest = event.request.clone()
@@ -67,7 +66,6 @@ this.addEventListener('fetch', event => {
           return response
         })
         .catch(() => {
-          console.log('Данных нет в кеше и отсутствует сеть')
           return caches.match('')
         })
     })
