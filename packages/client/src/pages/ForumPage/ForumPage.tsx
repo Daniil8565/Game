@@ -44,11 +44,10 @@ const ForumPage: React.FC = () => {
       sender: 'other',
     },
   ]
-
   // состояние для управления сообщениями
-  const [messages, setMessages] = useState<Message[]>(initialMessages)
-  // состояние для комментов
-  const [comments, setComments] = useState<Message[]>([])
+  const [messages, setMessages] = useState<Message[]>([...initialMessages])
+  // TODO состояние для комментов
+
   // состояние для управления модалкой топика
   const [selectedTopic, setSelectedTopic] = useState<Message | null>(null)
   // функция для отправки сообщения
@@ -78,12 +77,12 @@ const ForumPage: React.FC = () => {
     topicIndex: number,
     comment: { text: string; file?: File | null }
   ) => {
-    const updatedMessages = [...comments]
+    const updatedMessages = [...messages]
     const timestamp = dateNow()
     updatedMessages[topicIndex].comments =
       updatedMessages[topicIndex].comments || []
     updatedMessages[topicIndex].comments.push({ ...comment, timestamp })
-    setComments(updatedMessages)
+    setMessages(updatedMessages)
   }
   // определяем текущее время сообщения
   const dateNow = () => {
@@ -165,7 +164,7 @@ const ForumPage: React.FC = () => {
           onClose={() => setSelectedTopic(null)}
           onAddComment={comment =>
             handleAddComment(
-              comments.findIndex(msg => msg === selectedTopic),
+              messages.findIndex(msg => msg === selectedTopic),
               comment
             )
           }
