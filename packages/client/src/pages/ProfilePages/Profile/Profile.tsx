@@ -6,8 +6,10 @@ import { NameUser } from '@/components/ProfileNameUser'
 import { UserData } from '@/components/ProfileUserData'
 import classes from './Profile.module.scss'
 import { FullscreamImage } from '@/components/fullscreamImage'
+import { useNavigate } from 'react-router-dom'
 
 export const Profile: React.FC = () => {
+  const navigate = useNavigate()
   const data = [
     {
       text: 'Почта',
@@ -36,6 +38,9 @@ export const Profile: React.FC = () => {
   ]
   return (
     <div className={classes.container}>
+      <button className="back-button" onClick={() => navigate(-1)}>
+        ❮
+      </button>
       <div className={classes.content}>
         <FullscreamImage />
         <Avatar id="avatar" src={logo} alt="Добавьте картинку" />
