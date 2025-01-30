@@ -1,41 +1,45 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { GlobalErrorFallback } from './GlobalErrorFallback'
 
-// Контекст ошибки
-const ErrorBoundaryContext = createContext<any>(null)
+// Типы для контекста
+interface ErrorBoundaryContextType {
+  showBoundary: (error: Error, info: any) => void
+  resetBoundary: () => void
+}
 
-const ErrorBoundaryProvider: React.FC<{
-  children: ReactNode
-}> = ({ children }) => {
+const ErrorBoundaryContext = createContext<
+  ErrorBoundaryContextType | undefined
+>(undefined)
+
+const ErrorBoundaryProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [error, setError] = useState<Error | null>(null)
 
-  const updateBoundary = (error: Error | null) => {
+  const showBoundary = (error: Error, info: any) => {
     setError(error)
+    console.error('Error Info:', info)
+  }
+
+  const resetBoundary = () => {
+    setError(null)
   }
 
   if (error) {
-    // Используем GlobalErrorFallback для отображения ошибки
     return (
-      <GlobalErrorFallback
-        error={error}
-        resetErrorBoundary={() => updateBoundary(null)}
-      />
+      <GlobalErrorFallback error={error} resetErrorBoundary={resetBoundary} />
     )
   }
 
   return (
-    <ErrorBoundaryContext.Provider
-      value={{
-        showBoundary: (error: Error) => updateBoundary(error),
-        resetBoundary: () => updateBoundary(null),
-      }}>
+    <ErrorBoundaryContext.Provider value={{ showBoundary, resetBoundary }}>
       {children}
     </ErrorBoundaryContext.Provider>
   )
 }
 
 // Хук для использования контекста ошибки
-const useErrorBoundaryContext: React.FC = () => {
+const useErrorBoundaryContext = (): ErrorBoundaryContextType => {
   const context = useContext(ErrorBoundaryContext)
   if (!context) {
     throw new Error(
@@ -44,4 +48,5 @@ const useErrorBoundaryContext: React.FC = () => {
   }
   return context
 }
+
 export { ErrorBoundaryProvider, useErrorBoundaryContext }

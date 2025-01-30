@@ -8,7 +8,7 @@ export let humster_model = {
   counter: 0,
   width: 0,
   height: 0,
-  per: 2,
+  per: 1,
   per_hour: 643,
   current_level: 1,
   current_meaning: 100,
@@ -17,13 +17,7 @@ export let humster_model = {
 
 export class HumsterController {
   public view
-  constructor(
-    width: number,
-    height: number,
-    setIsGameStarted: (flag: boolean) => void,
-    setIsGameEnded: (flag: boolean) => void,
-    setGameCounter: (count: number) => void
-  ) {
+  constructor(width: number, height: number) {
     humster_model.width = width
     humster_model.height = height
     this.view = new HumsterView(humster_model)
@@ -34,24 +28,6 @@ export class HumsterController {
       const rect = canvas.getBoundingClientRect() // Получаем положение canvas на странице
       const x = e.clientX - rect.left // Координата X относительно canvas
       const y = e.clientY - rect.top // Координата Y относительно canvas
-
-      // Проверка клика по кнопке завершения
-      const buttonWidth = 150
-      const buttonHeight = 50
-      const buttonX = humster_model.width - buttonWidth - 20 // Позиция кнопки справа
-      const buttonY = humster_model.height - buttonHeight - 20 // Позиция кнопки снизу
-
-      if (
-        x >= buttonX &&
-        x <= buttonX + buttonWidth &&
-        y >= buttonY &&
-        y <= buttonY + buttonHeight
-      ) {
-        setIsGameStarted(false)
-        setIsGameEnded(true)
-        setGameCounter(humster_model.counter)
-        return // Прерываем выполнение, чтобы не обрабатывать клик дальше
-      }
 
       humster_model.counter = humster_model.counter + humster_model.per
       // дополнительрые 10 очков при попадании в изумруд

@@ -26,17 +26,8 @@ describe('HumsterController', () => {
     canvas = createCanvasElement()
 
     jest.clearAllMocks()
-    const setIsGameStarted = jest.fn()
-    const setIsGameEnded = jest.fn()
-    const setGameCounter = jest.fn()
 
-    humsterController = new HumsterController(
-      800,
-      600,
-      setIsGameStarted,
-      setIsGameEnded,
-      setGameCounter
-    )
+    humsterController = new HumsterController(800, 600)
 
     mockView = humsterController.view
   })
@@ -57,7 +48,7 @@ describe('HumsterController', () => {
       height: 600,
       current_level: 1,
       current_meaning: 100,
-      per: 2,
+      per: 1,
       per_hour: 643,
       transitional_meaning: 6500,
     })
@@ -69,7 +60,7 @@ describe('HumsterController', () => {
 
     expect(mockView.drawCanvas).toHaveBeenCalled()
     expect(humsterController.view.drawCanvas).toHaveBeenCalled()
-    expect(humster_model.counter).toBe(2)
+    expect(humster_model.counter).toBe(1)
     humster_model.counter = 0
   })
 })
