@@ -21,7 +21,7 @@ export interface AuthState {
 }
 
 // функция для безопасного чтения JSON из localStorage
-const getJsonItemFromLocalStorage = (key: string) => {
+export const getJsonItemFromLocalStorage = (key: string) => {
   try {
     const item = localStorage.getItem(key)
     console.log(`item ${item}`)
@@ -39,7 +39,7 @@ const initialState: AuthState = {
   error: null,
 }
 // функция для обработки запросов
-const fetchForUserAuth = async (url: string, options: RequestInit) => {
+export const fetchForUserAuth = async (url: string, options: RequestInit) => {
   try {
     const response = await fetch(`${API_URL}${url}`, {
       ...options,
