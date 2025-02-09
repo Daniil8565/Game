@@ -12,7 +12,7 @@ import { AuthForm } from '../components/AuthForm'
 // import { SigninService } from '@/services/SigninService'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { fetchUserData, signin } from '../../../slices/authSlice'
+import { signin } from '../../../slices/authSlice'
 import { AppDispatch, RootState } from '../../../store/store'
 import styles from './SinginPage.module.scss'
 
