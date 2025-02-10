@@ -51,7 +51,6 @@ export class HumsterView {
       this.circle_y - this.humster_img.height / 2
     )
     this.bottomMenu()
-    this.drawFinishButton()
   }
 
   topMenu() {
@@ -153,27 +152,6 @@ export class HumsterView {
     this.context.fillText('$', x - diameter * 1.2, y - diameter / 4)
   }
 
-  drawFinishButton() {
-    const buttonWidth = 150
-    const buttonHeight = 50
-    const buttonX = this.model.width - buttonWidth - 20 // Позиция кнопки справа
-    const buttonY = this.model.height - buttonHeight - 20 // Позиция кнопки снизу
-
-    // Рисуем кнопку
-    this.context.fillStyle = '#ff4444' // Красный цвет кнопки
-    this.context.fillRect(buttonX, buttonY, buttonWidth, buttonHeight)
-
-    // Текст на кнопке
-    this.context.fillStyle = '#ffffff'
-    this.context.font = '20px Arial'
-    this.context.textAlign = 'center'
-    this.context.fillText(
-      'Завершить',
-      buttonX + buttonWidth / 2,
-      buttonY + buttonHeight / 2 + 8
-    )
-  }
-
   drawEmerald() {
     this.context.drawImage(
       this.emerald_img,
@@ -226,7 +204,7 @@ export class HumsterView {
   bottomMenu() {
     this.context.font = '14px Arial'
     this.context.fillStyle = '#f7c243'
-    this.context.fillText('⚡️', 40, this.model.height - 120)
+    this.context.fillText('⚡️', 40, this.model.height - 40)
 
     this.context.fillStyle = '#ffffff'
     this.context.fillText(
@@ -234,12 +212,12 @@ export class HumsterView {
         this.model.transitional_meaning
       }`,
       60,
-      this.model.height - 120
+      this.model.height - 40
     )
     this.context.fillText(
       `${this.model.current_level} уровень`,
       this.model.width - 110,
-      this.model.height - 120
+      this.model.height - 40
     )
   }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Leaderboard.module.scss'
 import { LeaderboardElement } from '@/components/LeaderboardElement'
-
+import { GameMenu } from '@/components/GameMenu'
 export const Leaderboard: React.FC = () => {
   const mockData = [
     { id: 1, userName: 'User 1', userScore: 111 },
@@ -9,19 +9,21 @@ export const Leaderboard: React.FC = () => {
     { id: 3, userName: 'User 3', userScore: 333 },
   ]
   return (
-    <div className={styles.leaderboard}>
-      <div className={styles.leaderboard__title}>Leaderboard</div>
-      <div className={styles.leaderboard__header}>
-        <div>Name</div>
-        <div>Score</div>
+    <GameMenu>
+      <div className={styles.leaderboard}>
+        <div className={styles.leaderboard__title}>Leaderboard</div>
+        <div className={styles.leaderboard__header}>
+          <div>Name</div>
+          <div>Score</div>
+        </div>
+        {mockData.map(user => (
+          <LeaderboardElement
+            key={user.id}
+            userName={user.userName}
+            userScore={user.userScore}
+          />
+        ))}
       </div>
-      {mockData.map(user => (
-        <LeaderboardElement
-          key={user.id}
-          userName={user.userName}
-          userScore={user.userScore}
-        />
-      ))}
-    </div>
+    </GameMenu>
   )
 }

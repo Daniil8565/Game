@@ -131,7 +131,10 @@ export const SignupPage: React.FC = () => {
     [navigate]
   )
 
-  // Обработчик клика по кнопке регистрации
+  const handleAuthSuccess = useCallback(() => {
+    navigate('/game')
+  }, [])
+
   const handleClickAuthButton = useCallback(() => {
     const requestData = {
       login: login.value,

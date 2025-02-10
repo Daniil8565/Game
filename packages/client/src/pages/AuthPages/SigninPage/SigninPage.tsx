@@ -9,7 +9,6 @@ import { AuthButton } from '@/components/AuthButton'
 import { AuthInput } from '@/components/AuthInput'
 import { ErrorMessage } from '@/components/ProfileErrorMessage/ErrorMessage'
 import { AuthForm } from '../components/AuthForm'
-// import { SigninService } from '@/services/SigninService'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { signin } from '../../../slices/authSlice'
@@ -76,7 +75,7 @@ export const SigninPage: React.FC = () => {
   }, [])
 
   const handleAuthSuccess = useCallback(() => {
-    navigate('/')
+    navigate('/game')
   }, [])
 
   const handleClickAuthButton = useCallback(() => {
