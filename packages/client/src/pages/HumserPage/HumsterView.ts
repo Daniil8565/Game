@@ -26,7 +26,16 @@ export class HumsterView {
   private context: CanvasRenderingContext2D
 
   constructor(humster_model: HumsterModel) {
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement
+    let canvas: HTMLCanvasElement | null = null
+
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      // Убедимся, что элемент с ID 'canvas' существует в документе
+      canvas = document.getElementById('canvas') as HTMLCanvasElement | null
+    }
+
+    if (!canvas) {
+      throw new Error('Canvas element not found')
+    }
     this.context = canvas.getContext('2d') as CanvasRenderingContext2D
 
     this.circle_x = humster_model.width / 2

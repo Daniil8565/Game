@@ -11,14 +11,17 @@ jest.mock('./HumsterView', () => {
 })
 
 const createCanvasElement = () => {
-  const canvas = document.createElement('canvas')
-  canvas.id = 'canvas'
-  document.body.appendChild(canvas)
-  return canvas
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    const canvas = document.createElement('canvas')
+    canvas.id = 'canvas'
+    document.body.appendChild(canvas)
+    return canvas
+  }
+  return null
 }
 
 describe('HumsterController', () => {
-  let canvas: HTMLCanvasElement
+  let canvas: HTMLCanvasElement | null
   let humsterController: HumsterController
   let mockView: any
 
@@ -33,8 +36,13 @@ describe('HumsterController', () => {
   })
 
   afterEach(() => {
-    // Очищаем DOM после каждого теста
-    document.body.removeChild(canvas)
+    if (
+      typeof window !== 'undefined' &&
+      typeof document !== 'undefined' &&
+      canvas
+    ) {
+      document.body.removeChild(canvas)
+    }
   })
 
   it('инициализирует HumsterView с моделью', () => {
@@ -56,8 +64,9 @@ describe('HumsterController', () => {
 
   it('увеличивает счётчик при клике', () => {
     const clickEvent = new MouseEvent('click', { clientX: 100, clientY: 100 })
-    canvas.dispatchEvent(clickEvent)
-
+    if (canvas) {
+      canvas.dispatchEvent(clickEvent)
+    }
     expect(mockView.drawCanvas).toHaveBeenCalled()
     expect(humsterController.view.drawCanvas).toHaveBeenCalled()
     expect(humster_model.counter).toBe(1)

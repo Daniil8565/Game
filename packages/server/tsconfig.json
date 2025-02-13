@@ -4,6 +4,7 @@
     "target": "es2019",
     "module": "commonjs",
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": true,
@@ -15,15 +16,15 @@
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true,
+    "lib": ["es2019", "DOM"],
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
-    "lib": ["es2019", "esnext.asynciterable"],
     "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
       "*": ["types/*"]
     },
     "outDir": "dist"
-  }
+  },
+  "include": ["./index.ts"]
 }

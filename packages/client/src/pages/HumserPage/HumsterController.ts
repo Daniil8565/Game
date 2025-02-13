@@ -1,5 +1,6 @@
 import { HumsterView } from './HumsterView'
 import { NavigateFunction } from 'react-router-dom'
+
 export let humster_model = {
   emerald_y: 0,
   emerald_x: 0,
@@ -22,24 +23,30 @@ export class HumsterController {
     humster_model.height = height
     this.view = new HumsterView(humster_model)
 
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement
+    let canvas: HTMLCanvasElement | null = null
 
-    canvas.onclick = e => {
-      const rect = canvas.getBoundingClientRect() // Получаем положение canvas на странице
-      const x = e.clientX - rect.left // Координата X относительно canvas
-      const y = e.clientY - rect.top // Координата Y относительно canvas
+    // Проверка на наличие window и document, чтобы избежать ошибок на сервере
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      canvas = document.getElementById('canvas') as HTMLCanvasElement
+    }
+    if (canvas) {
+      canvas.onclick = (e: MouseEvent) => {
+        const rect = canvas.getBoundingClientRect() // Получаем положение canvas на странице
+        const x = e.clientX - rect.left // Координата X относительно canvas
+        const y = e.clientY - rect.top // Координата Y относительно canvas
 
-      humster_model.counter = humster_model.counter + humster_model.per
-      // дополнительрые 10 очков при попадании в изумруд
-      if (
-        Math.abs(humster_model.emerald_x + 40 - x) < 40 &&
-        Math.abs(humster_model.emerald_y + 30 - y) < 60
-      ) {
-        humster_model.dop_count = humster_model.dop_count - 10
-        humster_model.counter = humster_model.counter + 10
+        humster_model.counter = humster_model.counter + humster_model.per
+        // дополнительрые 10 очков при попадании в изумруд
+        if (
+          Math.abs(humster_model.emerald_x + 40 - x) < 40 &&
+          Math.abs(humster_model.emerald_y + 30 - y) < 60
+        ) {
+          humster_model.dop_count = humster_model.dop_count - 10
+          humster_model.counter = humster_model.counter + 10
+        }
+
+        this.view.drawCanvas()
       }
-
-      this.view.drawCanvas()
     }
   }
 }

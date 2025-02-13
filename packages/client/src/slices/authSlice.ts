@@ -8,7 +8,10 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: JSON.parse(localStorage.getItem('user') || 'null'), // Восстанавливаем данные из localStorage
+  user:
+    typeof window !== 'undefined'
+      ? JSON.parse(localStorage.getItem('user') || 'null')
+      : null,
   loading: false,
   error: null,
 }
@@ -74,8 +77,9 @@ const authSlice = createSlice({
   reducers: {
     logout: state => {
       state.user = null
-      // Очищаем данные пользователя из localStorage
-      localStorage.removeItem('user')
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('user')
+      }
     },
   },
   extraReducers: builder => {
@@ -94,7 +98,9 @@ const authSlice = createSlice({
       .addCase(fetchUserData.fulfilled, (state, action) => {
         state.user = action.payload
         // Сохраняем данные пользователя в localStorage
-        localStorage.setItem('user', JSON.stringify(action.payload))
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(action.payload))
+        }
       })
       .addCase(fetchUserData.rejected, (state, action) => {
         state.error = action.payload as string

@@ -61,8 +61,16 @@ const Handler = ({ event, setData, setDataError }: HandlerProps) => {
       valid(value, setDataError, reg.password, 'Неккоректный пароль')
       break
     case 'repeatPassword':
-      const newPasswordInput =
-        document.querySelector<HTMLInputElement>('#newPassword')
+      let newPasswordInput: HTMLInputElement | null = null
+
+      if (typeof document !== 'undefined') {
+        console.log('Документ доступен, продолжаем работу с DOM')
+        newPasswordInput =
+          document.querySelector<HTMLInputElement>('#newPassword')
+      } else {
+        console.log('Документ не доступен на сервере')
+      }
+
       if (newPasswordInput && newPasswordInput.value !== value) {
         setDataError('Пароли не совпадают')
       } else {
