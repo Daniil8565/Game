@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { SigninPage } from '@/pages/AuthPages/SigninPage'
@@ -26,6 +26,17 @@ import { PageError } from './pages/PageError'
 import { store } from './store/store'
 
 const App: React.FC = () => {
+  useEffect(() => {
+    const fetchServerData = async () => {
+      const url = `http://localhost:${__SERVER_PORT__}/api`
+      const response = await fetch(url)
+      const data = await response.json()
+      console.log(data)
+    }
+
+    fetchServerData()
+  }, [])
+
   // TODO вынести в redux-store
   const [isGameStarted, setIsGameStarted] = useState(false)
   const [isGameEnded, setIsGameEnded] = useState(false)
@@ -135,5 +146,12 @@ const App: React.FC = () => {
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <App />
 )
+
+// ReactDOM.hydrateRoot(
+//   document.getElementById('root') as HTMLElement,
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
+// )
 
 startServiceWorker()

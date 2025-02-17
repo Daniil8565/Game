@@ -1,17 +1,16 @@
 .loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #f9d838;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
   &_container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
   }
-
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #F9D838;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
