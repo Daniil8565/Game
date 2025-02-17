@@ -23,6 +23,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.1",
     "sass": "^1.83.4",
+    "serialize-javascript": "^6.0.2",
     "text-encoding": "^0.7.0"
   },
   "devDependencies": {

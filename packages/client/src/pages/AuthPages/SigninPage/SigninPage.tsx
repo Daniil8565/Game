@@ -8,11 +8,11 @@ import React, {
 import { AuthButton } from '@/components/AuthButton'
 import { AuthInput } from '@/components/AuthInput'
 import { ErrorMessage } from '@/components/ProfileErrorMessage/ErrorMessage'
-import { AuthForm } from '../components/AuthForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { signin } from '../../../slices/authSlice'
 import { AppDispatch, RootState } from '../../../store/store'
+import { AuthForm } from '../components/AuthForm'
 import styles from './SinginPage.module.scss'
 
 export const SigninPage: React.FC = () => {
