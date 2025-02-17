@@ -1,308 +1,282 @@
 import React, {
   ChangeEventHandler,
   useCallback,
-  useState,
   useEffect,
+  useState,
 } from 'react'
 
-import { AuthInput } from '@/components/AuthInput'
 import { AuthButton } from '@/components/AuthButton'
+import { AuthInput } from '@/components/AuthInput'
 import { ErrorMessage } from '@/components/ProfileErrorMessage/ErrorMessage'
 import { AuthForm } from '../components/AuthForm'
 
-import styles from './SingupPage.module.scss'
+import { registerUser, resetRegistration } from '@/slices/registrationSlice'
+import { AppDispatch, RootState } from '@/store/store'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { SignupService } from '@/services/SignupService'
+import styles from './SingupPage.module.scss'
+
+/**
+ * Кастомный хук для управления состоянием поля ввода с валидацией.
+ * Принимает:
+ * - initialValue: начальное значение поля,
+ * - initialError: сообщение об ошибке по умолчанию (например, "Поле не может быть пустым"),
+ * - regex: регулярное выражение для проверки корректности значения,
+ * - invalidMessage: сообщение об ошибке, если значение не проходит проверку.
+ */
+const useInput = (
+  initialValue: string,
+  initialError: string,
+  regex: RegExp,
+  invalidMessage: string
+) => {
+  const [value, setValue] = useState(initialValue)
+  const [dirty, setDirty] = useState(false)
+  const [error, setError] = useState(initialError)
+
+  // Обработчик изменения поля ввода
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    event => {
+      const newValue = event.target.value
+      setValue(newValue)
+      // Если значение проходит проверку регуляркой — сбрасываем ошибку,
+      // иначе устанавливаем сообщение об ошибке.
+      if (regex.test(newValue)) {
+        setError('')
+      } else {
+        setError(invalidMessage)
+      }
+    },
+    [regex, invalidMessage]
+  )
+
+  // Обработчик потери фокуса — отмечаем, что поле было затронуто (dirty)
+  const onBlur = useCallback(() => {
+    setDirty(true)
+  }, [])
+
+  return { value, setValue, dirty, error, onChange, onBlur }
+}
 
 export const SignupPage: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const { loading } = useSelector((state: RootState) => state.registration)
+  const navigate = useNavigate()
+
+  // Регулярные выражения для валидации полей
   const reg = {
     email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     login: /^(?!\d+$)[a-zA-Z0-9_-]{3,20}$/,
-    nameChat: '',
     name: /^[A-Za-zА-Яа-я]{1}[a-zA-Zа-яА-Я-]*$/,
     password: /^(?=.*[A-Z])(?=.*\d).{8,40}$/,
     phone: /^\+?\d{10,15}$/,
   }
-  const [loginValue, setLoginValue] = useState('')
-  const [loginDirty, setLoginDirty] = useState<boolean>(false)
-  const [loginError, setLoginError] = useState<string>(
-    'Логин не может быть пустым'
+
+  // Используем кастомный хук для каждого поля ввода
+  const login = useInput(
+    '',
+    'Логин не может быть пустым',
+    reg.login,
+    'Некорректный login'
+  )
+  const firstName = useInput(
+    '',
+    'Имя не может быть пустым',
+    reg.name,
+    'Неккоректное имя'
+  )
+  const secondName = useInput(
+    '',
+    'Фамилия не может быть пустой',
+    reg.name,
+    'Неккоректная фамилия'
+  )
+  const email = useInput(
+    '',
+    'Email не может быть пустым',
+    reg.email,
+    'Неккоректный email'
+  )
+  const password = useInput(
+    '',
+    'Пароль не может быть пустым',
+    reg.password,
+    'Добавьте заглавную букву или цифру.'
+  )
+  const phone = useInput(
+    '',
+    'Номер телефона не может быть пустым',
+    reg.phone,
+    'Неккоректный телефон'
   )
 
-  const [firstNameValue, setFirstNameValue] = useState<string>('')
-  const [firstNameDirty, setFirstNameDirty] = useState<boolean>(false)
-  const [firstNameError, setFirstNameError] = useState<string>(
-    'Имя не может быть пустым'
-  )
-  const [secondNameValue, setSecondNameValue] = useState<string>('')
-  const [secondNameDirty, setSecondNameDirty] = useState<boolean>(false)
-  const [secondNameError, setSecondNameError] = useState<string>(
-    'Фамилия не может быть пустой'
-  )
-
-  const [emailValue, setEmailValue] = useState<string>('')
-  const [emailDirty, setEmailDirty] = useState<boolean>(false)
-  const [emailError, setEmailError] = useState<string>(
-    'Email не может быть пустым'
-  )
-  const [passwordValue, setPasswordValue] = useState<string>('')
-  const [passwordDirty, setPasswordDirty] = useState<boolean>(false)
-  const [passwordError, setPasswordError] = useState<string>(
-    'Пароль не может быть пустым'
-  )
-  const [phoneValue, setPhoneValue] = useState<string>('')
-  const [phoneDirty, setPhoneDirty] = useState<boolean>(false)
-  const [phoneError, setPhoneError] = useState<string>(
-    'Номер телефона не может быть пустым'
-  )
-
+  // Локальное состояние для отображения ошибок, полученных из запроса
   const [networkError, setNetworkError] = useState<string>('')
 
-  const navigate = useNavigate()
+  // Обработчик успешной регистрации — переадресовываем пользователя на главную страницу
+  const handleAuthSuccess = useCallback(() => {
+    navigate('/')
+  }, [navigate])
 
-  const handleOnChangeLoginInput: ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      event => {
-        setLoginValue(event.target.value)
-        if (reg.login.test(event.target.value)) {
-          setLoginError('')
-        } else {
-          setLoginError('Некорректный login')
-        }
-      },
-      [loginValue]
-    )
-
-  const handleOnChangePasswordInput: ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      event => {
-        const value = event.target.value
-        setPasswordValue(value)
-
-        if (reg.password.test(value)) {
-          setPasswordError('')
-        } else {
-          setPasswordError('Добавьте заглавную букву или цифру.')
-        }
-      },
-      [passwordValue]
-    )
-
-  const handleOnChangeFirstNameInput: ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      event => {
-        const value = event.target.value
-        setFirstNameValue(value)
-
-        if (reg.name.test(value)) {
-          setFirstNameError('')
-        } else {
-          setFirstNameError('Неккоректное имя')
-        }
-      },
-      [firstNameValue]
-    )
-
-  const handleOnChangeSecondNameInput: ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      event => {
-        const value = event.target.value
-        setSecondNameValue(value)
-
-        if (reg.name.test(value)) {
-          setSecondNameError('')
-        } else {
-          setSecondNameError('Неккоректная фамилия')
-        }
-      },
-      [secondNameValue]
-    )
-
-  const handleOnChangeEmailInput: ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      event => {
-        const value = event.target.value
-        setEmailValue(value)
-
-        if (reg.email.test(value)) {
-          setEmailError('')
-        } else {
-          setEmailError('Неккоректный email')
-        }
-      },
-      [emailValue]
-    )
-
-  const handleOnChangePhoneInput: ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      event => {
-        const value = event.target.value
-        setPhoneValue(value)
-
-        if (reg.phone.test(value)) {
-          setPhoneError('')
-        } else {
-          setPhoneError('Неккоректный телефон')
-        }
-      },
-      [phoneValue]
-    )
-
-  const handleAuthError = useCallback((errorMsg: string) => {
-    if (errorMsg.includes('400')) {
-      navigate('/')
-      return
-    }
-    setNetworkError(errorMsg)
-  }, [])
+  // Обработчик ошибки регистрации
+  const handleAuthError = useCallback(
+    (errorMsg: string) => {
+      // Если ошибка содержит "400", переадресовываем на главную
+      if (errorMsg.includes('400')) {
+        navigate('/')
+        return
+      }
+      setNetworkError(errorMsg)
+    },
+    [navigate]
+  )
 
   const handleAuthSuccess = useCallback(() => {
     navigate('/game')
   }, [])
 
   const handleClickAuthButton = useCallback(() => {
-    const signupService = new SignupService()
-    signupService
-      .requestData({
-        requestData: {
-          login: loginValue,
-          password: passwordValue,
-          phone: phoneValue,
-          first_name: firstNameValue,
-          second_name: secondNameValue,
-          email: emailValue,
-        },
-        errorCallback: handleAuthError,
-        successCallback: handleAuthSuccess,
-      })
-      .catch(handleAuthError)
+    const requestData = {
+      login: login.value,
+      password: password.value,
+      phone: phone.value,
+      first_name: firstName.value,
+      second_name: secondName.value,
+      email: email.value,
+    }
+    dispatch(registerUser(requestData))
+      .unwrap()
+      .then(handleAuthSuccess) // при успешной регистрации вызываем handleAuthSuccess
+      .catch(handleAuthError) // при ошибке — handleAuthError
   }, [
-    loginValue,
-    passwordValue,
-    firstNameValue,
-    secondNameValue,
-    emailValue,
-    phoneValue,
+    dispatch,
+    login.value,
+    password.value,
+    phone.value,
+    firstName.value,
+    secondName.value,
+    email.value,
+    handleAuthSuccess,
+    handleAuthError,
   ])
 
-  const blurLogin = () => {
-    setLoginDirty(true)
-  }
-
-  const blurPassword = () => {
-    setPasswordDirty(true)
-  }
-
-  const blurfirstName = () => {
-    setFirstNameDirty(true)
-  }
-
-  const blurSecondName = () => {
-    setSecondNameDirty(true)
-  }
-
-  const blurEmail = () => {
-    setEmailDirty(true)
-  }
-
-  const blurPhone = () => {
-    setPhoneDirty(true)
-  }
-
+  // Состояние валидности всей формы
   const [formValid, setFormValid] = useState<boolean>(false)
 
+  // Эффект для проверки валидности формы: если хотя бы в одном поле есть ошибка, форма невалидна
   useEffect(() => {
     if (
-      loginError ||
-      passwordError ||
-      firstNameError ||
-      secondNameError ||
-      emailError ||
-      phoneError
+      login.error ||
+      firstName.error ||
+      secondName.error ||
+      email.error ||
+      password.error ||
+      phone.error
     ) {
       setFormValid(false)
     } else {
       setFormValid(true)
     }
   }, [
-    loginError,
-    passwordError,
-    firstNameError,
-    secondNameError,
-    emailError,
-    phoneError,
+    login.error,
+    firstName.error,
+    secondName.error,
+    email.error,
+    password.error,
+    phone.error,
   ])
+
+  // Сбрасываем состояние регистрации при монтировании компонента
+  useEffect(() => {
+    dispatch(resetRegistration())
+  }, [dispatch])
 
   return (
     <div className={styles.container}>
       <h1 className={styles.container__title}>Регистрация</h1>
       <AuthForm>
+        {/* Поле "Имя" */}
         <AuthInput
           name="first_name"
-          value={firstNameValue}
-          onBlur={blurfirstName}
-          onChange={handleOnChangeFirstNameInput}
+          value={firstName.value}
+          onBlur={firstName.onBlur}
+          onChange={firstName.onChange}
           placeholder="Имя"
-          type={'text'}
+          type="text"
         />
-        {firstNameDirty && firstNameError && (
-          <ErrorMessage message={firstNameError} />
+        {firstName.dirty && firstName.error && (
+          <ErrorMessage message={firstName.error} />
         )}
+
+        {/* Поле "Фамилия" */}
         <AuthInput
           name="second_name"
-          value={secondNameValue}
-          onBlur={blurSecondName}
-          onChange={handleOnChangeSecondNameInput}
+          value={secondName.value}
+          onBlur={secondName.onBlur}
+          onChange={secondName.onChange}
           placeholder="Фамилия"
-          type={'text'}
+          type="text"
         />
-        {secondNameDirty && secondNameError && (
-          <ErrorMessage message={secondNameError} />
+        {secondName.dirty && secondName.error && (
+          <ErrorMessage message={secondName.error} />
         )}
+
+        {/* Поле "Логин" */}
         <AuthInput
           name="login"
-          value={loginValue}
-          onBlur={blurLogin}
-          onChange={handleOnChangeLoginInput}
+          value={login.value}
+          onBlur={login.onBlur}
+          onChange={login.onChange}
           placeholder="Логин"
-          type={'text'}
+          type="text"
         />
-        {loginDirty && loginError && <ErrorMessage message={loginError} />}
+        {login.dirty && login.error && <ErrorMessage message={login.error} />}
+
+        {/* Поле "Email" */}
         <AuthInput
           name="email"
-          value={emailValue}
-          onBlur={blurEmail}
-          onChange={handleOnChangeEmailInput}
+          value={email.value}
+          onBlur={email.onBlur}
+          onChange={email.onChange}
           placeholder="Почта"
-          type={'email'}
+          type="email"
         />
-        {emailDirty && emailError && <ErrorMessage message={emailError} />}
+        {email.dirty && email.error && <ErrorMessage message={email.error} />}
+
+        {/* Поле "Пароль" */}
         <AuthInput
           name="password"
-          value={passwordValue}
-          onBlur={blurPassword}
-          onChange={handleOnChangePasswordInput}
+          value={password.value}
+          onBlur={password.onBlur}
+          onChange={password.onChange}
           placeholder="Пароль"
-          type={'password'}
+          type="password"
         />
-        {passwordDirty && passwordError && (
-          <ErrorMessage message={passwordError} />
+        {password.dirty && password.error && (
+          <ErrorMessage message={password.error} />
         )}
+
+        {/* Поле "Телефон" */}
         <AuthInput
           name="phone"
-          value={phoneValue}
-          onBlur={blurPhone}
-          onChange={handleOnChangePhoneInput}
+          value={phone.value}
+          onBlur={phone.onBlur}
+          onChange={phone.onChange}
           placeholder="Телефон"
-          type={'tel'}
+          type="tel"
         />
-        {phoneDirty && phoneError && <ErrorMessage message={phoneError} />}
+        {phone.dirty && phone.error && <ErrorMessage message={phone.error} />}
+
+        {/* Кнопка регистрации: отключена, если форма невалидна или идёт загрузка */}
         <AuthButton
-          disabled={!formValid}
+          disabled={!formValid || loading}
           text="Зарегистрироваться"
           onClick={handleClickAuthButton}
         />
+
+        {/* Отображаем ошибку, если она возникла при запросе */}
         {networkError && <ErrorMessage message={networkError} />}
+
         <span className={styles.container__hint}>
           Уже есть аккаунт? <Link to="/signin">Авторизуйтесь!</Link>
         </span>

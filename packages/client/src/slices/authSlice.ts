@@ -1,35 +1,77 @@
 import { API_URL } from '@/constants'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
+export type User = {
+  id: number
+  first_name: string
+  second_name: string
+  display_name: string | null
+  login: string
+  avatar: string | null
+  email: string
+  phone: string
+  count: number
+  level: number
+}
+
 export interface AuthState {
-  user: null | { login: string }
+  user: User | null
   loading: boolean
   error: string | null
 }
 
+// функция для безопасного чтения JSON из localStorage
+export const getJsonItemFromLocalStorage = (key: string) => {
+  try {
+    const item = localStorage.getItem(key)
+    console.log(`item ${item}`)
+
+    return item ? JSON.parse(item) : null
+  } catch (error) {
+    console.error(`Ошибка парсинга localStorage ключа ${key}:`, error)
+    return null
+  }
+}
+
 const initialState: AuthState = {
-  user: JSON.parse(localStorage.getItem('user') || 'null'), // Восстанавливаем данные из localStorage
+  user: getJsonItemFromLocalStorage('user'), // Восстанавливаем данные из localStorage
   loading: false,
   error: null,
+}
+// функция для обработки запросов
+export const fetchForUserAuth = async (url: string, options: RequestInit) => {
+  try {
+    const response = await fetch(`${API_URL}${url}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(options.headers || {}),
+      },
+      credentials: 'include',
+    })
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.reason || `Ошибка HTTP: ${response.status}`)
+    }
+    // Проверяем заголовок ответа
+    const contentType = response.headers.get('content-type')
+    if (contentType && contentType.indexOf('application/json') !== -1) {
+      return await response.json()
+    } else {
+      // Если ответ не в формате JSON – возвращаем текст
+      return await response.text()
+    }
+  } catch (error: any) {
+    console.error(`Ошибка запроса к ${url}:`, error.message)
+    throw error
+  }
 }
 
 export const fetchUserData = createAsyncThunk(
   'auth/fetchUserData',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${API_URL}/auth/user`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      })
-
-      if (!response.ok) {
-        throw new Error(`Ошибка HTTP: ${response.status}`)
-      }
-
-      return await response.json()
+      return await fetchForUserAuth('/auth/user', { method: 'GET' })
     } catch (error: any) {
       console.error('Ошибка при получении данных пользователя:', error.message)
       return rejectWithValue(error.message)
@@ -44,21 +86,10 @@ export const signin = createAsyncThunk(
     { dispatch, rejectWithValue }
   ) => {
     try {
-      const requestData = { login, password }
-      const response = await fetch(`${API_URL}/auth/signin`, {
+      await fetchForUserAuth('/auth/signin', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(requestData),
+        body: JSON.stringify({ login, password }),
       })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.reason || `Ошибка HTTP: ${response.status}`)
-      }
-
       // Если авторизация успешна, запрашиваем данные пользователя
       await dispatch(fetchUserData())
     } catch (error: any) {

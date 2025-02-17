@@ -27,6 +27,7 @@
     "react-router-dom": "^7.1.1",
     "rollup": "^4.34.7",
     "sass": "^1.83.4",
+    "serialize-javascript": "^6.0.2",
     "text-encoding": "^0.7.0",
     "vite": "^6.1.0"
   },
