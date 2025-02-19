@@ -1,0 +1,13 @@
+.geolocation {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 10px;
+    right: 60px;
+    font-size: 14px;
+    &__serch-button{
+        padding: 5px;
+        background-color: #5256d5;
+        border-radius: 5px;
+    }
+}
