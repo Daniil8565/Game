@@ -1,12 +1,13 @@
-import dotenv from 'dotenv'
 import cors from 'cors'
-import { createServer as createViteServer } from 'vite'
+import dotenv from 'dotenv'
 import type { ViteDevServer } from 'vite'
+import { createServer as createViteServer } from 'vite'
 
 dotenv.config()
 
 import express from 'express'
 import * as fs from 'fs'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 import * as path from 'path'
 
 const isDev = () => process.env.NODE_ENV === 'development'
@@ -30,6 +31,17 @@ async function startServer() {
 
     app.use(vite.middlewares)
   }
+
+  app.use(
+    '/api/v2',
+    createProxyMiddleware({
+      changeOrigin: true,
+      cookieDomainRewrite: {
+        '*': '',
+      },
+      target: 'https://ya-praktikum.tech',
+    })
+  )
 
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)')
