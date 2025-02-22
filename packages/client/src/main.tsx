@@ -1,28 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
-import { ProtectedRoute } from '@/components/ProtectedRoute'
-import { SigninPage } from '@/pages/AuthPages/SigninPage'
-import { SignupPage } from '@/pages/AuthPages/SignupPage'
-import { FinalPage } from '@/pages/FinalPage'
-import { HumsterPage } from '@/pages/HumserPage'
-import { ChangeData } from '@/pages/ProfilePages/ChangeData'
-import { ChangePassword } from '@/pages/ProfilePages/ChangePassword'
-import { Profile } from '@/pages/ProfilePages/Profile'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './index.css'
-import { StartPage } from './pages/StartPage'
 import { startServiceWorker } from './serviceWorker'
 
-import { Leaderboard } from '@/pages/Leaderboard'
 import { ErrorBoundaryProvider } from './components/ErrorBoundary/ErrorBoundaryContext'
 import { ErrorBoundaryWrapper } from './components/ErrorBoundary/ErrorBoundaryWrapper'
-import { GameMenu } from './components/GameMenu'
-import error404Image from './image/404.png'
-import error500Image from './image/fixiki.png'
-import { ForumPage } from './pages/ForumPage'
-import { PageError } from './pages/PageError'
+import { routes } from './routes'
 import { store } from './store/store'
 
 const App: React.FC = () => {
@@ -38,9 +24,9 @@ const App: React.FC = () => {
   }, [])
 
   // TODO вынести в redux-store
-  const [isGameStarted, setIsGameStarted] = useState(false)
-  const [isGameEnded, setIsGameEnded] = useState(false)
-  const [gameCounter, setGameCounter] = useState<number>(0)
+  //   const [isGameStarted, setIsGameStarted] = useState(false)
+  //   const [isGameEnded, setIsGameEnded] = useState(false)
+  //   const [gameCounter, setGameCounter] = useState<number>(0)
 
   return (
     <ErrorBoundaryProvider>
@@ -48,7 +34,11 @@ const App: React.FC = () => {
         <Provider store={store}>
           <BrowserRouter>
             <Routes>
-              <Route path="/signup" element={<SignupPage />} />
+              {routes.map(route => {
+                const { loader: _, ...rest } = route
+                return <Route key={route.path} {...rest} />
+              })}
+              {/* <Route path="/signup" element={<SignupPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route
                 path="/game"
@@ -134,7 +124,7 @@ const App: React.FC = () => {
                     image={error500Image}
                   />
                 }
-              />
+              /> */}
             </Routes>
           </BrowserRouter>
         </Provider>
