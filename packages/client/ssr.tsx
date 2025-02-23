@@ -1,11 +1,3 @@
-// import App from './src/App'
-// import React from 'react'
-// import ReactDOMServer from 'react-dom/server'
-
-// export function render() {
-//   return ReactDOMServer.renderToString(<App />)
-// }
-
 import React, { ComponentType } from 'react'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
@@ -31,6 +23,7 @@ export async function render(url: string, cookies?: string) {
       try {
         const user = await userService.signinWithCookie(uuid)
         store.dispatch({ type: 'SET_USER', payload: user })
+        console.log(`SSR: User authenticated: ${JSON.stringify(user)}`)
       } catch (error) {
         console.error(`signin failed ${error}`)
       }

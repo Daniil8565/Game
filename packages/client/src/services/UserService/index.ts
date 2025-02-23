@@ -1,28 +1,9 @@
-// import { API_URL } from '@/constants'
-
-// export class UserService {
-//   requestData = (cb: () => void, errorCb: (reason: string) => void) => {
-//     return fetch(`${API_URL}/auth/user`, {
-//       method: 'GET',
-//       credentials: 'include',
-//     })
-//       .then(res => {
-//         if (res.status === 401) {
-//           throw new Error('Вы не авторизованы')
-//         }
-
-//         return res.json()
-//       })
-//       .then(cb)
-//       .catch(errorCb)
-//   }
-// }
-
 import axios, { AxiosInstance } from 'axios'
 import { User } from '../../slices/authSlice'
 import { RegistrationData } from '../../slices/registrationSlice'
 
-const API_BASE_URL = 'https://ya-praktikum.tech/api/v2'
+// const API_BASE_URL = 'https://ya-praktikum.tech/api/v2'
+const API_BASE_URL = 'http://localhost:3001/api/v2'
 
 export class UserService implements IUserService {
   private axiosInstance: AxiosInstance
@@ -78,6 +59,8 @@ export class UserService implements IUserService {
 
   async signin(data: { login: string; password: string }): Promise<void> {
     try {
+      console.log(`data: ${JSON.stringify(data)}`)
+
       await this.axiosInstance.post('/auth/signin', data)
     } catch (error) {
       throw new Error(
@@ -89,7 +72,7 @@ export class UserService implements IUserService {
   }
   async signinWithCookie(uuid: string): Promise<User> {
     try {
-      const response = await this.axiosInstance.get<User>('/auth/signin', {
+      const response = await this.axiosInstance.get<User>('/auth/user', {
         headers: { Cookie: `uuid=${uuid}` },
       })
       return response.data
