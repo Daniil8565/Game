@@ -16,7 +16,7 @@ import styles from './SinginPage.module.scss'
 
 export const SigninPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { loading, error } = useSelector((state: RootState) => state.auth)
+  const { loading, error, user } = useSelector((state: RootState) => state.auth)
   const reg = {
     login: /^(?!\d+$)[a-zA-Z0-9_-]{3,20}$/,
     password: /^(?=.*[A-Z])(?=.*\d).{8,40}$/,
@@ -76,9 +76,13 @@ export const SigninPage: React.FC = () => {
     [navigate]
   )
 
-  const handleAuthSuccess = useCallback(() => {
-    navigate('/game')
-  }, [navigate])
+  const handleAuthSuccess = useCallback(
+    (userData: any) => {
+      console.log(`User info after signin: ${JSON.stringify(userData)}`)
+      navigate('/game')
+    },
+    [navigate]
+  )
 
   const handleClickAuthButton = useCallback(() => {
     const requestData = { login: loginValue, password: passwordValue }

@@ -70,15 +70,35 @@ export class UserService implements IUserService {
       )
     }
   }
-  async signinWithCookie(uuid: string): Promise<User> {
+  //   async signinWithCookie(uuid: string): Promise<User> {
+  //     try {
+  //       // const response = await this.axiosInstance.get<User>('/auth/user', {
+  //       //   headers: { Cookie: `uuid=${uuid}` },
+  //       // })
+  //       const response = await this.axiosInstance.get<User>('/auth/user');
+  //       console.log(`signinWithCookie response: ${JSON.stringify(response.data)}`);
+  //       return response.data
+  //     } catch (error) {
+  //       throw new Error(
+  //         axios.isAxiosError(error) && error.response?.data.reason
+  //           ? error.response.data.reason
+  //           : 'Ошибка авторизации по куке'
+  //       )
+  //     }
+  //   }
+  // }
+  async signinWithCookie(cookieString: string): Promise<User> {
     try {
+      // Исправление: передаём полную строку куки в заголовке
       const response = await this.axiosInstance.get<User>('/auth/user', {
-        headers: { Cookie: `uuid=${uuid}` },
+        headers: { Cookie: cookieString }, // Используем переданную строку куки
       })
+      console.log(`signinWithCookie response: ${JSON.stringify(response.data)}`)
       return response.data
     } catch (error) {
+      console.error(`signinWithCookie error: ${error}`)
       throw new Error(
-        axios.isAxiosError(error) && error.response?.data.reason
+        axios.isAxiosError(error) && error.response?.data?.reason
           ? error.response.data.reason
           : 'Ошибка авторизации по куке'
       )
@@ -91,5 +111,5 @@ export interface IUserService {
   loginWithCode(code: string): Promise<void>
   signup(data: RegistrationData): Promise<User>
   signin(data: { login: string; password: string }): Promise<void>
-  signinWithCookie(uuid: string): Promise<User>
+  signinWithCookie(cookieString: string): Promise<User>
 }

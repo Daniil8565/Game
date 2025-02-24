@@ -4,11 +4,13 @@ import { Provider } from 'react-redux'
 import { matchPath, Route, Routes, StaticRouter } from 'react-router-dom'
 import { RouteConfig, routes } from './src/routes'
 import { UserService } from './src/services/UserService'
+import { setUser } from './src/slices/authSlice'
 import { createStore } from './src/store/store'
 
 export async function render(url: string, cookies?: string) {
   const userService = new UserService()
   const store = createStore({}, userService)
+  console.log(`cookies13 ${cookies}`)
 
   if (cookies) {
     const cookiesMap = new Map<string, string>(
@@ -19,11 +21,20 @@ export async function render(url: string, cookies?: string) {
     )
 
     const uuid = cookiesMap.get('uuid')
-    if (uuid) {
+    console.log(`SSR: Extracted uuid: ${uuid}`)
+    const authCookie = cookiesMap.get('authCookie')
+
+    console.log(`SSR: Extracted authCookie: ${authCookie}`)
+    if (uuid && authCookie) {
       try {
-        const user = await userService.signinWithCookie(uuid)
-        store.dispatch({ type: 'SET_USER', payload: user })
+        const user = await userService.signinWithCookie(cookies)
+        console.log(`SSR: User fetched: ${JSON.stringify(user)}`)
+        // store.dispatch({ type: 'SET_USER', payload: user })
+        store.dispatch(setUser(user))
         console.log(`SSR: User authenticated: ${JSON.stringify(user)}`)
+        console.log(
+          `SSR: State after dispatch: ${JSON.stringify(store.getState())}`
+        )
       } catch (error) {
         console.error(`signin failed ${error}`)
       }
@@ -61,6 +72,7 @@ export async function render(url: string, cookies?: string) {
   )
 
   const preloadedState = store.getState()
+  console.log(`SSR: Preloaded state: ${JSON.stringify(preloadedState)}`) // Добавляем лог для проверки
   const stateScript = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
     preloadedState
   ).replace(/</g, '\\u003c')}</script>`

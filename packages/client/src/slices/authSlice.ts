@@ -45,7 +45,7 @@ export const signin = createAsyncThunk<
 >('auth/signin', async ({ login, password }, { extra, rejectWithValue }) => {
   const service = extra as IUserService
   try {
-    await service.signin({ login, password }) // Добавим метод в UserService
+    await service.signin({ login, password })
     // Если авторизация успешна, запрашиваем данные пользователя
     return await service.getCurrentUser()
   } catch (error: any) {
@@ -54,6 +54,9 @@ export const signin = createAsyncThunk<
 })
 
 export const getJsonItemFromLocalStorage = (key: string) => {
+  if (typeof localStorage === 'undefined') {
+    return null // Возвращаем null на сервере
+  }
   try {
     const item = localStorage.getItem(key)
     console.log(`item ${item}`)
@@ -76,8 +79,12 @@ const authSlice = createSlice({
   reducers: {
     logout: state => {
       state.user = null
-      // Очищаем данные пользователя из localStorage
-      localStorage.removeItem('user')
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem('user')
+      }
+    },
+    setUser: (state, action) => {
+      state.user = action.payload
     },
   },
   extraReducers: builder => {
@@ -113,5 +120,5 @@ const authSlice = createSlice({
   },
 })
 
-export const { logout } = authSlice.actions
+export const { setUser } = authSlice.actions
 export default authSlice.reducer

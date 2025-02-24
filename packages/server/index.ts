@@ -13,7 +13,13 @@ const isDev = () => process.env.NODE_ENV === 'development'
 
 async function startServer() {
   const app = express()
-  app.use(cors())
+  // app.use(cors())
+  app.use(
+    cors({
+      origin: 'http://localhost:3000', // Указываем клиентский порт
+      credentials: true, // Разрешаем передачу куки
+    })
+  )
   const port = Number(process.env.SERVER_PORT) || 3001
 
   let vite: ViteDevServer | undefined
@@ -35,7 +41,7 @@ async function startServer() {
     createProxyMiddleware({
       changeOrigin: true,
       cookieDomainRewrite: { '*': '' },
-      target: 'https://ya-praktikum.tech',
+      target: 'https://ya-praktikum.tech/api/v2',
     })
   )
 
@@ -49,6 +55,7 @@ async function startServer() {
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl
+    // const cook =
 
     try {
       let template: string
@@ -66,8 +73,11 @@ async function startServer() {
       const { render } = isDev()
         ? await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))
         : require(ssrClientPath)
-
-      const appHtml = await render(url)
+      // console.log(
+      //   `req.headers.cookie ${req.params} res ${JSON.stringify(res)} `
+      // )
+      console.log(`Server: Cookies received: ${req.headers.cookie}`)
+      const appHtml = await render(url, req.headers.cookie)
 
       const html = template.replace(`<!--ssr-outlet-->`, appHtml)
 
