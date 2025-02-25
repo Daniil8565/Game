@@ -55,7 +55,6 @@ async function startServer() {
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl
-    // const cook =
 
     try {
       let template: string
