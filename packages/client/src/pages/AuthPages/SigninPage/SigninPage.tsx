@@ -78,7 +78,6 @@ export const SigninPage: React.FC = () => {
 
   const handleAuthSuccess = useCallback(
     (userData: any) => {
-      console.log(`User info after signin: ${JSON.stringify(userData)}`)
       navigate('/game')
     },
     [navigate]

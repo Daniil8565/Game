@@ -59,8 +59,6 @@ export class UserService implements IUserService {
 
   async signin(data: { login: string; password: string }): Promise<void> {
     try {
-      console.log(`data: ${JSON.stringify(data)}`)
-
       await this.axiosInstance.post('/auth/signin', data)
     } catch (error) {
       throw new Error(
@@ -70,30 +68,14 @@ export class UserService implements IUserService {
       )
     }
   }
-  //   async signinWithCookie(uuid: string): Promise<User> {
-  //     try {
-  //       // const response = await this.axiosInstance.get<User>('/auth/user', {
-  //       //   headers: { Cookie: `uuid=${uuid}` },
-  //       // })
-  //       const response = await this.axiosInstance.get<User>('/auth/user');
-  //       console.log(`signinWithCookie response: ${JSON.stringify(response.data)}`);
-  //       return response.data
-  //     } catch (error) {
-  //       throw new Error(
-  //         axios.isAxiosError(error) && error.response?.data.reason
-  //           ? error.response.data.reason
-  //           : 'Ошибка авторизации по куке'
-  //       )
-  //     }
-  //   }
-  // }
+
   async signinWithCookie(cookieString: string): Promise<User> {
     try {
       // Исправление: передаём полную строку куки в заголовке
       const response = await this.axiosInstance.get<User>('/auth/user', {
-        headers: { Cookie: cookieString }, // Используем переданную строку куки
+        headers: cookieString ? { Cookie: cookieString } : {}, // Используем переданную строку куки
       })
-      console.log(`signinWithCookie response: ${JSON.stringify(response.data)}`)
+
       return response.data
     } catch (error) {
       console.error(`signinWithCookie error: ${error}`)
