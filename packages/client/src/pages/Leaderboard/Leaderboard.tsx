@@ -13,7 +13,15 @@ export const Leaderboard: React.FC = () => {
     }
   }
   const [scoreData, setScoreData] = useState<LeaderboardUser[]>([])
-  useEffect(() => {
+  const [cursor, setCursor] = useState(0)
+  const limit = 8
+  const goNextPage = () => {
+    setCursor(cursor + limit)
+  }
+  const goPrevPage = () => {
+    setCursor(cursor - limit)
+  }
+  const fetchLeaderboard = (cursor: number) => {
     fetch(`${API_URL}/leaderboard/all`, {
       method: 'POST',
       credentials: 'include',
@@ -22,14 +30,18 @@ export const Leaderboard: React.FC = () => {
       },
       body: JSON.stringify({
         ratingFieldName: 'hamsterScore',
-        cursor: 0,
-        limit: 10,
+        cursor,
+        limit,
       }),
     })
       .then(response => response.json())
       .then((res: LeaderboardUser[]) => setScoreData(res))
       .catch(error => console.error('Ошибка:', error))
-  }, [])
+  }
+
+  useEffect(() => {
+    fetchLeaderboard(cursor)
+  }, [cursor])
 
   return (
     <GameMenu>
@@ -46,6 +58,14 @@ export const Leaderboard: React.FC = () => {
             userScore={user.data.hamsterScore}
           />
         ))}
+        <div className={styles.leaderboard__pagination}>
+          <button onClick={goPrevPage} disabled={cursor === 0}>
+            Назад
+          </button>
+          <button onClick={goNextPage} disabled={scoreData.length < limit}>
+            Вперед
+          </button>
+        </div>
       </div>
     </GameMenu>
   )
