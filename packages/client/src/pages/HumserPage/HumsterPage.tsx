@@ -4,6 +4,8 @@ import { GameMenu } from '@/components/GameMenu'
 import styles from './HumsterPage.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { humster_model } from './HumsterController'
+import { API_URL } from '@/constants'
+import { getJsonItemFromLocalStorage } from '@/slices/authSlice'
 
 interface IHumsterPage {
   setIsGameStarted: (flag: boolean) => void
@@ -23,6 +25,26 @@ export const HumsterPage: React.FC<IHumsterPage> = ({
     Math.round(window.innerHeight * 0.95 - 20)
   )
 
+  const sendScore = (): void => {
+    fetch(`${API_URL}/leaderboard`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: {
+          id: getJsonItemFromLocalStorage('user').id as number,
+          hamsterScore: humster_model.counter as number,
+          userName: getJsonItemFromLocalStorage('user').first_name as string,
+        },
+        ratingFieldName: 'hamsterScore',
+      }),
+    })
+      .then(response => response)
+      .catch(error => console.error('Ошибка:', error))
+  }
+
   useEffect(() => {
     const controller = new HumsterController(width, height)
     if (isGameStarted) {
@@ -30,6 +52,7 @@ export const HumsterPage: React.FC<IHumsterPage> = ({
         setIsGameStarted(false)
         setIsGameEnded(true)
         setGameCounter(humster_model.counter)
+        sendScore()
       }, 30000) // Задержка 30 сек
     }
     window.addEventListener('beforeunload', () =>
