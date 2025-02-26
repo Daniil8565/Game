@@ -55,7 +55,6 @@ async function startServer() {
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl
-    // const cook =
 
     try {
       let template: string
@@ -73,12 +72,8 @@ async function startServer() {
       const { render } = isDev()
         ? await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))
         : require(ssrClientPath)
-      // console.log(
-      //   `req.headers.cookie ${req.params} res ${JSON.stringify(res)} `
-      // )
-      console.log(`Server: Cookies received: ${req.headers.cookie}`)
-      const appHtml = await render(url, req.headers.cookie)
 
+      const appHtml = await render(url, req.headers.cookie)
       const html = template.replace(`<!--ssr-outlet-->`, appHtml)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)

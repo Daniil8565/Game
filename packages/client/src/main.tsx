@@ -16,59 +16,7 @@ delete window.__PRELOADED_STATE__
 const userService = new UserService()
 const store = createStore(preloadedState, userService)
 
-console.log(`store ${JSON.stringify(store.getState())}`)
-
-const checkAuth = async () => {
-  try {
-    console.log(`document.cookie ${document.cookie}`)
-
-    const uuid = document.cookie
-      .split('; ')
-      .find(cookie => cookie.startsWith('uuid='))
-      ?.split('=')[1]
-    if (uuid) {
-      const user = await userService.signinWithCookie(uuid)
-      store.dispatch({ type: 'SET_USER', payload: user })
-      console.log(`User authenticated: ${user}`)
-    } else {
-      console.log('No uuid found in cookies')
-    }
-  } catch (error) {
-    console.error(`Ошибка авторизации: ${error}`)
-  }
-}
-
 const App: React.FC = () => {
-  //   useEffect(() => {
-  //     const checkAuth = async () => {
-  //       try {
-  //         const uuid = document.cookie
-  //           .split('; ')
-  //           .find(cookie => cookie.startsWith('uuid='))
-  //           ?.split('=')[1]
-  //         if (uuid) {
-  //           const user = await userService.signinWithCookie(uuid)
-  //           store.dispatch({ type: 'SET_USER', payload: user })
-  //           console.log(`User authenticated: ${user}`)
-  //         }
-  //       } catch (error) {
-  //         console.error(`ошибка авторизации ${error}`)
-  //       }
-  //     }
-  //     const fetchServerData = async () => {
-  //       try {
-  //         const response = await axios.get(
-  //           `http://localhost:${__SERVER_PORT__}/api`
-  //         )
-  //         console.log(response.data)
-  //       } catch (error) {
-  //         console.error('Ошибка при запросе к серверу:', error)
-  //       }
-  //     }
-  //     checkAuth()
-  //     fetchServerData()
-  //   }, [])
-
   // Функция для рендеринга элемента в зависимости от типа component
   const renderRouteElement = (component: RouteConfig['component']) => {
     if (typeof component === 'function') {
@@ -99,8 +47,6 @@ const App: React.FC = () => {
   )
 }
 
-checkAuth().then(() => {
-  ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement, <App />)
-})
+ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement, <App />)
 
 startServiceWorker()

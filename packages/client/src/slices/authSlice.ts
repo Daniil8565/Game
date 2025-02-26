@@ -59,7 +59,6 @@ export const getJsonItemFromLocalStorage = (key: string) => {
   }
   try {
     const item = localStorage.getItem(key)
-    console.log(`item ${item}`)
     return item ? JSON.parse(item) : null
   } catch (error) {
     console.error(`Ошибка парсинга localStorage ключа ${key}:`, error)
