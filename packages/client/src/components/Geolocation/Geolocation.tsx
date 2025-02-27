@@ -9,7 +9,7 @@ export const Geolocation: React.FC = () => {
     <div className={styles.geolocation}>
       <label> Mестoположение: </label>
 
-      <label> </label>
+      <label> {location}</label>
       <button
         onClick={getLocation}
         className={styles['geolocation__serch-button']}>

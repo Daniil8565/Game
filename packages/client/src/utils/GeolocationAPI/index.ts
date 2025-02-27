@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 
 export const useGeolocation = (key: string) => {
-  const [location, setLocation] = useState('123')
+  const [location, setLocation] = useState('')
   const getLocation = useCallback(() => {
     function success(position: GeolocationPosition) {
       const latitude = position.coords.latitude
@@ -17,15 +17,7 @@ export const useGeolocation = (key: string) => {
       setLocation('Не поддерживается браузером')
     } else {
       setLocation('Ищем')
-      navigator.geolocation.getCurrentPosition(
-        () => {
-          console.log('jshfdg')
-        },
-        () => {
-          console.log('ddddddd')
-        }
-      )
-      // navigator.geolocation.getCurrentPosition(success, error);
+      navigator.geolocation.getCurrentPosition(success, error)
     }
   }, [])
 
