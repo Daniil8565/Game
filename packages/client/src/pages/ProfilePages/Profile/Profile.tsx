@@ -6,6 +6,7 @@ import { NameUser } from '@/components/ProfileNameUser'
 import { UserData } from '@/components/ProfileUserData'
 import classes from './Profile.module.scss'
 import { FullscreamImage } from '@/components/fullscreamImage'
+import { Geolocation } from '@/components/Geolocation'
 import { useNavigate } from 'react-router-dom'
 
 export const Profile: React.FC = () => {
@@ -42,6 +43,7 @@ export const Profile: React.FC = () => {
         ❮
       </button>
       <div className={classes.content}>
+        <Geolocation />
         <FullscreamImage />
         <Avatar id="avatar" src={logo} alt="Добавьте картинку" />
         <NameUser title="vncncjchjc" />
