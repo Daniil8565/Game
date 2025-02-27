@@ -1,13 +1,14 @@
-import dotenv from 'dotenv'
 import cors from 'cors'
-import { createServer as createViteServer } from 'vite'
+import dotenv from 'dotenv'
 import type { ViteDevServer } from 'vite'
+import { createServer as createViteServer } from 'vite'
 
 dotenv.config()
 
 import express from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
+import { sequelize } from 'models'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
@@ -29,6 +30,16 @@ async function startServer() {
     })
 
     app.use(vite.middlewares)
+  }
+
+  // Подключение к базе данных и синхронизация
+  try {
+    await sequelize.authenticate()
+    console.log('Database connected')
+    await sequelize.sync({ force: true }) // force: true для разработки, удаляет и пересоздаёт таблицы
+    console.log('Database synced')
+  } catch (error) {
+    console.error('Database connection failed:', error)
   }
 
   app.get('/api', (_, res) => {
