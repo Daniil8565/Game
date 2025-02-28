@@ -1,5 +1,4 @@
 import { getRandomInt } from '../../ utils/math_function'
-
 interface HumsterModel {
   emerald_y: number
   emerald_x: number

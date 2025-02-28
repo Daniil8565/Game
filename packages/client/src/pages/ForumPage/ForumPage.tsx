@@ -81,7 +81,7 @@ const ForumPage: React.FC = () => {
     const timestamp = dateNow()
     updatedMessages[topicIndex].comments =
       updatedMessages[topicIndex].comments || []
-    updatedMessages[topicIndex].comments.push({ ...comment, timestamp })
+    updatedMessages[topicIndex].comments!.push({ ...comment, timestamp })
     setMessages(updatedMessages)
   }
   // определяем текущее время сообщения

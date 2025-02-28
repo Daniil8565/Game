@@ -1,5 +1,6 @@
+@use '../../styles/variables.scss';
+
 .game {
-    color: #FFFEFD;
 
     &__top-navigation {
         display: flex;
@@ -10,7 +11,7 @@
     }
 
     &__bottom-navigation {
-        background: #32363c;
+        background:  var(--blok-background-color);
         border-radius: 10px;
         width: 90%;
         position: absolute;
@@ -53,8 +54,8 @@
 
             .choose {
                 border-radius: 10px;
-                background: #212429;
-                color: #FFFEFD;
+                background: var(--background-color);
+                color: var(--text-color);
             }
 
 
@@ -64,8 +65,8 @@
 
     &__main {
         border-radius: 40px 40px 0 0;
-        box-shadow: - 0 -20px 50px -15px #f9d838;
-        border-top: 2px solid #f9d838;
+        box-shadow: - 0 -20px 50px -15px  var(--border-color);
+        border-top: 2px solid  var(--border-color);
         height: 95vh;
         width: 100%;
         position: absolute;

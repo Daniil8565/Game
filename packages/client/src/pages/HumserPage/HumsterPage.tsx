@@ -7,6 +7,13 @@ import { humster_model } from './HumsterController'
 import { API_URL } from '@/constants'
 import { getJsonItemFromLocalStorage } from '@/slices/authSlice'
 
+// import { useContext } from 'react';
+// import ThemeProvider from '@/theme/ThemeProvider';
+// import { ThemeContext } from '@/theme/ThemeContext';
+
+//   const {theme, setTheme} = useContext(ThemeContext);
+// console.log(theme, setTheme)
+
 interface IHumsterPage {
   setIsGameStarted: (flag: boolean) => void
   setIsGameEnded: (flag: boolean) => void

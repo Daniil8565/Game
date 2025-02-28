@@ -11,7 +11,8 @@ import { Profile } from '@/pages/ProfilePages/Profile'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './index.css'
+
+import './styles/reset.scss'
 import { StartPage } from './pages/StartPage'
 import { startServiceWorker } from './serviceWorker'
 
@@ -24,6 +25,7 @@ import error500Image from './image/fixiki.png'
 import { ForumPage } from './pages/ForumPage'
 import { PageError } from './pages/PageError'
 import { store } from './store/store'
+import ThemeProvider from './theme/ThemeProvider'
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -45,99 +47,101 @@ const App: React.FC = () => {
   return (
     <ErrorBoundaryProvider>
       <ErrorBoundaryWrapper>
-        <Provider store={store}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="/signin" element={<SigninPage />} />
-              <Route
-                path="/game"
-                element={
-                  <ProtectedRoute>
-                    <GameMenu>
-                      {isGameStarted ? (
-                        <HumsterPage
-                          setIsGameStarted={setIsGameStarted}
-                          setIsGameEnded={setIsGameEnded}
-                          setGameCounter={setGameCounter}
-                          isGameStarted={isGameStarted}
-                        />
-                      ) : !isGameEnded ? (
-                        <StartPage setIsGameStarted={setIsGameStarted} />
-                      ) : (
-                        <FinalPage
-                          gameCounter={gameCounter}
-                          setIsGameEnded={setIsGameEnded}
-                        />
-                      )}
-                    </GameMenu>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile/editData"
-                element={
-                  <ProtectedRoute>
-                    <ChangeData />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile/editPassword"
-                element={
-                  <ProtectedRoute>
-                    <ChangePassword />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/leaderboard"
-                element={
-                  <ProtectedRoute>
-                    <Leaderboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/forum"
-                element={
-                  <ProtectedRoute>
-                    <ForumPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="*"
-                element={
-                  <PageError
-                    code={404}
-                    message="Такой страницы не существует :("
-                    image={error404Image}
-                    rounded={true}
-                  />
-                }
-              />
-              <Route
-                path="/error"
-                element={
-                  <PageError
-                    code={500}
-                    message="Всё сломалось, но мы уже летим чинить"
-                    image={error500Image}
-                  />
-                }
-              />
-            </Routes>
-          </BrowserRouter>
-        </Provider>
+        <ThemeProvider>
+          <Provider store={store}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/signin" element={<SigninPage />} />
+                <Route
+                  path="/game"
+                  element={
+                    <ProtectedRoute>
+                      <GameMenu>
+                        {isGameStarted ? (
+                          <HumsterPage
+                            setIsGameStarted={setIsGameStarted}
+                            setIsGameEnded={setIsGameEnded}
+                            setGameCounter={setGameCounter}
+                            isGameStarted={isGameStarted}
+                          />
+                        ) : !isGameEnded ? (
+                          <StartPage setIsGameStarted={setIsGameStarted} />
+                        ) : (
+                          <FinalPage
+                            gameCounter={gameCounter}
+                            setIsGameEnded={setIsGameEnded}
+                          />
+                        )}
+                      </GameMenu>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile/editData"
+                  element={
+                    <ProtectedRoute>
+                      <ChangeData />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile/editPassword"
+                  element={
+                    <ProtectedRoute>
+                      <ChangePassword />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/leaderboard"
+                  element={
+                    <ProtectedRoute>
+                      <Leaderboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/forum"
+                  element={
+                    <ProtectedRoute>
+                      <ForumPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="*"
+                  element={
+                    <PageError
+                      code={404}
+                      message="Такой страницы не существует :("
+                      image={error404Image}
+                      rounded={true}
+                    />
+                  }
+                />
+                <Route
+                  path="/error"
+                  element={
+                    <PageError
+                      code={500}
+                      message="Всё сломалось, но мы уже летим чинить"
+                      image={error500Image}
+                    />
+                  }
+                />
+              </Routes>
+            </BrowserRouter>
+          </Provider>
+        </ThemeProvider>
       </ErrorBoundaryWrapper>
     </ErrorBoundaryProvider>
   )

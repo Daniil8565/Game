@@ -1,12 +1,8 @@
-@use '../../styles/variables' as variables;
-
 .leaderboard {
   display: flex;
   flex-direction: column;
   height: 100vh;
   align-items: center;
-  font-family: variables.$font-body;
-  color: variables.$font-color;
   &__title {
     font-size: 32px;
     margin-top: 8vh;
