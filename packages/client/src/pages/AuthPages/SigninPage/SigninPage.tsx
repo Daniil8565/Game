@@ -1,13 +1,12 @@
+import { AuthButton } from '@/components/AuthButton'
+import { AuthInput } from '@/components/AuthInput'
+import { ErrorMessage } from '@/components/ProfileErrorMessage/ErrorMessage'
 import React, {
   ChangeEventHandler,
   useCallback,
   useEffect,
   useState,
 } from 'react'
-
-import { AuthButton } from '@/components/AuthButton'
-import { AuthInput } from '@/components/AuthInput'
-import { ErrorMessage } from '@/components/ProfileErrorMessage/ErrorMessage'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { signin } from '../../../slices/authSlice'
@@ -17,7 +16,7 @@ import styles from './SinginPage.module.scss'
 
 export const SigninPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { loading, error } = useSelector((state: RootState) => state.auth)
+  const { loading, error, user } = useSelector((state: RootState) => state.auth)
   const reg = {
     login: /^(?!\d+$)[a-zA-Z0-9_-]{3,20}$/,
     password: /^(?=.*[A-Z])(?=.*\d).{8,40}$/,
@@ -30,7 +29,7 @@ export const SigninPage: React.FC = () => {
 
   const [passwordDirty, setPasswordDirty] = useState<boolean>(false)
   const [passwordError, setPasswordError] = useState<string>(
-    'Неккоректный пароль'
+    'Некорректный пароль'
   )
 
   const [networkError, setNetworkError] = useState<string>('')
@@ -60,23 +59,29 @@ export const SigninPage: React.FC = () => {
         if (reg.password.test(value)) {
           setPasswordError('')
         } else {
-          setPasswordError('Неккоректный пароль')
+          setPasswordError('Некорректный пароль')
         }
       },
       [passwordValue]
     )
 
-  const handleAuthError = useCallback((errorMsg: string) => {
-    if (errorMsg.includes('400')) {
-      navigate('/')
-      return
-    }
-    setNetworkError(errorMsg)
-  }, [])
+  const handleAuthError = useCallback(
+    (errorMsg: string) => {
+      if (errorMsg.includes('400')) {
+        navigate('/')
+        return
+      }
+      setNetworkError(errorMsg)
+    },
+    [navigate]
+  )
 
-  const handleAuthSuccess = useCallback(() => {
-    navigate('/game')
-  }, [])
+  const handleAuthSuccess = useCallback(
+    (userData: any) => {
+      navigate('/game')
+    },
+    [navigate]
+  )
 
   const handleClickAuthButton = useCallback(() => {
     const requestData = { login: loginValue, password: passwordValue }
@@ -84,11 +89,14 @@ export const SigninPage: React.FC = () => {
       .unwrap()
       .then(handleAuthSuccess)
       .catch(handleAuthError)
-  }, [dispatch, loginValue, passwordValue, navigate])
+  }, [dispatch, loginValue, passwordValue, handleAuthSuccess, handleAuthError])
+
+  const [formValid, setFormValid] = useState<boolean>(false)
 
   useEffect(() => {
     setFormValid(!loginError && !passwordError)
   }, [loginError, passwordError])
+
   const blurLogin = () => {
     setLoginDirty(true)
   }
@@ -96,16 +104,6 @@ export const SigninPage: React.FC = () => {
   const blurPassword = () => {
     setPasswordDirty(true)
   }
-
-  const [formValid, setFormValid] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (loginError || passwordError) {
-      setFormValid(false)
-    } else {
-      setFormValid(true)
-    }
-  }, [loginError, passwordError])
 
   return (
     <div className={styles.container}>
