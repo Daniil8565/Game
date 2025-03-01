@@ -1,26 +1,33 @@
 import cors from 'cors'
+import cors from 'cors'
 import dotenv from 'dotenv'
+import express from 'express'
+import * as fs from 'fs'
+import { createProxyMiddleware } from 'http-proxy-middleware'
+import * as path from 'path'
+import { sequelize } from 'models'
 import type { ViteDevServer } from 'vite'
 import { createServer as createViteServer } from 'vite'
 
 dotenv.config()
 
-import express from 'express'
-import * as fs from 'fs'
-import * as path from 'path'
-import { sequelize } from 'models'
-
 const isDev = () => process.env.NODE_ENV === 'development'
 
 async function startServer() {
   const app = express()
-  app.use(cors())
+  // app.use(cors())
+  app.use(
+    cors({
+      origin: 'http://localhost:3000', // Указываем клиентский порт
+      credentials: true, // Разрешаем передачу куки
+    })
+  )
   const port = Number(process.env.SERVER_PORT) || 3001
 
   let vite: ViteDevServer | undefined
-  const distPath = path.dirname(require.resolve('client/dist/index.html'))
-  const srcPath = path.dirname(require.resolve('client'))
-  const ssrClientPath = require.resolve('client/ssr-dist/client.cjs')
+  const distPath = path.dirname(require.resolve('../client/dist/index.html'))
+  const srcPath = path.dirname(require.resolve('../client'))
+  const ssrClientPath = require.resolve('../client/ssr-dist/client.cjs')
 
   if (isDev()) {
     vite = await createViteServer({
@@ -28,7 +35,6 @@ async function startServer() {
       root: srcPath,
       appType: 'custom',
     })
-
     app.use(vite.middlewares)
   }
 
@@ -41,6 +47,15 @@ async function startServer() {
   } catch (error) {
     console.error('Database connection failed:', error)
   }
+
+  app.use(
+    '/api/v2',
+    createProxyMiddleware({
+      changeOrigin: true,
+      cookieDomainRewrite: { '*': '' },
+      target: 'https://ya-praktikum.tech/api/v2',
+    })
+  )
 
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)')
@@ -55,7 +70,6 @@ async function startServer() {
 
     try {
       let template: string
-
       if (!isDev()) {
         template = fs.readFileSync(
           path.resolve(distPath, 'index.html'),
@@ -63,21 +77,15 @@ async function startServer() {
         )
       } else {
         template = fs.readFileSync(path.resolve(srcPath, 'index.html'), 'utf-8')
-
         template = await vite!.transformIndexHtml(url, template)
       }
 
-      let render: () => Promise<string>
+      // Загружаем функцию рендеринга из ssr.tsx
+      const { render } = isDev()
+        ? await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))
+        : require(ssrClientPath)
 
-      if (!isDev()) {
-        render = (await import(ssrClientPath)).render
-      } else {
-        render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
-          .render
-      }
-
-      const appHtml = await render()
-
+      const appHtml = await render(url, req.headers.cookie)
       const html = template.replace(`<!--ssr-outlet-->`, appHtml)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
