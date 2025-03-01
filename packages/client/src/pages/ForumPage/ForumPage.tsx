@@ -1,10 +1,11 @@
 import { GameMenu } from '@/components/GameMenu'
 import { MessageInput } from '@/components/MessageInput'
 import { TopicModal } from '@/components/TopicModal'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
 import '../../styles/reset.scss'
 import styles from './ForumPage.module.scss'
+import { fetchTopics, createTopic, addComment } from '@/slices/forumAPI'
 
 interface Message {
   text: string
@@ -44,6 +45,20 @@ const ForumPage: React.FC = () => {
       sender: 'other',
     },
   ]
+
+  useEffect(() => {
+    fetchTopics().then(topics => {
+      setMessages(
+        topics.map((topic: any) => ({
+          text: topic.text,
+          sender: 'own',
+          isTopic: true,
+          comments: topic.comments || [],
+        }))
+      )
+    })
+  }, [])
+
   // состояние для управления сообщениями
   const [messages, setMessages] = useState<Message[]>([...initialMessages])
   // TODO состояние для комментов
@@ -61,27 +76,36 @@ const ForumPage: React.FC = () => {
     setMessages([...messages, { ...message, sender: 'own', fileURL }])
   }
   // функция создания топика
-  const handleCreateTopic = (message: { text: string; file?: File | null }) => {
+  const handleCreateTopic = async (message: {
+    text: string
+    file?: File | null
+  }) => {
     let fileURL = ''
 
     if (message.file && message.file.type.startsWith('image/')) {
       fileURL = URL.createObjectURL(message.file)
     }
+    const newTopic = await createTopic(message.text)
     setMessages([
       ...messages,
-      { ...message, sender: 'own', fileURL, isTopic: true },
+      { text: newTopic.text, sender: 'own', fileURL, isTopic: true },
     ])
   }
   // функция добавления комментария
-  const handleAddComment = (
+  const handleAddComment = async (
     topicIndex: number,
     comment: { text: string; file?: File | null }
   ) => {
     const updatedMessages = [...messages]
+    const topic = messages[topicIndex]
+    const newComment = await addComment(topic.text, comment.text)
     const timestamp = dateNow()
     updatedMessages[topicIndex].comments =
       updatedMessages[topicIndex].comments || []
-    updatedMessages[topicIndex].comments.push({ ...comment, timestamp })
+    updatedMessages[topicIndex].comments.push({
+      text: newComment.text,
+      timestamp,
+    })
     setMessages(updatedMessages)
   }
   // определяем текущее время сообщения
