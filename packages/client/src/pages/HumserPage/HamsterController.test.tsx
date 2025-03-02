@@ -27,7 +27,21 @@ describe('HumsterController', () => {
 
     jest.clearAllMocks()
 
-    humsterController = new HumsterController(800, 600)
+    humsterController = new HumsterController(800, 600, {
+      humster: '../src/image/humster.png',
+      color: {
+        text: '#2c2f35',
+        block: '#dde1e9',
+        large_circle_top: '#5155DA',
+        large_circle_bottom: '#282D74',
+        small_circle_top: '#35389e',
+        small_circle_bottom: '#1c2848',
+        background: '#ECEFF1',
+        blok_background: '#dde1e9',
+        border: '#F9D838',
+        button: '#464ab7',
+      },
+    })
 
     mockView = humsterController.view
   })
