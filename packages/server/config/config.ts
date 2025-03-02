@@ -9,7 +9,7 @@ const config = {
     database: process.env.POSTGRES_DB || 'postgres',
     host: 'postgres', // Имя сервиса из docker-compose.yml
     port: Number(process.env.POSTGRES_PORT) || 5432,
-    dialect: 'postgres' as const,
+    dialect: 'postgres' as const, // Используем строковый литерал как тип
   },
 }
 

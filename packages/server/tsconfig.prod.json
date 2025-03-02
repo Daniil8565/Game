@@ -1,4 +1,28 @@
+// {
+//   "extends": "./tsconfig",
+//   "exclude": ["**/*.test.ts", "**/*.mock.ts", "**/__test__"],
+//   "compilerOptions": {
+//     "outDir": "./dist",
+//     "rootDir": ".", // Укажи корневую директорию для исходников
+//     "noUnusedLocals": false,
+//     "noUnusedParameters": false,
+//     "skipLibCheck": true,
+//     "moduleResolution": "node16" // Поддержка новых модулей
+//   },
+//   "include": ["**/*.ts"]
+// }
+
 {
   "extends": "./tsconfig",
-  "exclude": ["**/*.test.ts", "**/*.mock.ts", "**/__test__"]
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".", // Оставляем без src
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "module": "commonjs" // Соответствие твоему подходу
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["dist", "**/*.test.ts", "**/*.mock.ts", "**/__test__"]
 }
