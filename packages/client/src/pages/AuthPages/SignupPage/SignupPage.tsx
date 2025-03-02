@@ -131,9 +131,9 @@ export const SignupPage: React.FC = () => {
     [navigate]
   )
 
-  const handleAuthSuccess = useCallback(() => {
-    navigate('/game')
-  }, [])
+  //   const handleAuthSuccess = useCallback(() => {
+  //     navigate('/game')
+  //   }, [])
 
   const handleClickAuthButton = useCallback(() => {
     const requestData = {
