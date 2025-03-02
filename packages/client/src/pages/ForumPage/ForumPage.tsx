@@ -6,6 +6,7 @@ import { AiOutlineFile } from 'react-icons/ai'
 import '../../styles/reset.scss'
 import styles from './ForumPage.module.scss'
 import { fetchTopics, createTopic, addComment } from '@/slices/forumAPI'
+import { EmojiReaction } from '@/components/EmojiReaction'
 
 interface Message {
   text: string
@@ -14,6 +15,7 @@ interface Message {
   fileURL?: string
   isTopic?: boolean
   comments?: { text: string; file?: File | null; timestamp: string }[]
+  reactions?: { [key: string]: number }
 }
 
 const ForumPage: React.FC = () => {
@@ -45,6 +47,17 @@ const ForumPage: React.FC = () => {
       sender: 'other',
     },
   ]
+
+  const addReaction = (msg: Message, emoji: string) => {
+    if (!msg.reactions) {
+      msg.reactions = {}
+    }
+    if (msg.reactions && msg.reactions[emoji]) {
+      msg.reactions[emoji] = msg.reactions[emoji] + 1
+    } else {
+      msg.reactions[emoji] = 1
+    }
+  }
 
   useEffect(() => {
     fetchTopics().then(topics => {
@@ -123,6 +136,15 @@ const ForumPage: React.FC = () => {
     return `${day}/${month}/${year}, ${hours}:${minutes}:${seconds}`
   }
 
+  const reaction = (msg: Message) => {
+    if (!msg.reactions) return
+    return Object.keys(msg.reactions).map(reaction => (
+      <span key={reaction}>
+        {reaction} {msg.reactions?.[reaction]}
+      </span>
+    ))
+  }
+
   console.log('Selected Topic:', selectedTopic)
   return (
     <GameMenu>
@@ -171,6 +193,8 @@ const ForumPage: React.FC = () => {
                   </div>
                 )}
                 <span className={styles.forum__messageDate}>{dateNow()}</span>
+                <EmojiReaction addReaction={emoji => addReaction(msg, emoji)} />
+                {msg.reactions && reaction(msg)}
               </div>
             ))}
           </div>
