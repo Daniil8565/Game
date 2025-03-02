@@ -1,5 +1,6 @@
 import style from './SettingsTheme.module.scss'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
+import { GameMenu } from '@/components/GameMenu'
 import { ThemeContext } from '@/theme/ThemeContext'
 import { changeUserTheme, getThems } from '@/slices/themeAPI'
 
@@ -43,8 +44,10 @@ export const SettingsTheme: React.FC = () => {
   })
 
   return (
-    <div className={style['settings']}>
-      <div className={style['settings__flex']}>{groupList}</div>
-    </div>
+    <GameMenu>
+      <div className={style['settings']}>
+        <div className={style['settings__flex']}>{groupList}</div>
+      </div>
+    </GameMenu>
   )
 }
