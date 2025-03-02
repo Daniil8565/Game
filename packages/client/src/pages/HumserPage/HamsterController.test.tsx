@@ -52,20 +52,37 @@ describe('HumsterController', () => {
   })
 
   it('инициализирует HumsterView с моделью', () => {
-    expect(HumsterView).toHaveBeenCalledWith({
-      emerald_y: 0,
-      emerald_x: 0,
-      expectation: 0,
-      dop_count: 50,
-      counter: 0,
-      width: 800,
-      height: 600,
-      current_level: 1,
-      current_meaning: 100,
-      per: 1,
-      per_hour: 643,
-      transitional_meaning: 6500,
-    })
+    expect(HumsterView).toHaveBeenCalledWith(
+      {
+        emerald_y: 0,
+        emerald_x: 0,
+        expectation: 0,
+        dop_count: 50,
+        counter: 0,
+        width: 800,
+        height: 600,
+        current_level: 1,
+        current_meaning: 100,
+        per: 1,
+        per_hour: 643,
+        transitional_meaning: 6500,
+      },
+      {
+        humster: '../src/image/humster.png',
+        color: {
+          text: '#2c2f35',
+          block: '#dde1e9',
+          large_circle_top: '#5155DA',
+          large_circle_bottom: '#282D74',
+          small_circle_top: '#35389e',
+          small_circle_bottom: '#1c2848',
+          background: '#ECEFF1',
+          blok_background: '#dde1e9',
+          border: '#F9D838',
+          button: '#464ab7',
+        },
+      }
+    )
   })
 
   it('увеличивает счётчик при клике', () => {
