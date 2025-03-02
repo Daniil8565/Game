@@ -1,4 +1,22 @@
+// {
+//   "extends": "./tsconfig",
+//   "exclude": ["**/*.test.ts", "**/*.mock.ts", "**/__test__"],
+//   "compilerOptions": {
+//     "outDir": "./dist",
+//     "rootDir": ".",
+//     "noUnusedLocals": false, // Отключаем предупреждение о неиспользуемых переменных
+//     "noUnusedParameters": false // Отключаем предупреждение о неиспользуемых параметрах
+//   }
+// }
 {
   "extends": "./tsconfig",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+    "noUnusedLocals": false, // Отключаем предупреждение о неиспользуемых переменных
+    "noUnusedParameters": false, // Отключаем предупреждение о неиспользуемых параметрах
+    "skipLibCheck": true // Игнорируем проблемы с типами библиотек
+  },
+  "include": ["**/*.ts"],
   "exclude": ["**/*.test.ts", "**/*.mock.ts", "**/__test__"]
 }

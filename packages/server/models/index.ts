@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize'
 import config from '../config/config'
-import { Topic } from './topic'
-import { Comment } from './comment'
-import { Reply } from './reply'
+import { Comment, initComment } from './comment'
+import { initReply, Reply } from './reply'
+import { initTopic, Topic } from './topic'
 
 const env = process.env.NODE_ENV || 'development'
 const dbConfig = config[env as keyof typeof config]
@@ -17,9 +17,9 @@ const sequelize = new Sequelize({
 })
 
 // Инициализация моделей
-Topic.init(sequelize)
-Comment.init(sequelize)
-Reply.init(sequelize)
+initTopic(sequelize)
+initComment(sequelize)
+initReply(sequelize)
 
 // Связи
 Topic.hasMany(Comment, { foreignKey: 'topicId' })
@@ -27,4 +27,4 @@ Comment.belongsTo(Topic, { foreignKey: 'topicId' })
 Comment.hasMany(Reply, { foreignKey: 'commentId' })
 Reply.belongsTo(Comment, { foreignKey: 'commentId' })
 
-export { sequelize, Topic, Comment, Reply }
+export { Comment, Reply, sequelize, Topic }

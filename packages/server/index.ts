@@ -1,13 +1,20 @@
 import cors from 'cors'
-import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import * as fs from 'fs'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import * as path from 'path'
-import { sequelize } from 'models'
 import type { ViteDevServer } from 'vite'
 import { createServer as createViteServer } from 'vite'
+import { createComment, getComments } from './controllers/commentController'
+import { createReply, getReplies } from './controllers/replyController'
+import {
+  createTopic,
+  getTopicById,
+  getTopics,
+} from './controllers/topicController'
+import { authMiddleware } from './middleware/auth'
+import { sequelize } from './models'
 
 dotenv.config()
 
@@ -22,6 +29,11 @@ async function startServer() {
       credentials: true, // Разрешаем передачу куки
     })
   )
+
+  app.use(express.json()) // Парсинг JSON
+  app.use(express.urlencoded({ extended: true })) // Парсинг форм данных
+  app.use(express.static('uploads')) // Статическая папка для файлов
+
   const port = Number(process.env.SERVER_PORT) || 3001
 
   let vite: ViteDevServer | undefined
@@ -56,6 +68,14 @@ async function startServer() {
       target: 'https://ya-praktikum.tech/api/v2',
     })
   )
+
+  app.get('/api/topics', authMiddleware, getTopics)
+  app.post('/api/topics', authMiddleware, createTopic)
+  app.get('/api/topics/:id', authMiddleware, getTopicById)
+  app.get('/api/topics/:topicId/comments', authMiddleware, getComments)
+  app.post('/api/topics/:topicId/comments', authMiddleware, createComment)
+  app.get('/api/comments/:commentId/replies', authMiddleware, getReplies)
+  app.post('/api/comments/:commentId/replies', authMiddleware, createReply)
 
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)')
@@ -99,6 +119,11 @@ async function startServer() {
 
   app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
+    console.log('Current directory:', process.cwd()) // Отладка
+    console.log(
+      'Index.js exists:',
+      fs.existsSync(path.join(__dirname, 'dist/index.js'))
+    ) // Отладка
   })
 }
 
