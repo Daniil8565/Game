@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { User } from './authSlice'
-import { fetchForUserAuth } from './authSlice'
+import { IUserService } from '../services/UserService'
+import { User } from './authSlice'
 
-// Интерфейс для данных, отправляемых при регистрации
 export interface RegistrationData {
   first_name: string
   second_name: string
@@ -12,7 +11,6 @@ export interface RegistrationData {
   phone: string
 }
 
-// стейт регистрации,
 export interface RegistrationState {
   loading: boolean
   error: string | null
@@ -20,7 +18,6 @@ export interface RegistrationState {
   user: User | null
 }
 
-// Начальное состояние
 const initialState: RegistrationState = {
   loading: false,
   error: null,
@@ -28,18 +25,12 @@ const initialState: RegistrationState = {
   user: null,
 }
 
-// Асинхронный thunk для регистрации пользователя
 export const registerUser = createAsyncThunk(
   'registration/registerUser',
-  async (data: RegistrationData, { rejectWithValue }) => {
+  async (data: RegistrationData, { rejectWithValue, extra }) => {
+    const service = extra as IUserService
     try {
-      // Выполняем запрос на регистрацию, используя fetchForUserAuth
-      // Предполагается, что в случае успешной регистрации сервер возвращает данные пользователя
-      const result = await fetchForUserAuth('/auth/signup', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      })
-      return result // Возвращаем полученные данные пользователя
+      return await service.signup(data)
     } catch (error: any) {
       console.error('Ошибка при регистрации пользователя:', error.message)
       return rejectWithValue(error.message)
@@ -56,12 +47,11 @@ const registrationSlice = createSlice({
       state.loading = false
       state.error = null
       state.success = false
-      state.user = null // Обнуляем данные пользователя
+      state.user = null
     },
   },
   extraReducers: builder => {
     builder
-      // При старте запроса устанавливаем флаг загрузки и очищаем предыдущие ошибки
       .addCase(registerUser.pending, state => {
         state.loading = true
         state.error = null

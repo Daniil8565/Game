@@ -115,7 +115,7 @@ export const SignupPage: React.FC = () => {
 
   // Обработчик успешной регистрации — переадресовываем пользователя на главную страницу
   const handleAuthSuccess = useCallback(() => {
-    navigate('/')
+    navigate('/game')
   }, [navigate])
 
   // Обработчик ошибки регистрации
@@ -130,10 +130,6 @@ export const SignupPage: React.FC = () => {
     },
     [navigate]
   )
-
-  //   const handleAuthSuccess = useCallback(() => {
-  //     navigate('/game')
-  //   }, [])
 
   const handleClickAuthButton = useCallback(() => {
     const requestData = {
