@@ -8,6 +8,7 @@ import { HumsterPage } from '@/pages/HumserPage'
 import { ChangeData } from '@/pages/ProfilePages/ChangeData'
 import { ChangePassword } from '@/pages/ProfilePages/ChangePassword'
 import { Profile } from '@/pages/ProfilePages/Profile'
+import { SettingsTheme } from './pages/SettingsTheme'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -115,6 +116,14 @@ const App: React.FC = () => {
                     <ProtectedRoute>
                       <ForumPage />
                     </ProtectedRoute>
+                  }
+                />{' '}
+                <Route
+                  path="/settings"
+                  element={
+                    <GameMenu>
+                      <SettingsTheme />
+                    </GameMenu>
                   }
                 />
                 <Route

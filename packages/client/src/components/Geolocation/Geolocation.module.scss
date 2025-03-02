@@ -1,3 +1,5 @@
+@use '../../styles/variables.scss';
+
 .geolocation {
     position: fixed;
     display: flex;
@@ -10,7 +12,7 @@
     }
     &__serch-button{
         padding: 5px;
-        background-color: #5256d5;
+        background-color: var(--button-color);
         border-radius: 5px;
     }
 }
