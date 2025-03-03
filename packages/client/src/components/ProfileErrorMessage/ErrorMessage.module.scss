@@ -1,0 +1,9 @@
+.error__ChangeData {
+  color: red;
+  display: inline-block;
+  font-size: 11px;
+  line-height: 8px;
+  @media (max-width: 550px) {
+    font-size: 9px;
+  }
+}

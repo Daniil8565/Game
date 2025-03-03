@@ -1,0 +1,1 @@
+export { ProtectedRouteEditPassword } from './ProtectedRouteEditPassword'

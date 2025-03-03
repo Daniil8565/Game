@@ -1,0 +1,1 @@
+export { ProtectedRouteGame } from './ProtectedRouteGame'

@@ -1,0 +1,75 @@
+@use '../../styles/variables.scss';
+
+.game {
+
+    &__top-navigation {
+        display: flex;
+        align-items: center;
+        height: 5vh;
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+
+    &__bottom-navigation {
+        background:  var(--blok-background-color);
+        border-radius: 10px;
+        width: 90%;
+        position: absolute;
+        bottom: 80px;
+        height: 50px;
+        margin: 0 5%;
+
+        ul {
+            display: flex;
+            height: 100%;
+
+            li {
+                width: 25%;
+                margin: 5px;
+                list-style: none;
+
+                img {
+                    width: 30px;
+                    margin: 0 10px;
+                }
+
+                a {
+                    padding: 5px;
+                    color: #696969;
+                    text-decoration: none;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    span{
+                        @media screen and (max-width:600px) {
+                        display: none;
+                    }
+                    }
+
+                    
+                }
+                
+
+            }
+
+            .choose {
+                border-radius: 10px;
+                background: var(--background-color);
+                color: var(--text-color);
+            }
+
+
+        }
+    }
+
+
+    &__main {
+        border-radius: 40px 40px 0 0;
+        box-shadow: - 0 -20px 50px -15px  var(--border-color);
+        border-top: 2px solid  var(--border-color);
+        height: 95vh;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+    }
+}

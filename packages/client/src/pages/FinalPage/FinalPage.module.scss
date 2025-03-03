@@ -1,0 +1,29 @@
+@use '../../styles/variables.scss';
+
+.final-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: medium;
+
+    &__label{
+
+        font-size: 40px;
+        color:var(--border-color)
+    }
+
+    &__profit{
+        color: #c0bebd;
+        margin: 20px 0;
+
+    }
+
+    &__restart{
+        font-size: 30px;
+        text-decoration: none;
+    }
+
+}

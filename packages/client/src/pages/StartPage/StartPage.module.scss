@@ -1,0 +1,27 @@
+@use '../../styles/variables.scss';
+
+.start-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+    &__button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 250px;
+        height: 250px;
+        border: 1px solid var(--border-color);
+        border-radius: 50%;
+        box-shadow: 0px 0px 8px 12px  var(--border-color);
+        font-family: "Roboto Light", sans-serif;
+        &:hover {
+            box-shadow: 0px 0px 16px 24px var(--border-color);
+            transition: 0.5s;
+        }
+    }
+}
+.button-text {
+    font-size: 46px;
+    text-decoration: none;
+}

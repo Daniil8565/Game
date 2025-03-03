@@ -1,0 +1,25 @@
+@use '../../styles/variables.scss';
+
+.input {
+  border: none;
+  color: #929292;
+  text-align: right;
+  background-color: var(--background-color);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  height: 20px;
+
+  &:focus {
+    outline: none;
+    border: 2px solid #3d4147;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(13, 20, 14, 0.5);
+  }
+  @media (max-width: 550px) {
+    width: 100px;
+  }
+  @media (max-width: 420px) {
+    width: 70px;
+  }
+}
