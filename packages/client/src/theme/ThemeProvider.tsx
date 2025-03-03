@@ -9,10 +9,12 @@ interface IProps {
 }
 const getTheme: () => Theme = () => {
   const theme: string = `${window?.localStorage?.getItem('theme')}`
-  if (theme) return JSON.parse(theme)
+  if (theme && theme !== 'null') return JSON.parse(theme)
   const userMedia = window.matchMedia('(prefers-color-scheme: ligth)')
   const user_theme_name = userMedia ? 'base-light' : 'base-dark'
   // TODO убрать заглушку, вернуть тему пользователя, после реализации ручек
+
+  console.log(themes[user_theme_name])
   return themes[user_theme_name]
   getUserThems()
     .then(response => {
