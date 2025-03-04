@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react'
+import React, { ComponentType, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -25,6 +25,19 @@ const App: React.FC = () => {
     }
     return component
   }
+
+  useEffect(() => {
+    // Функция для извлечения параметров из URL
+    function getQueryParams() {
+      const urlParams = new URLSearchParams(window.location.search)
+      const code = urlParams.get('code')
+      const cid = urlParams.get('cid')
+      console.log(code, cid)
+      return { code, cid }
+    }
+
+    getQueryParams()
+  }, [])
 
   return (
     <ErrorBoundaryProvider>

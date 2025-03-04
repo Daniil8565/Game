@@ -1,6 +1,7 @@
 import { AuthButton } from '@/components/AuthButton'
 import { AuthInput } from '@/components/AuthInput'
 import { ErrorMessage } from '@/components/ProfileErrorMessage/ErrorMessage'
+import { API_URL } from '@/constants'
 import React, {
   ChangeEventHandler,
   useCallback,
@@ -15,6 +16,7 @@ import { AuthForm } from '../components/AuthForm'
 import styles from './SinginPage.module.scss'
 
 export const SigninPage: React.FC = () => {
+  const REDIRECT_URI = 'http://localhost:3000'
   const dispatch = useDispatch<AppDispatch>()
   const { loading, error, user } = useSelector((state: RootState) => state.auth)
   const reg = {
@@ -31,6 +33,28 @@ export const SigninPage: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string>(
     'Некорректный пароль'
   )
+
+  const GetServiceID = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+
+    try {
+      const response = await fetch(API_URL + '/oauth/yandex/service-id')
+      if (!response.ok) {
+        throw new Error(`Ошибка: ${response.status}`)
+      }
+      const data = await response.json()
+      console.log('Service ID:', data)
+
+      if (data.service_id) {
+        const authUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${data.service_id}&redirect_uri=${REDIRECT_URI}`
+        window.location.href = authUrl // Программный переход
+      } else {
+        throw new Error('Нет service_id в ответе')
+      }
+    } catch (error) {
+      console.error('Ошибка при получении service-id:', error)
+    }
+  }
 
   const [networkError, setNetworkError] = useState<string>('')
 
@@ -138,6 +162,9 @@ export const SigninPage: React.FC = () => {
         <span className={styles.container__hint}>
           Еще нет аккаунта? <Link to="/signup">Зарегистрируйтесь!</Link>
         </span>
+        <a className={styles.oauth} href="#" onClick={GetServiceID}>
+          Авторизоваться через любой провайдер OAuth
+        </a>
       </AuthForm>
     </div>
   )
