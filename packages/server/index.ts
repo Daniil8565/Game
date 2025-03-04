@@ -575,10 +575,12 @@
 // startServer()
 // ________________________________
 
+// последняя актуальная версия - не работает авторизация
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import * as fs from 'fs'
+import * as http from 'http'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import * as path from 'path'
 
@@ -614,7 +616,7 @@ async function startServer() {
 
   let vite: ViteDevServer | undefined
   // const clientDistPath = path.resolve(__dirname, '../client/dist') // Прямой путь к dist
-  const clientDistPath = path.resolve(__dirname, 'client-dist')
+  const clientDistPath = path.resolve(__dirname, 'client-dist') // путь к dist в контейнере
   const srcPath = path.resolve(__dirname, '../client')
 
   if (isDev()) {
@@ -640,26 +642,42 @@ async function startServer() {
     createProxyMiddleware({
       changeOrigin: true,
       cookieDomainRewrite: { '*': '' },
-      target: 'https://ya-praktikum.tech/api/v2',
-      timeout: 30000, // Увеличим тайм-аут до 30 секунд
-      logger: console, // Используем console как logger для отладки
-      on: {
-        proxyReq: (
-          proxyReq: any,
-          req: express.Request,
-          res: express.Response
-        ) => {
-          console.log(`Proxying request to ${req.url} -> ${proxyReq.path}`)
-        },
-        proxyRes: (
-          proxyRes: any,
-          req: express.Request,
-          res: express.Response
-        ) => {
-          console.log(
-            `Proxy response from ${req.url} with status ${proxyRes.statusCode}`
-          )
-        },
+      target: 'https://ya-praktikum.tech',
+      timeout: 30000,
+      // logger: console,
+      secure: false,
+      onProxyReq: (
+        proxyReq: any,
+        req: express.Request,
+        res: express.Response
+      ) => {
+        console.log(`Proxying request to ${req.url} -> ${proxyReq.path}`)
+      },
+      onProxyRes: (
+        proxyRes: http.IncomingMessage,
+        req: express.Request,
+        res: express.Response
+      ) => {
+        console.log(
+          `Proxy response from ${req.url} with status ${proxyRes.statusCode} and headers:`,
+          proxyRes.headers
+        )
+        if (!res.headersSent && proxyRes.statusCode) {
+          res
+            .status(proxyRes.statusCode)
+            .set(proxyRes.headers || {})
+            .end()
+        }
+      },
+      onError: (err: Error, req: express.Request, res: express.Response) => {
+        console.error(`Proxy error for ${req.url}:`, err.message, err.stack)
+        if (!res.headersSent) {
+          res.status(502).json({
+            error: 'Proxy error',
+            message: err.message,
+            stack: err.stack,
+          })
+        }
       },
     })
   )
@@ -703,9 +721,11 @@ async function startServer() {
 
       const appHtml = await render(url, req.headers.cookie)
       const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+      console.log(`req.headers.cookie ${req.headers.cookie}`)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
+      console.error('Error in SSR:', e)
       if (isDev()) {
         vite!.ssrFixStacktrace(e as Error)
       }

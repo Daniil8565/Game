@@ -58,6 +58,8 @@ export class UserService implements IUserService {
   }
 
   async signin(data: { login: string; password: string }): Promise<void> {
+    console.log(`signin data: ${JSON.stringify(data)}`)
+
     try {
       await this.axiosInstance.post('/auth/signin', data)
     } catch (error) {

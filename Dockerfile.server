@@ -36,6 +36,8 @@ WORKDIR /app
 
 FROM base AS server-builder
 COPY package.json yarn.lock ./
+# для теста на рабочем ноуте
+RUN yarn config set "strict-ssl" false 
 RUN yarn install --frozen-lockfile
 COPY . .
 RUN yarn lerna bootstrap

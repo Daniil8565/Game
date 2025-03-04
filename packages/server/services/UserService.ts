@@ -17,7 +17,8 @@ export interface IUserService {
   signinWithCookie(cookieString: string): Promise<User>
 }
 
-const API_BASE_URL = 'http://localhost:3001/api/v2'
+// const API_BASE_URL = 'http://localhost:3001/api/v2'
+const API_BASE_URL = 'https://ya-praktikum.tech/api/v2'
 
 export class UserService implements IUserService {
   private axiosInstance: AxiosInstance
