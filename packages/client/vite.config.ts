@@ -130,6 +130,76 @@
 //   },
 // })
 
+// import react from '@vitejs/plugin-react'
+// import dotenv from 'dotenv'
+// import path from 'path'
+// import { defineConfig } from 'vite'
+
+// dotenv.config()
+
+// export default defineConfig({
+//   server: {
+//     port: Number(process.env.CLIENT_PORT) || 3000,
+//   },
+//   define: {
+//     __SERVER_PORT__: process.env.SERVER_PORT || 3001,
+//   },
+//   plugins: [react()],
+//   resolve: {
+//     alias: {
+//       '@': path.resolve(__dirname, './src'),
+//     },
+//   },
+//   build: {
+//     outDir: 'dist',
+//     emptyOutDir: true,
+//     ssr: true,
+//     rollupOptions: {
+//       input: 'src/main.tsx',
+//       output: {
+//         format: 'cjs',
+//         dir: 'dist/ssr-dist',
+//       },
+//     },
+//   },
+// })
+
+// тут сервер запускался
+// import react from '@vitejs/plugin-react'
+// import dotenv from 'dotenv'
+// import path from 'path'
+// import { defineConfig } from 'vite'
+// dotenv.config()
+
+// // https://vitejs.dev/config/
+// export default defineConfig({
+//   server: {
+//     port: Number(process.env.CLIENT_PORT) || 3000,
+//   },
+//   define: {
+//     __SERVER_PORT__: process.env.SERVER_PORT || 3001,
+//   },
+//   plugins: [react()],
+//   resolve: {
+//     alias: {
+//       '@': path.resolve(__dirname, './src'),
+//     },
+//   },
+//   build: {
+//     outDir: 'dist',
+//     emptyOutDir: true,
+//     ssr: true,
+//     rollupOptions: {
+//       input: 'ssr.tsx',
+//       output: {
+//         format: 'cjs',
+//         dir: 'dist/ssr-dist',
+//       },
+//     },
+//   },
+// })
+// ______________________
+
 import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
 import path from 'path'
@@ -152,13 +222,10 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    emptyOutDir: true,
-    ssr: true,
+    emptyOutDir: false, // Отключаем очистку, чтобы сохранить SSR-файлы
     rollupOptions: {
-      input: 'src/main.tsx',
-      output: {
-        format: 'cjs',
-        dir: 'dist/ssr-dist',
+      input: {
+        main: path.resolve(__dirname, 'index.html'), // Входной HTML для клиента
       },
     },
   },
