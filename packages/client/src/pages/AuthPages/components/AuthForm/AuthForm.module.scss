@@ -1,10 +1,12 @@
+@use '../../../../styles/variables.scss';
+
 .form {
   width: 100%;
   max-width: 460px;
   border-radius: 12px;
   padding: 32px;
 
-  box-shadow: 0 0 14px 2px #F9D838;
+  box-shadow: 0 0 14px 2px var(--border-color);
 
   display: flex;
   flex-direction: column;

@@ -1,5 +1,5 @@
 import { HumsterView } from './HumsterView'
-import { NavigateFunction } from 'react-router-dom'
+import { Theme } from '@/theme/ThemeContext'
 export let humster_model = {
   emerald_y: 0,
   emerald_x: 0,
@@ -17,10 +17,10 @@ export let humster_model = {
 
 export class HumsterController {
   public view
-  constructor(width: number, height: number) {
+  constructor(width: number, height: number, theme: Theme) {
     humster_model.width = width
     humster_model.height = height
-    this.view = new HumsterView(humster_model)
+    this.view = new HumsterView(humster_model, theme)
 
     const canvas = document.getElementById('canvas') as HTMLCanvasElement
 

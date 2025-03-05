@@ -1,4 +1,8 @@
 import React, { ComponentType } from 'react'
+
+import './styles/reset.scss'
+import { startServiceWorker } from './serviceWorker'
+import ThemeProvider from './theme/ThemeProvider'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -7,7 +11,6 @@ import { ErrorBoundaryWrapper } from './components/ErrorBoundary/ErrorBoundaryWr
 import './index.css'
 import { RouteConfig, routes } from './routes'
 import { UserService } from './services/UserService'
-import { startServiceWorker } from './serviceWorker'
 import { createStore } from './store/store'
 
 const preloadedState = window.__PRELOADED_STATE__ || {}
@@ -29,19 +32,21 @@ const App: React.FC = () => {
   return (
     <ErrorBoundaryProvider>
       <ErrorBoundaryWrapper>
-        <Provider store={store}>
-          <BrowserRouter>
-            <Routes>
-              {routes.map(route => (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={renderRouteElement(route.component)}
-                />
-              ))}
-            </Routes>
-          </BrowserRouter>
-        </Provider>
+        <ThemeProvider>
+          <Provider store={store}>
+            <BrowserRouter>
+              <Routes>
+                {routes.map(route => (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={renderRouteElement(route.component)}
+                  />
+                ))}
+              </Routes>
+            </BrowserRouter>
+          </Provider>
+        </ThemeProvider>
       </ErrorBoundaryWrapper>
     </ErrorBoundaryProvider>
   )

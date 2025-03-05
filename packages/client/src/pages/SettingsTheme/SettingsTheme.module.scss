@@ -1,0 +1,38 @@
+.settings {
+    overflow-y: auto;
+    height: 90vh;
+    &__flex {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .theme-blok {
+            width: 300px;
+            height: 300px;
+            margin: 10px;
+            border-radius: 20px;
+            background-color: antiquewhite;
+
+            .name {
+                position: relative;
+                top: 15px;
+                left: 15px;
+                font-size: 0.6rem;
+            }
+
+            .small-circle {
+                width: 200px;
+                height: 200px;
+                margin: 15px;
+                border-radius: 100px;
+            }
+            .large-circle {
+                width: 230px;
+                height: 230px;
+                margin: 35px;
+                border-radius: 170px;
+                display: flex;
+            }
+        }
+    }
+}

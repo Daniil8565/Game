@@ -7,6 +7,7 @@ import { ProtectedRouteProfile } from '@/components/ProtectedRoutes/ProtectedRou
 import { SigninPage } from '@/pages/AuthPages/SigninPage'
 import { SignupPage } from '@/pages/AuthPages/SignupPage'
 import { PageError } from '@/pages/PageError'
+import { SettingsTheme } from '@/pages/SettingsTheme'
 import { loadSignin } from '@/slices/authSlice'
 import { AppDispatch } from '@/store/store'
 import { ComponentType, ReactNode } from 'react'
@@ -39,6 +40,7 @@ export const routes: RouteConfig[] = [
   },
   { path: '/leaderboard', exact: true, component: ProtectedRouteLeaderboard },
   { path: '/forum', exact: true, component: ProtectedRouteForum },
+  { path: '/settings', exact: true, component: SettingsTheme },
   {
     path: '/error',
     exact: true,

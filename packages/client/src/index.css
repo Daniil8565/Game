@@ -1,20 +1,24 @@
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+.custom-context-style {
+  border-radius: 0px !important;
+  background-color: var(--color-main-text) !important;
 
-body,
-#root {
-  height: 100vh;
-  margin: 0;
-  background: #2c2f35;
-}
+  .mx-context-menu-item-sperator:after {
+    background-color: #f8fafb;
+  }
 
-.back-button {
-  position: absolute;
-  top: 10px;
-  left: 20px;
+  .mx-context-menu-item-sperator {
+    background-color: var(--color-main-text);
+  }
+
+  span {
+    font-size: 12px;
+  }
+
+  i {
+    width: 1px;
+  }
+
+  .mx-context-menu-item {
+    padding: 5px 0;
+  }
 }
