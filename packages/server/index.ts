@@ -6,6 +6,14 @@ import { createProxyMiddleware } from 'http-proxy-middleware'
 import * as path from 'path'
 import type { ViteDevServer } from 'vite'
 import { createServer as createViteServer } from 'vite'
+import { createComment, getComments } from './controllers/commentController'
+import { createReply, getReplies } from './controllers/replyController'
+import {
+  createTopic,
+  getTopicById,
+  getTopics,
+} from './controllers/topicController'
+import { authMiddleware } from './middleware/auth'
 
 dotenv.config()
 
@@ -20,6 +28,8 @@ async function startServer() {
       credentials: true, // Разрешаем передачу куки
     })
   )
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
   const port = Number(process.env.SERVER_PORT) || 3001
 
   let vite: ViteDevServer | undefined
@@ -44,6 +54,14 @@ async function startServer() {
       target: 'https://ya-praktikum.tech/api/v2',
     })
   )
+
+  app.get('/api/topics', authMiddleware, getTopics)
+  app.post('/api/topics', authMiddleware, createTopic)
+  app.get('/api/topics/:id', authMiddleware, getTopicById)
+  app.get('/api/topics/:topicId/comments', authMiddleware, getComments)
+  app.post('/api/topics/:topicId/comments', authMiddleware, createComment)
+  app.get('/api/comments/:commentId/replies', authMiddleware, getReplies)
+  app.post('/api/comments/:commentId/replies', authMiddleware, createReply)
 
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)')
