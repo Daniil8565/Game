@@ -1,15 +1,8 @@
-import { DataTypes, Model, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
 
-export class Topic extends Model {
-  public id!: number
-  public title!: string
-  public userId!: number
-  public fileUrl!: string | null // Новое поле для URL файла
-  public createdAt!: Date
-}
-
-export function initTopic(sequelize: Sequelize) {
-  Topic.init(
+const Topic = (sequelize: Sequelize) => {
+  return sequelize.define(
+    'Topic',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -25,9 +18,8 @@ export function initTopic(sequelize: Sequelize) {
         allowNull: false,
       },
       fileUrl: {
-        // Добавляем поле для хранения URL файла
         type: DataTypes.STRING,
-        allowNull: true, // Может быть null, если файла нет
+        allowNull: true,
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -35,9 +27,10 @@ export function initTopic(sequelize: Sequelize) {
       },
     },
     {
-      sequelize,
       tableName: 'topics',
       timestamps: false,
     }
   )
 }
+
+export { Topic }

@@ -1,16 +1,8 @@
-import { DataTypes, Model, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
 
-export class Reply extends Model {
-  public id!: number
-  public text!: string
-  public commentId!: number
-  public userId!: number
-  public fileUrl!: string | null // Новое поле для URL файла
-  public createdAt!: Date
-}
-
-export function initReply(sequelize: Sequelize) {
-  Reply.init(
+const Reply = (sequelize: Sequelize) => {
+  return sequelize.define(
+    'Reply',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -30,7 +22,6 @@ export function initReply(sequelize: Sequelize) {
         allowNull: false,
       },
       fileUrl: {
-        // Добавляем поле для хранения URL файла
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -40,9 +31,10 @@ export function initReply(sequelize: Sequelize) {
       },
     },
     {
-      sequelize,
       tableName: 'replies',
       timestamps: false,
     }
   )
 }
+
+export { Reply }

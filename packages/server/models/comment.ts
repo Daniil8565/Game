@@ -1,16 +1,8 @@
-import { DataTypes, Model, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
 
-export class Comment extends Model {
-  public id!: number
-  public text!: string
-  public topicId!: number
-  public userId!: number
-  public fileUrl!: string | null // Новое поле для URL файла
-  public createdAt!: Date
-}
-
-export function initComment(sequelize: Sequelize) {
-  Comment.init(
+const Comment = (sequelize: Sequelize) => {
+  return sequelize.define(
+    'Comment',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -30,7 +22,6 @@ export function initComment(sequelize: Sequelize) {
         allowNull: false,
       },
       fileUrl: {
-        // Добавляем поле для хранения URL файла
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -40,9 +31,10 @@ export function initComment(sequelize: Sequelize) {
       },
     },
     {
-      sequelize,
       tableName: 'comments',
       timestamps: false,
     }
   )
 }
+
+export { Comment }

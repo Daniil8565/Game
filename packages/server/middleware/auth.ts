@@ -6,17 +6,38 @@ export const authMiddleware = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  console.log('Received headers:', req.headers)
   const userService = new UserService()
   try {
     const cookies = req.headers.cookie
+    console.log('Received cookies: server', cookies)
     if (!cookies) {
-      res.status(403).json({ error: 'Not authenticated' })
+      res.status(403).json({ error: 'No cookies provided' })
+      return
+    }
+    // Парсим куки в Map, как в ssr.tsx
+    const cookiesMap = new Map<string, string>(
+      cookies.split(';').map(cookie => {
+        const [key, value] = cookie.trim().split('=')
+        return [key, value || '']
+      })
+    )
+    console.log('SERVER Parsed cookies map:', Object.fromEntries(cookiesMap))
+    const uuid = cookiesMap.get('uuid')
+    const authCookie = cookiesMap.get('authCookie')
+
+    console.log(`SERVER uuid: ${uuid}, authCookie: ${authCookie}`)
+
+    if (!uuid || !authCookie) {
+      res.status(403).json({ error: 'Invalid cookie format' })
       return
     }
     const user = await userService.signinWithCookie(cookies)
-    ;(req as any).user = user
+    console.log('Authenticated user:', user)
+    ;(req as any).user = { id: user.id }
     next()
   } catch (error) {
+    console.error('Authentication error:', error)
     res.status(403).json({ error: 'Not authenticated' })
   }
 }

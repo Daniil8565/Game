@@ -6,14 +6,18 @@ import { createProxyMiddleware } from 'http-proxy-middleware'
 import * as path from 'path'
 import type { ViteDevServer } from 'vite'
 import { createServer as createViteServer } from 'vite'
-import { createComment, getComments } from './controllers/commentController'
-import { createReply, getReplies } from './controllers/replyController'
+// import { createComment, getComments } from './controllers/commentController'
+
+// import { createReply, getReplies } from './controllers/replyController'
 import {
   createTopic,
   getTopicById,
   getTopics,
 } from './controllers/topicController'
 import { authMiddleware } from './middleware/auth'
+import { getComments } from './controllers/commentController'
+import { createComment } from './controllers/commentController'
+import { getReplies, createReply } from './controllers/replyController'
 
 dotenv.config()
 
@@ -28,8 +32,7 @@ async function startServer() {
       credentials: true, // Разрешаем передачу куки
     })
   )
-  app.use(express.json())
-  app.use(express.urlencoded({ extended: true }))
+
   const port = Number(process.env.SERVER_PORT) || 3001
 
   let vite: ViteDevServer | undefined
