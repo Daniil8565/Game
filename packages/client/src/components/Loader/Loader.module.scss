@@ -1,6 +1,8 @@
+@use '../../styles/variables.scss';
+
 .loader {
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #f9d838;
+  border: 8px solid var(--blok-backgr);
+  border-top: 8px solid var(--blok-background-color);
   border-radius: 50%;
   width: 60px;
   height: 60px;

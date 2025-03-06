@@ -64,8 +64,8 @@ export const GameMenu = ({ children }: IProps) => {
             </li>
             <li>
               <Link
-                to="/castom"
-                className={pathname === '/castom' ? styles['choose'] : ''}>
+                to="/settings"
+                className={pathname === '/settings' ? styles['choose'] : ''}>
                 <img src={castom_icon} />
                 <span>Настройки</span>
               </Link>
