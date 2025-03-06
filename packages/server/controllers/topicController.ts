@@ -2,8 +2,9 @@ import { Request, Response } from 'express'
 import sanitizeHtml from 'sanitize-html'
 import { Topic } from '../models'
 
-export const getTopics = async (res: Response): Promise<void> => {
+export const getTopics = async (req: Request, res: Response): Promise<void> => {
   try {
+    console.log(`req ${req}`)
     const topics = await Topic.findAll()
     res.json(topics)
   } catch (error) {
