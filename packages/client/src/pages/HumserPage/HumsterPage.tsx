@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { HumsterController } from './HumsterController'
-import { GameMenu } from '@/components/GameMenu'
 import styles from './HumsterPage.module.scss'
-import { useNavigate } from 'react-router-dom'
 import { humster_model } from './HumsterController'
 import { API_URL } from '@/constants'
 import { getJsonItemFromLocalStorage } from '@/slices/authSlice'
+import { Theme, ThemeContext } from '@/theme/ThemeContext'
 
 interface IHumsterPage {
   setIsGameStarted: (flag: boolean) => void
@@ -45,8 +44,10 @@ export const HumsterPage: React.FC<IHumsterPage> = ({
       .catch(error => console.error('Ошибка:', error))
   }
 
+  const { theme } = useContext(ThemeContext)
+
   useEffect(() => {
-    const controller = new HumsterController(width, height)
+    const controller = new HumsterController(width, height, theme as Theme)
     if (isGameStarted) {
       setTimeout(() => {
         setIsGameStarted(false)

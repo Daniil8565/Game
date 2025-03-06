@@ -16,6 +16,7 @@ const PageError: React.FC<PageErrorProps> = ({
   const imgClass = `${style.pageError__img} ${
     rounded ? style['pageError__img--rounded'] : ''
   }`
+
   return (
     <div className={style.pageError}>
       <img src={image} className={imgClass} alt="Error" />

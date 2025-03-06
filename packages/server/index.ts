@@ -66,6 +66,12 @@ async function startServer() {
   app.get('/api/comments/:commentId/replies', authMiddleware, getReplies)
   app.post('/api/comments/:commentId/replies', authMiddleware, createReply)
 
+  app.get('/signin/callback', async (req, _) => {
+    const { code, cid } = req.query // Извлекаем параметры из URL (code и cid)
+
+    console.log(code, cid)
+  })
+
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)')
   })

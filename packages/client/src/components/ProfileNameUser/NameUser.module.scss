@@ -1,5 +1,7 @@
+@use '../../styles/variables.scss';
+
 .name {
-  color: white;
+  color: var(--text-color);
   font-size: 16px;
   font-weight: 600;
   line-height: 16px;

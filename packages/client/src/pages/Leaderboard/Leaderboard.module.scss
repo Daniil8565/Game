@@ -1,12 +1,10 @@
-@use '../../styles/variables' as variables;
+@use '../../styles/variables.scss';
 
 .leaderboard {
   display: flex;
   flex-direction: column;
   height: 100vh;
   align-items: center;
-  font-family: variables.$font-body;
-  color: variables.$font-color;
   &__title {
     font-size: 32px;
     margin-top: 8vh;
@@ -16,7 +14,7 @@
     display: flex;
     width: 60vw;
     justify-content: space-around;
-    border: 1px solid #F9D838;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 8px;
     margin-bottom: 2vh;
