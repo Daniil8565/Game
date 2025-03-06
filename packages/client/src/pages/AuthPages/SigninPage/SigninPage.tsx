@@ -14,9 +14,9 @@ import { signin } from '../../../slices/authSlice'
 import { AppDispatch, RootState } from '../../../store/store'
 import { AuthForm } from '../components/AuthForm'
 import styles from './SinginPage.module.scss'
+import { REDIRECT_URI } from '@/constants'
 
 export const SigninPage: React.FC = () => {
-  const REDIRECT_URI = 'http://localhost:3000'
   const dispatch = useDispatch<AppDispatch>()
   const { loading, error, user } = useSelector((state: RootState) => state.auth)
   const reg = {
@@ -38,7 +38,12 @@ export const SigninPage: React.FC = () => {
     e.preventDefault()
 
     try {
-      const response = await fetch(API_URL + '/oauth/yandex/service-id')
+      console.log(
+        `${API_URL} + /oauth/yandex/service-id?redirect_uri=${REDIRECT_URI}`
+      )
+      const response = await fetch(
+        `${API_URL}/oauth/yandex/service-id?redirect_uri=${REDIRECT_URI}`
+      )
       if (!response.ok) {
         throw new Error(`Ошибка: ${response.status}`)
       }
@@ -46,7 +51,9 @@ export const SigninPage: React.FC = () => {
       console.log('Service ID:', data)
 
       if (data.service_id) {
+        console.log(data.service_id, '------', REDIRECT_URI)
         const authUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${data.service_id}&redirect_uri=${REDIRECT_URI}`
+        console.log(authUrl)
         window.location.href = authUrl // Программный переход
       } else {
         throw new Error('Нет service_id в ответе')
@@ -163,7 +170,7 @@ export const SigninPage: React.FC = () => {
           Еще нет аккаунта? <Link to="/signup">Зарегистрируйтесь!</Link>
         </span>
         <a className={styles.oauth} href="#" onClick={GetServiceID}>
-          Авторизоваться через любой провайдер OAuth
+          Авторизоваться через Яндекс ID
         </a>
       </AuthForm>
     </div>

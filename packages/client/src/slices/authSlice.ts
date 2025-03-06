@@ -37,22 +37,6 @@ export const authByCode = createAsyncThunk<void, string>(
   }
 )
 
-// Новый thunk для авторизации по логину и паролю
-export const signin = createAsyncThunk<
-  User,
-  { login: string; password: string },
-  { rejectValue: string }
->('auth/signin', async ({ login, password }, { extra, rejectWithValue }) => {
-  const service = extra as IUserService
-  try {
-    await service.signin({ login, password })
-    // Если авторизация успешна, запрашиваем данные пользователя
-    return await service.getCurrentUser()
-  } catch (error: any) {
-    return rejectWithValue(error.message)
-  }
-})
-
 export const getJsonItemFromLocalStorage = (key: string) => {
   if (typeof localStorage === 'undefined') {
     return null // Возвращаем null на сервере
@@ -71,6 +55,42 @@ const initialState: AuthState = {
   loading: false,
   error: null,
 }
+
+// Новый thunk для авторизации по логину и паролю
+export const signin = createAsyncThunk<
+  User,
+  { login: string; password: string },
+  { rejectValue: string }
+>('auth/signin', async ({ login, password }, { extra, rejectWithValue }) => {
+  const service = extra as IUserService
+  try {
+    await service.signin({ login, password })
+    // Если авторизация успешна, запрашиваем данные пользователя
+    return await service.getCurrentUser()
+  } catch (error: any) {
+    return rejectWithValue(error.message)
+  }
+})
+
+export const signinWithYandex = createAsyncThunk<
+  User, // Ожидаемый ответ от сервера (данные пользователя)
+  { CodeAndCid: Record<string, string> }, // Входные параметры (код авторизации)
+  { rejectValue: string } // Ошибки
+>(
+  'auth/signinWithYandex',
+  async ({ CodeAndCid }, { extra, rejectWithValue }) => {
+    const service = extra as IUserService
+    try {
+      // Отправляем `code` на сервер для обмена на токен
+      await service.signinWithYandex(CodeAndCid)
+
+      // Запрашиваем текущего пользователя
+      return await service.getCurrentUser()
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
 
 const authSlice = createSlice({
   name: 'auth',
@@ -115,6 +135,16 @@ const authSlice = createSlice({
       .addCase(signin.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload as string
+      })
+      .addCase(signinWithYandex.fulfilled, (state, action) => {
+        state.loading = false
+        state.user = action.payload
+        // Сохраняем данные пользователя в localStorage
+        localStorage.setItem('user', JSON.stringify(action.payload))
+      })
+      .addCase(signinWithYandex.pending, state => {
+        state.loading = true
+        state.error = null
       })
   },
 })
