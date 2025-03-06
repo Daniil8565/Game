@@ -1,22 +1,9 @@
 import { DataTypes, Sequelize } from 'sequelize'
-// import config from '../config/config'
 
 import * as dotenv from 'dotenv'
+import config from '../config/database'
 
 dotenv.config()
-
-const config = {
-  development: {
-    username: process.env.POSTGRES_USER || 'postgres',
-    password: process.env.POSTGRES_PASSWORD || 'postgres',
-    database: process.env.POSTGRES_DB || 'postgres',
-    host: '127.0.0.1',
-    port: parseInt(process.env.POSTGRES_PORT || '5432'),
-    dialect: 'postgres' as const,
-  },
-}
-
-export default config
 
 const env = process.env.NODE_ENV || 'development'
 const dbConfig = config[env as keyof typeof config]
@@ -29,8 +16,6 @@ const sequelize = new Sequelize({
   password: dbConfig.password,
   database: dbConfig.database,
 })
-
-console.log(`sequelize config: ${JSON.stringify(dbConfig)}`)
 
 const Topic = sequelize.define(
   'Topic',
@@ -134,9 +119,8 @@ const Comment = sequelize.define(
 
 try {
   sequelize.sync({ alter: true })
-  console.log('Connection to database successful')
 } catch (error) {
   console.error('Error with database:', error)
 }
 
-export { Reply, sequelize, Topic, Comment }
+export { Comment, Reply, sequelize, Topic }

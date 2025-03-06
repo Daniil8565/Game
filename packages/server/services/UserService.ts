@@ -35,9 +35,7 @@ export class UserService implements IUserService {
       const response = await this.axiosInstance.get<User>('/auth/user', {
         headers: { Cookie: cookieString },
       })
-      console.log(
-        `Server UserService: User fetched: ${JSON.stringify(response.data)}`
-      )
+
       return response.data
     } catch (error) {
       console.error(`Server UserService: Error: ${error}`)
