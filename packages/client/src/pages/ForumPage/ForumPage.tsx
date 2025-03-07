@@ -1,12 +1,12 @@
+import { EmojiReaction } from '@/components/EmojiReaction'
 import { GameMenu } from '@/components/GameMenu'
 import { MessageInput } from '@/components/MessageInput'
 import { TopicModal } from '@/components/TopicModal'
-import React, { useState, useEffect } from 'react'
+import { addComment, createTopic, fetchTopics } from '@/slices/forumAPI'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
 import '../../styles/reset.scss'
 import styles from './ForumPage.module.scss'
-import { fetchTopics, createTopic, addComment } from '@/slices/forumAPI'
-import { EmojiReaction } from '@/components/EmojiReaction'
 
 interface Message {
   text: string
