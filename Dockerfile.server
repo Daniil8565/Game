@@ -1,26 +1,86 @@
-ARG NODE_VERSION=16
+# ARG NODE_VERSION=16
+# ARG SERVER_PORT=3001
+
+# FROM node:$NODE_VERSION-buster as base
+
+# WORKDIR /app
+
+# FROM base as builder
+
+# COPY package.json yarn.lock ./
+# RUN yarn install --frozen-lockfile
+
+# COPY . .
+
+# RUN yarn lerna bootstrap
+# RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
+
+
+# FROM node:$NODE_VERSION-buster-slim as production
+# WORKDIR /app
+
+# COPY --from=builder /app/packages/server/dist/ /app/
+# COPY --from=builder /app/packages/server/package.json /app/package.json
+# RUN yarn install --production=true
+
+# EXPOSE $SERVER_PORT
+# CMD [ "node", "/app/index.js" ]
+
+
+
+# ARG NODE_VERSION=20
+# ARG SERVER_PORT=3001
+
+# FROM node:$NODE_VERSION-buster as base
+
+# WORKDIR /app
+
+# FROM base as builder
+
+# COPY package.json yarn.lock ./
+# RUN yarn install --frozen-lockfile
+
+# COPY . .
+
+# RUN yarn lerna bootstrap
+# RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
+
+
+# FROM node:$NODE_VERSION-buster-slim as production
+# WORKDIR /app
+
+# COPY --from=builder /app/packages/server/dist/ /app/
+# COPY --from=builder /app/packages/server/package.json /app/package.json
+# RUN yarn install --production=true
+
+# EXPOSE $SERVER_PORT
+# CMD [ "node", "/app/index.js" ]
+
+
+
+ARG NODE_VERSION=20
 ARG SERVER_PORT=3001
 
-FROM node:$NODE_VERSION-buster as base
-
+FROM node:$NODE_VERSION-buster AS base
 WORKDIR /app
 
-FROM base as builder
-
+FROM base AS server-builder
 COPY package.json yarn.lock ./
+# для теста на рабочем ноуте
+RUN yarn config set "strict-ssl" false 
 RUN yarn install --frozen-lockfile
-
 COPY . .
-
 RUN yarn lerna bootstrap
-RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
+RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server || (echo "Build failed, check logs" && exit 1)
 
-
-FROM node:$NODE_VERSION-buster-slim as production
+FROM node:$NODE_VERSION-buster-slim AS production
 WORKDIR /app
-
-COPY --from=builder /app/packages/server/dist/ /app/
-COPY --from=builder /app/packages/server/package.json /app/package.json
+COPY --from=server-builder /app/packages/server/dist/ /app/
+COPY --from=server-builder /app/packages/server/package.json /app/package.json
+COPY --from=server-builder /app/node_modules/ /app/node_modules/
+COPY packages/client/dist/ /app/client-dist/ 
+# COPY packages/client/dist/ /app/client-dist/ 
+# COPY packages/client/dist/ssr-dist/ /app/client-dist/ssr-dist/
 RUN yarn install --production=true
 
 EXPOSE $SERVER_PORT
