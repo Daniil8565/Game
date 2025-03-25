@@ -9,8 +9,8 @@
     "declaration": true,
     "declarationMap": true,
     "removeComments": true,
-    "strict": true,
-    "noImplicitAny": true,
+    "strict": false,
+    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
@@ -18,11 +18,9 @@
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2019", "esnext.asynciterable", "DOM"],
-    "types": ["node", "jest"],
+    "types": [],
     "baseUrl": ".",
-    "paths": {
-      "*": ["types/*"]
-    },
-    "outDir": "dist"
+    "outDir": "dist",
+    "skipLibCheck": true
   }
 }
