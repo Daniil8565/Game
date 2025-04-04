@@ -78,6 +78,7 @@ COPY --from=server-builder /app/packages/server/dist/ /app/
 COPY --from=server-builder /app/packages/server/package.json /app/package.json
 COPY --from=server-builder /app/node_modules/ /app/node_modules/
 COPY packages/client/dist/ /app/client-dist/ 
+COPY packages/client/ssr-dist/ /app/client-dist/ssr-dist/
 RUN yarn install --production=true
 
 EXPOSE $SERVER_PORT

@@ -152,10 +152,18 @@ async function startServer() {
   const port = Number(process.env.SERVER_PORT) || 3001
 
   let vite: ViteDevServer | undefined
-  const distPath = path.dirname(require.resolve('../client/dist/index.html'))
-  const srcPath = path.dirname(require.resolve('../client'))
-  const ssrClientPath = require.resolve('../client/ssr-dist/client.cjs')
-
+  // const distPath = path.resolve(__dirname, './client-dist')
+  // const srcPath = path.dirname(require.resolve('../client')) // Оставляем без изменений, так как используется в dev-режиме
+  // const ssrClientPath = path.resolve(
+  //   __dirname,
+  //   './client-dist/ssr-dist/client.cjs'
+  // )
+  const distPath = path.resolve(__dirname, './client-dist')
+  const srcPath = path.resolve(__dirname, './client')
+  const ssrClientPath = path.resolve(
+    __dirname,
+    './client-dist/ssr-dist/client.cjs'
+  )
   if (isDev()) {
     vite = await createViteServer({
       server: { middlewareMode: true },

@@ -11,6 +11,14 @@ const config = {
     port: parseInt(process.env.POSTGRES_PORT || '5432'),
     dialect: 'postgres' as const,
   },
+  production: {
+    username: process.env.POSTGRES_USER || 'postgres',
+    password: process.env.POSTGRES_PASSWORD || 'postgres',
+    database: process.env.POSTGRES_DB || 'postgres',
+    host: process.env.POSTGRES_HOST || 'postgres', // Для контейнера
+    port: parseInt(process.env.POSTGRES_PORT || '5432'),
+    dialect: 'postgres' as const,
+  },
 }
 
 export default config

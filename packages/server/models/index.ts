@@ -1,20 +1,46 @@
 import { DataTypes, Sequelize } from 'sequelize'
 
+// import * as dotenv from 'dotenv'
+// import config from '../config/database'
+
+// dotenv.config()
+
+// const env = process.env.NODE_ENV || 'development'
+// const dbConfig = config[env as keyof typeof config]
 import * as dotenv from 'dotenv'
-import config from '../config/database'
 
 dotenv.config()
 
-const env = process.env.NODE_ENV || 'development'
-const dbConfig = config[env as keyof typeof config]
+const dbConfig = {
+  development: {
+    username: process.env.POSTGRES_USER || 'postgres',
+    password: process.env.POSTGRES_PASSWORD || 'postgres',
+    database: process.env.POSTGRES_DB || 'postgres',
+    host: '127.0.0.1',
+    port: parseInt(process.env.POSTGRES_PORT || '5432'),
+    dialect: 'postgres' as const,
+  },
+  production: {
+    username: process.env.POSTGRES_USER || 'postgres',
+    password: process.env.POSTGRES_PASSWORD || 'postgres',
+    database: process.env.POSTGRES_DB || 'postgres',
+    host: process.env.POSTGRES_HOST || 'postgres', // Для контейнера
+    port: parseInt(process.env.POSTGRES_PORT || '5432'),
+    dialect: 'postgres' as const,
+  },
+}
+
+// if (!dbConfig) {
+//   throw new Error(`Database configuration for environment "${env}" not found.`)
+// }
 
 const sequelize = new Sequelize({
-  dialect: dbConfig.dialect,
-  host: dbConfig.host,
-  port: dbConfig.port,
-  username: dbConfig.username,
-  password: dbConfig.password,
-  database: dbConfig.database,
+  dialect: dbConfig.production.dialect,
+  host: dbConfig.production.host,
+  port: dbConfig.production.port,
+  username: dbConfig.production.username,
+  password: dbConfig.production.password,
+  database: dbConfig.production.database,
 })
 
 const Topic = sequelize.define(
