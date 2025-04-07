@@ -200,6 +200,18 @@ async function startServer() {
     res.json('👋 Howdy from the server :)')
   })
 
+  app.get('/sw.js', (_, res) => {
+    const filePath = isDev()
+      ? path.resolve(srcPath, 'sw.js')
+      : path.resolve(distPath, 'sw.js')
+
+    res.sendFile(filePath, {
+      headers: {
+        'Content-Type': 'application/javascript',
+      },
+    })
+  })
+
   if (!isDev()) {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')))
   }

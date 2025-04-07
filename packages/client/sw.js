@@ -3,8 +3,8 @@ const CACHE_NAME = 'my-site-cache-v1'
 const URLS = [
   '/index.html',
   '/vite.svg',
-  '/assets/index.386e715f.css',
-  '/assets/index.2743df7b.js',
+  '/assets/index-BU0EGM9N.css',
+  '/assets/index-Bsa7g7gG.js',
 ]
 
 this.addEventListener('install', event => {
