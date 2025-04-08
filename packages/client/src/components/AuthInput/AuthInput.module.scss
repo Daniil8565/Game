@@ -1,7 +1,7 @@
-@use '../../styles/variables.scss';
+@use '../../styles/variables.scss' as *;
 
 .input {
-  background-color: var(--blok-background-color);
+  background-color: $background-color-input;
   border-radius: 12px;
   border: 0;
   color: var(--text-color);
@@ -18,7 +18,7 @@
   }
 
   &__cut {
-    background-color:var(--background-color);
+    background-color: $background-color;
     border-radius: 10px;
     height: 20px;
     left: 20px;
@@ -53,4 +53,3 @@
 .input:not(:placeholder-shown) ~ .input__placeholder {
   color: #808097;
 }
-

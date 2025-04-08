@@ -274,7 +274,10 @@ export const SignupPage: React.FC = () => {
         {networkError && <ErrorMessage message={networkError} />}
 
         <span className={styles.container__hint}>
-          Уже есть аккаунт? <Link to="/signin">Авторизуйтесь!</Link>
+          Уже есть аккаунт?{' '}
+          <span className={styles.link}>
+            <Link to="/signin">Авторизуйтесь!</Link>
+          </span>
         </span>
       </AuthForm>
     </div>

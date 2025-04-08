@@ -1,4 +1,4 @@
-@use '../../../../styles/variables.scss';
+@use '../../../../styles/variables.scss' as *;
 
 .form {
   width: 100%;
@@ -6,7 +6,7 @@
   border-radius: 12px;
   padding: 32px;
 
-  box-shadow: 0 0 14px 2px var(--border-color);
+  box-shadow: 0 0 14px 2px $border-color;
 
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@
 
   gap: 20px;
 
-  @media screen and (max-width: 860px)  {
+  @media screen and (max-width: 860px) {
     width: 80%;
   }
 }

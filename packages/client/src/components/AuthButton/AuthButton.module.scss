@@ -1,14 +1,13 @@
-@use '../../styles/variables.scss';
+@use '../../styles/variables.scss' as *;
 
 .button {
   width: 100%;
-  background-color: var(--button-color);
+  background-color: $button-color;
   padding: 16px;
   border-radius: 16px;
   border: none;
   font: inherit;
   cursor: pointer;
 
-  color: var(--text-color);
-
+  color: $color;
 }

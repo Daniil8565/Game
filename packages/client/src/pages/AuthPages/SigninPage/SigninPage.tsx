@@ -167,7 +167,10 @@ export const SigninPage: React.FC = () => {
         />
         {networkError && <ErrorMessage message={networkError} />}
         <span className={styles.container__hint}>
-          Еще нет аккаунта? <Link to="/signup">Зарегистрируйтесь!</Link>
+          Еще нет аккаунта?{' '}
+          <span className={styles.link}>
+            <Link to="/signup">Зарегистрируйтесь!</Link>
+          </span>
         </span>
         <a className={styles.oauth} href="#" onClick={GetServiceID}>
           Авторизоваться через Яндекс ID
