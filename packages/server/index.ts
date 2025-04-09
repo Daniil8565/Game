@@ -159,7 +159,8 @@ async function startServer() {
   //   './client-dist/ssr-dist/client.cjs'
   // )
   const distPath = path.resolve(__dirname, './client-dist')
-  const srcPath = path.resolve(__dirname, './client')
+  // const srcPath = path.resolve(__dirname, './client')
+  const srcPath = path.dirname(require.resolve('../client'))
   const ssrClientPath = path.resolve(
     __dirname,
     './client-dist/ssr-dist/client.cjs'
