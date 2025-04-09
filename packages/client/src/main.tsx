@@ -1,20 +1,17 @@
 import React, { ComponentType, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
-import { Provider } from 'react-redux'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Provider, useDispatch } from 'react-redux'
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
 import { ErrorBoundaryProvider } from './components/ErrorBoundary/ErrorBoundaryContext'
 import { ErrorBoundaryWrapper } from './components/ErrorBoundary/ErrorBoundaryWrapper'
+import { REDIRECT_URI } from './constants'
 import './index.css'
-import { API_URL } from './constants'
-import { useNavigate } from 'react-router-dom'
 import { RouteConfig, routes } from './routes'
 import { UserService } from './services/UserService'
 import { startServiceWorker } from './serviceWorker'
-import { createStore } from './store/store'
-import { REDIRECT_URI } from './constants'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from './store/store'
 import { signinWithYandex } from './slices/authSlice'
+import { AppDispatch, createStore } from './store/store'
+import ThemeProvider from './theme/ThemeProvider'
 
 const preloadedState = window.__PRELOADED_STATE__ || {}
 delete window.__PRELOADED_STATE__
@@ -70,15 +67,17 @@ const App: React.FC = () => {
   return (
     <ErrorBoundaryProvider>
       <ErrorBoundaryWrapper>
-        <Routes>
-          {routes.map(route => (
-            <Route
-              key={route.path}
-              path={route.path}
-              element={renderRouteElement(route.component)}
-            />
-          ))}
-        </Routes>
+        <ThemeProvider>
+          <Routes>
+            {routes.map(route => (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={renderRouteElement(route.component)}
+              />
+            ))}
+          </Routes>
+        </ThemeProvider>
       </ErrorBoundaryWrapper>
     </ErrorBoundaryProvider>
   )

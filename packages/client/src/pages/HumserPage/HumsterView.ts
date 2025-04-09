@@ -1,5 +1,7 @@
+import { Theme } from '@/theme/ThemeContext'
 import { getRandomInt } from '../../ utils/math_function'
-import { Theme, themes } from '@/theme/ThemeContext'
+import emerald from '../../image/emerald.png'
+
 interface HumsterModel {
   emerald_y: number
   emerald_x: number
@@ -25,28 +27,53 @@ export class HumsterView {
   public humster_img: HTMLImageElement
   public emerald_img: HTMLImageElement
   private context: CanvasRenderingContext2D
+  // Флаг для проверки загрузки emerald_img
+  private isEmeraldLoaded: boolean = false
+  // Флаг для управления перерисовкой
+  private needsRedraw: boolean = true
 
   constructor(humster_model: HumsterModel, theme: Theme) {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement
     this.context = canvas.getContext('2d') as CanvasRenderingContext2D
     this.theme = theme
+    console.log('this.theme!.humster', theme)
+    if (!this.theme.humster) {
+      throw new Error('Theme is missing humster image URL')
+    }
     this.circle_x = humster_model.width / 2
     this.circle_y = humster_model.height / 2
     this.circle_size = Math.min(humster_model.width, humster_model.height - 100)
     this.model = humster_model
     this.humster_img = new Image()
-    this.humster_img.src = this.theme!.humster
-    this.emerald_img = new Image()
-    this.emerald_img.src = '../src/image/emerald.png'
+    this.humster_img.src = this.theme.humster
+    this.humster_img.onload = () => {
+      console.log('Humster image loaded successfully')
+      // this.drawCanvas() // Перерисовываем после загрузки
+      this.needsRedraw = true
+    }
+    this.humster_img.onerror = () => {
+      console.error('Failed to load humster image:', this.theme.humster)
+    }
 
-    console.log(this.theme!.humster)
+    this.emerald_img = new Image()
+    this.emerald_img.src = emerald
+    this.emerald_img.onload = () => {
+      console.log('Emerald image loaded successfully')
+      this.isEmeraldLoaded = true
+      // this.drawCanvas() // Перерисовываем после загрузки
+      this.needsRedraw = true
+    }
+    this.emerald_img.onerror = () => {
+      console.error('Failed to load emerald image:', this.emerald_img.src)
+      this.isEmeraldLoaded = false
+    }
+
     console.log(this.humster_img)
 
     this.animation()
   }
 
   drawCanvas() {
-    console.log(this.theme)
     this.context.clearRect(0, 0, this.model.width, this.model.height)
     this.topMenu()
     this.drawCircle()
@@ -158,11 +185,19 @@ export class HumsterView {
   }
 
   drawEmerald() {
-    this.context.drawImage(
-      this.emerald_img,
-      this.model.emerald_x,
-      this.model.emerald_y
-    )
+    if (
+      this.isEmeraldLoaded &&
+      this.emerald_img.complete &&
+      this.emerald_img.naturalWidth !== 0
+    ) {
+      this.context.drawImage(
+        this.emerald_img,
+        this.model.emerald_x,
+        this.model.emerald_y
+      )
+    } else {
+      console.warn('Emerald image is not loaded yet or is broken')
+    }
   }
 
   drawCircle() {
@@ -178,7 +213,6 @@ export class HumsterView {
       0,
       this.circle_y + large_circle_size
     )
-    console.log(this.theme)
     gradient.addColorStop(0.2, this.theme!.color.large_circle_top)
     gradient.addColorStop(1, this.theme!.color.large_circle_bottom)
     this.context.fillStyle = gradient
@@ -232,6 +266,7 @@ export class HumsterView {
     // отсчет задержки между падением изумрудов
     if (this.model.expectation > 0) {
       this.model.expectation--
+      this.needsRedraw = true
       return
     }
     // уничтожение изумруда при достижении низа экрана
@@ -245,18 +280,27 @@ export class HumsterView {
       this.model.emerald_y = 0
       this.model.dop_count = 50
       this.model.expectation = getRandomInt(50) * 100
+      this.needsRedraw = true
     }
     // перересовка конваса
     else this.redraw()
+    // Перерисовываем только если есть изменения
+    if (this.needsRedraw) {
+      this.drawCanvas()
+      this.drawEmerald()
+      this.needsRedraw = false
+    }
   }
 
   redraw() {
     // расчет координаты х изумруда при начале падения
     if (this.model.emerald_x === 0 && this.model.emerald_y === 0) {
       this.model.emerald_x = getRandomInt(this.model.width - 100)
+      this.needsRedraw = true
     }
     this.model.emerald_y = this.model.emerald_y + 1
-    this.drawCanvas()
-    this.drawEmerald()
+    // this.drawCanvas()
+    // this.drawEmerald()
+    this.needsRedraw = true
   }
 }

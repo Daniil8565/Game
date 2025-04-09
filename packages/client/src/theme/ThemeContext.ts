@@ -1,4 +1,8 @@
 import { createContext } from 'react'
+import birthdayLight from '../image/humster-birthday.png'
+import greyDark from '../image/humster-grey.png'
+import base from '../image/humster.png'
+
 export type Theme = {
   humster: string
   color: {
@@ -23,7 +27,7 @@ interface ThemeContextType {
 // TODO убрать themes при подключении ручек
 export const themes: Record<string, Theme> = {
   'base-dark': {
-    humster: '../src/image/humster.png',
+    humster: base,
     color: {
       text: '#ffffff',
       block: '#32363c',
@@ -38,7 +42,7 @@ export const themes: Record<string, Theme> = {
     },
   },
   'base-light': {
-    humster: '../src/image/humster.png',
+    humster: base,
     color: {
       text: '#2c2f35',
       block: '#dde1e9',
@@ -53,7 +57,7 @@ export const themes: Record<string, Theme> = {
     },
   },
   'birthday-light': {
-    humster: '../src/image/humster-birthday.png',
+    humster: birthdayLight,
     color: {
       text: '#3e3b32',
       block: '#dde1e9',
@@ -68,7 +72,7 @@ export const themes: Record<string, Theme> = {
     },
   },
   'grey-dark': {
-    humster: '../src/image/humster-grey.png',
+    humster: greyDark,
     color: {
       text: '#ffffff',
       block: '#32363c',

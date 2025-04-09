@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { HumsterController } from './HumsterController'
-import styles from './HumsterPage.module.scss'
-import { humster_model } from './HumsterController'
 import { API_URL } from '@/constants'
 import { getJsonItemFromLocalStorage } from '@/slices/authSlice'
 import { Theme, ThemeContext } from '@/theme/ThemeContext'
+import React, { useContext, useEffect, useState } from 'react'
+import { humster_model, HumsterController } from './HumsterController'
+import styles from './HumsterPage.module.scss'
 
 interface IHumsterPage {
   setIsGameStarted: (flag: boolean) => void
@@ -45,7 +44,10 @@ export const HumsterPage: React.FC<IHumsterPage> = ({
   }
 
   const { theme } = useContext(ThemeContext)
-
+  console.log('Theme in HumsterPage:', theme)
+  if (!theme) {
+    return <div>Тема не загружена. Пожалуйста, обновите страницу.</div>
+  }
   useEffect(() => {
     const controller = new HumsterController(width, height, theme as Theme)
     if (isGameStarted) {
