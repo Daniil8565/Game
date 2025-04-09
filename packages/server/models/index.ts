@@ -34,13 +34,24 @@ const dbConfig = {
 //   throw new Error(`Database configuration for environment "${env}" not found.`)
 // }
 
+// Определяем окружение
+const env = process.env.NODE_ENV || 'development'
+
+// Проверяем, что конфигурация для данного окружения существует
+if (!dbConfig[env as keyof typeof dbConfig]) {
+  throw new Error(`Database configuration for environment "${env}" not found.`)
+}
+
+// Выбираем конфигурацию на основе окружения
+const selectedConfig = dbConfig[env as keyof typeof dbConfig]
+
 const sequelize = new Sequelize({
-  dialect: dbConfig.production.dialect,
-  host: dbConfig.production.host,
-  port: dbConfig.production.port,
-  username: dbConfig.production.username,
-  password: dbConfig.production.password,
-  database: dbConfig.production.database,
+  dialect: selectedConfig.dialect,
+  host: selectedConfig.host,
+  port: selectedConfig.port,
+  username: selectedConfig.username,
+  password: selectedConfig.password,
+  database: selectedConfig.database,
 })
 
 const Topic = sequelize.define(
