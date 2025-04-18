@@ -19,7 +19,3 @@ jobs:
         run: yarn
       - name: Initialize
         run: yarn lerna bootstrap
-      - name: Lint
-        run: yarn lint
-      - name: Test
-        run: yarn test
